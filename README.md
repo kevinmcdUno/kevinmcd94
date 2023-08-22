@@ -1,8 +1,8 @@
 Problem Definition: 
 
-When a user plans a trip to South America, they face various considerations that can make the planning process complex. To address this, the travel application aims to provide a convenient web-based solution that allows users to access all the necessary information required for their trip. 
+When a user plans a trip, they face various considerations that can make the planning process complex. To address this, the travel application aims to provide a convenient web-based solution that allows users to access all the necessary information required for their trip. 
 
-The application allows users to create an account and specify their nationality. Users can then select a South American country from a dropdown menu and input the duration of their stay. Based on this input, the application provides essential information such as the type of visa required, visa cost, currency used in the country, main language spoken, and available modes of travel. Some countries may have varying visa requirements depending on the user's planned duration of stay, and these variations will be accurately represented. 
+The application allows users to create an account and specify their nationality. Users can then select a country from a dropdown menu and input the duration of their stay. Based on this input, the application provides essential information such as the type of visa required, visa cost, currency used in the country, main language spoken, and available modes of travel. Some countries may have varying visa requirements depending on the user's planned duration of stay, and these variations will be accurately represented. 
 
 Users will also have the ability to add multiple trips to their profile, allowing them to plan for future journeys. For each trip, they can specify the start and end dates, select the countries they intend to visit, and add expenses such as flights, hotels, and activities. This feature enables users to meticulously plan and budget for their upcoming adventures. 
 
@@ -55,8 +55,7 @@ Overall, the application aims to simplify the trip planning process by offering 
 ```mermaid
 %%{init: {'theme':'dark'}}%%
 erDiagram
-    users |--|| nationalities : selects
-    users |--|| countries : retrieves
+    users ||--|| countries : retrieves
     users {
         int id PK
         text first_name
@@ -65,6 +64,7 @@ erDiagram
         int nationality_id FK
     }
 
+    users ||--|| nationalities : selects
     nationalities {
         int id PK
         text name
@@ -85,21 +85,22 @@ erDiagram
         text name
     }
 
-        languages {
+    languages {
         int id PK
         text name
     }
-    border_fees |--||{ countries : includes
+
     border_fees {
         int id PK
         int cost 
         int countries_id FK
         int entry_requirements_id FK
     }
+    border_fees ||--|{ countries : includes
 
-        entry_requirements ||--|{ countries : includes
-        entry_requirements ||--|{ visa_types : includes
-        entry_requirements |--|{ border_fees_id : includes
+    entry_requirements ||--|{ countries : includes
+    entry_requirements ||--|{ visa_types : includes
+    entry_requirements ||--|{ border_fees_id : includes
     entry_requirements {
         int id PK
         int cost 
@@ -125,7 +126,7 @@ erDiagram
         int transport_mode_type_id FK
     }
    
-        trips ||--||{ users : includes
+    trips ||--|{ users : includes
     trips {
         int id PK
         text name
