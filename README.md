@@ -100,7 +100,7 @@ erDiagram
 
     entry_requirements ||--|{ countries : includes
     entry_requirements ||--|{ visa_types : includes
-    entry_requirements ||--|{ border_fees_id : includes
+    entry_requirements ||--|{ border_fees : includes
     entry_requirements {
         int id PK
         int cost 
@@ -117,7 +117,7 @@ erDiagram
 
         transport_modes ||--|{ countries : includes
         transport_modes ||--|{ countries : includes
-        transport_modes ||--|{ transport_modes_types : includes
+        transport_modes ||--|{ transport_mode_types : includes
     transport_modes {
         int id PK
         int avg_cost 
