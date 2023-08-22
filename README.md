@@ -181,21 +181,21 @@ Create User Account: POST /users - Create a new user account with nationality an
 Authenticate User: POST /login - Authenticate a user with username and password.
 
 Country Information:
-Get Country List: GET /countries - Get a list of countries
+Get Country List: GET /countries - Get a list of countries.
 Get Country Details: GET /countries/{country_id} - Get details of a specific country, including entry requirements.
 
 Border Fees:
-Get Border Fee Details for a country: GET /countries/{country_id}/borderfees/{borderfee_id}
+Get Border Fee Details for a country: GET /countries/{country_id}/borderfees/{borderfee_id}.
 
 Visa Types:
-Get Visa Type List: GET countries/{country_id}/visatypes
-Get Visa Fees: GET /countries/{country_id}/visafees
+Get Visa Type List: GET countries/{country_id}/visatypes.
+Get Visa Fees: GET /countries/{country_id}/visafees.
 
 Entry Requirements:
-Get Entry Requirement Details for a country: GET /countries/{country_id}/entryrequirements/{entry_requirement_id}
+Get Entry Requirement Details for a country: GET /countries/{country_id}/entryrequirements/{entry_requirement_id}.
 
 Transport Information:
-Get available transport modes: GET /transportmodes?source={source_country_id}&destination={destination_country_id}
+Get available transport modes: GET /transportmodes?source={source_country_id}&destination={destination_country_id}.
 
 Trip Management:
 Create Trip: POST /trips - Create a new trip with start and end dates, and associate user ID.
@@ -204,16 +204,16 @@ Get Trip Details: GET /trips/{trip_id} - Get details of a specific trip, includi
 Update Trip: PUT /trips/{trip_id} - Update details of a specific trip.
 Delete Trip: DELETE /trips/{trip_id} - Delete a specific trip.
 
-Add Transport Mode to Trip: POST /trips/{trip_id}/transportmodes
-Request Body: { "mode": "flight", "cost": 200 }
+Add Transport Mode to Trip: POST /trips/{trip_id}/transportmodes.
+Request Body: { "mode": "flight", "cost": 200 }.
 
-Update Transport Mode: PUT /trips/{trip_id}/transportmodes/{trip_transports_id}
-Get Transport Mode Details: GET /trips/{trip_id}/transportmodes/{trip_transports_id}
-Delete Transport Mode: DELETE /trips/{trip_id}/transportmodes/{trip_transports_id}
+Update Transport Mode: PUT /trips/{trip_id}/transportmodes/{trip_transports_id}.
+Get Transport Mode Details: GET /trips/{trip_id}/transportmodes/{trip_transports_id}.
+Delete Transport Mode: DELETE /trips/{trip_id}/transportmodes/{trip_transports_id}.
 
-Add Trip_Accommodations to Trip: POST /trips/{trip_id}/accommodations
-Request Body: { "mode": "hotel", "cost": 150 }
+Add Trip_Accommodations to Trip: POST /trips/{trip_id}/accommodations.
+Request Body: { "mode": "hotel", "cost": 150 }.
 
-Update Accommodation: PUT /trips/{trip_id}/accommodations/{trip_accommodations_id}
-Get Accommodation Mode Details: GET /trips/{trip_id}/accommodations/{trip_accommodations_id}
-Delete Accommodation Mode: DELETE /trips/{trip_id}/accommodations/{trip_accommodations_id}
+Update Accommodation: PUT /trips/{trip_id}/accommodations/{trip_accommodations_id}.
+Get Accommodation Mode Details: GET /trips/{trip_id}/accommodations/{trip_accommodations_id}.
+Delete Accommodation Mode: DELETE /trips/{trip_id}/accommodations/{trip_accommodations_id}.
