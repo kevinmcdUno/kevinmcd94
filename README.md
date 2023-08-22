@@ -181,21 +181,21 @@ Create User Account: POST /users - Create a new user account with nationality an
 Authenticate User: POST /login - Authenticate a user with username and password.
 
 Country Information:
-Get Country List: GET /countries - Get a list of countries in South America, North America, and Central America.
+Get Country List: GET /countries - Get a list of countries
 Get Country Details: GET /countries/{country_id} - Get details of a specific country, including entry requirements.
+
+Border Fees:
+Get Border Fee Details for a country: GET /countries/{country_id}/borderfees/{borderfee_id}
+
+Visa Types:
+Get Visa Type List: GET countries/{country_id}/visatypes
+Get Visa Fees: GET /countries/{country_id}/visafees
+
+Entry Requirements:
+Get Entry Requirement Details for a country: GET /countries/{country_id}/entryrequirements/{entry_requirement_id}
 
 Transport Information:
 Get available transport modes: GET /transportmodes?source={source_country_id}&destination={destination_country_id}
-
-Border Fees:
-Get Border Fee Details: GET /borderfees/{border_fee_id}
-
-Visa Types:
-Get Visa Type List: GET /visatypes
-Get Visa Type Details: GET /visatypes/{visa_type_id}
-
-Entry Requirements:
-Get Entry Requirement Details: GET /entryrequirements/{entry_requirement_id}
 
 Trip Management:
 Create Trip: POST /trips - Create a new trip with start and end dates, and associate user ID.
@@ -212,6 +212,6 @@ Delete Transport Mode: DELETE /trips/{trip_id}/transportmodes/{trip_transports_i
 
 Add Trip_Accommodations to Trip: POST /trips/{trip_id}/accommodations
 Request Body: { "mode": "hotel", "cost": 150 }
-Update Transport Mode: PUT /trips/{trip_id}/accommodations/{trip_accommodations_id}
-Get Transport Mode Details: GET /trips/{trip_id}/accommodations/{trip_accommodations_id}
-Delete Transport Mode: DELETE /trips/{trip_id}/accommodations/{trip_accommodations_id}
+Update Accommodation: PUT /trips/{trip_id}/accommodations/{trip_accommodations_id}
+Get Accommodation Mode Details: GET /trips/{trip_id}/accommodations/{trip_accommodations_id}
+Delete Accommodation Mode: DELETE /trips/{trip_id}/accommodations/{trip_accommodations_id}
