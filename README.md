@@ -206,12 +206,14 @@ Delete Trip: DELETE /trips/{trip_id} - Delete a specific trip.
 
 Add Transport Mode to Trip: POST /trips/{trip_id}/transportmodes
 Request Body: { "mode": "flight", "cost": 200 }
+
 Update Transport Mode: PUT /trips/{trip_id}/transportmodes/{trip_transports_id}
 Get Transport Mode Details: GET /trips/{trip_id}/transportmodes/{trip_transports_id}
 Delete Transport Mode: DELETE /trips/{trip_id}/transportmodes/{trip_transports_id}
 
 Add Trip_Accommodations to Trip: POST /trips/{trip_id}/accommodations
 Request Body: { "mode": "hotel", "cost": 150 }
+
 Update Accommodation: PUT /trips/{trip_id}/accommodations/{trip_accommodations_id}
 Get Accommodation Mode Details: GET /trips/{trip_id}/accommodations/{trip_accommodations_id}
 Delete Accommodation Mode: DELETE /trips/{trip_id}/accommodations/{trip_accommodations_id}
