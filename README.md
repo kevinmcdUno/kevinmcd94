@@ -1,54 +1,35 @@
-Problem Definition: 
+## Problem Definition
+When users plan trips, they often encounter various complexities in the planning process. To tackle this, our travel application aims to provide a user-friendly web-based solution that offers access to all essential trip-related information.
 
-When a user plans a trip, they face various considerations that can make the planning process complex. To address this, the travel application aims to provide a convenient web-based solution that allows users to access all the necessary information required for their trip. 
+The application facilitates user account creation and the selection of their nationality. Users can then choose a country from a dropdown menu and specify their intended stay duration. Based on these inputs, the application provides critical details, including required visa types, visa costs, local currency, predominant language, and available transportation options. The application is designed to accurately represent varying visa requirements that depend on the duration of the planned stay.
 
-The application allows users to create an account and specify their nationality. Users can then select a country from a dropdown menu and input the duration of their stay. Based on this input, the application provides essential information such as the type of visa required, visa cost, currency used in the country, main language spoken, and available modes of travel. Some countries may have varying visa requirements depending on the user's planned duration of stay, and these variations will be accurately represented. 
+Users can manage multiple trips within their profile, empowering them to prepare for future journeys. For each trip, they can define start and end dates, select visited countries, and add expenses like flights, accommodations, and activities. This feature empowers users to meticulously plan and budget for upcoming adventures.
 
-Users will also have the ability to add multiple trips to their profile, allowing them to plan for future journeys. For each trip, they can specify the start and end dates, select the countries they intend to visit, and add expenses such as flights, hotels, and activities. This feature enables users to meticulously plan and budget for their upcoming adventures. 
+### Moscow Prioritization
+**Must-Have:**
 
-Moscow Prioritization: 
+User Account Creation: Enable account creation with the ability to choose EU nationality.
+Country Selection: Provide a dropdown menu for selecting the destination South American country.
+Duration Selection: Allow input of stay duration in the selected country.
+Information Provision: Present essential data like visa types, costs, currency, language, and travel modes.
+Create and Manage Trips: Enable users to create trips, specify countries, and add bookings with associated costs.
+**Should-Have:**
 
-Must-Have: 
+Diverse Nationality Options: Extend nationality choices to cater to a broader user range.
+Nationality-Based Visa Information: Offer visa details aligned with user nationality.
+Multi-Country Selection: Enable selection of multiple countries for multi-destination trips.
+Interactive Map Selection: Implement a map-based interface for intuitive country selection.
+**Could-Have:**
 
-User Account Creation: Enable users to create an account and select their nationality as EU. 
+North and Central America Inclusion: Provide option to select from North and Central American countries.
+Visa Government Website Link: Include links to government visa resources for detailed information.
+Weather Integration: Incorporate weather data to offer current and forecasted conditions.
+Activity Recommendations: Suggest activities to enhance user travel experiences.
+Clothing Guidelines: Provide country-specific clothing recommendations.
+**Won't-Have:**
 
-Country Selection: Provide a dropdown menu for users to select the South American country they are planning to travel to. 
-
-Duration Selection: Allow users to input the length of their stay in the selected country. 
-
-Information Provision: Present vital information including the type of visa required, visa cost, currency, main language spoken, and modes of travel available. 
-
-Create a trip and add countries they are traveling to on their trip. 
-
-Users have the option to add other bookings like hotels, flights, activities, etc., along with the cost. 
-
-Should-Have: 
-
-Expanded Nationality Options: Offer additional nationality options to cater to a broader range of users. 
-
-Nationality-Based Visa Information: Provide visa information based on the user's nationality to ensure accurate and relevant details. 
-
-Multiple Country Selection: Allow users to select multiple countries for their journey, accommodating multi-destination trips. 
-
-Map-Based Country Selection: Implement a map interface that enables users to select their desired country visually. 
-
-Could-Have: 
-
-North and Central America Selection: Provide an option to select countries from North and Central America in addition to South America. 
-
-Visa Government Website Link: Include a link to the government website for visa information, offering users more detailed resources. 
-
-Weather Information: Integrate weather data to provide users with current and forecasted weather conditions for their selected countries. 
-
-Activity Suggestions: Offer activity suggestions and recommendations to enhance the user's travel experience. 
-
-Clothing Requirements: Provide information regarding appropriate clothing requirements or recommendations for each country. 
-
-Won't-Have: 
-
-Mobile Application Version: Development of a mobile application version of the travel app. 
-
-Overall, the application aims to simplify the trip planning process by offering users essential information and handling varying visa requirements accurately. It allows them to select countries, retrieve relevant details, and make informed decisions about their travel plans, while also providing the option to create a trip with the start date and end date and add any other bookings required for their journey, such as flights, hotels, and planned activities. 
+Mobile Application: Exclude mobile app development.
+Overall, the application streamlines trip planning by furnishing essential details and accurately addressing varying visa prerequisites. It empowers users to make informed decisions about travel plans and allows them to create trips with specified dates, add bookings, and effectively budget for flights, accommodations, and activities.
 
 ### Entity Relationship Diagram
 
@@ -174,30 +155,30 @@ erDiagram
 ```
 
 
- API Specification: 
+ ## API Specification: 
 
-User Account Management:
+**User Account Management:**
 Create User Account: POST /users - Create a new user account with nationality and other details.
 Authenticate User: POST /login - Authenticate a user with username and password.
 
-Country Information:
+**Country Information:**
 Get Country List: GET /countries - Get a list of countries.
 Get Country Details: GET /countries/{country_id} - Get details of a specific country, including entry requirements.
 
-Border Fees:
+**Border Fees:**
 Get Border Fee Details for a country: GET /countries/{country_id}/borderfees/{borderfee_id}.
 
-Visa Types:
+**Visa Types:**
 Get Visa Type List: GET countries/{country_id}/visatypes.
 Get Visa Fees: GET /countries/{country_id}/visafees.
 
-Entry Requirements:
+**Entry Requirements:**
 Get Entry Requirement Details for a country: GET /countries/{country_id}/entryrequirements/{entry_requirement_id}.
 
-Transport Information:
+**Transport Information:**
 Get available transport modes: GET /transportmodes?source={source_country_id}&destination={destination_country_id}.
 
-Trip Management:
+**Trip Management:**
 Create Trip: POST /trips - Create a new trip with start and end dates, and associate user ID.
 Get User's Trips: GET /users/{user_id}/trips - Get a list of trips associated with a specific user.
 Get Trip Details: GET /trips/{trip_id} - Get details of a specific trip, including countries and bookings.
