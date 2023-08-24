@@ -13,12 +13,14 @@ Country Selection: Provide a dropdown menu for selecting the destination South A
 Duration Selection: Allow input of stay duration in the selected country.
 Information Provision: Present essential data like visa types, costs, currency, language, and travel modes.
 Create and Manage Trips: Enable users to create trips, specify countries, and add bookings with associated costs.
+
 **Should-Have:**
 
 Diverse Nationality Options: Extend nationality choices to cater to a broader user range.
 Nationality-Based Visa Information: Offer visa details aligned with user nationality.
 Multi-Country Selection: Enable selection of multiple countries for multi-destination trips.
 Interactive Map Selection: Implement a map-based interface for intuitive country selection.
+
 **Could-Have:**
 
 North and Central America Inclusion: Provide option to select from North and Central American countries.
@@ -26,9 +28,11 @@ Visa Government Website Link: Include links to government visa resources for det
 Weather Integration: Incorporate weather data to offer current and forecasted conditions.
 Activity Recommendations: Suggest activities to enhance user travel experiences.
 Clothing Guidelines: Provide country-specific clothing recommendations.
+
 **Won't-Have:**
 
 Mobile Application: Exclude mobile app development.
+
 Overall, the application streamlines trip planning by furnishing essential details and accurately addressing varying visa prerequisites. It empowers users to make informed decisions about travel plans and allows them to create trips with specified dates, add bookings, and effectively budget for flights, accommodations, and activities.
 
 ### Entity Relationship Diagram
