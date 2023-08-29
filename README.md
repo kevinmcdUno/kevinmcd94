@@ -161,16 +161,163 @@ erDiagram
 
  ## API Specification: 
 
-**User Account Management:**
-Create User Account: POST /users - Create a new user account with nationality and other details.
-Authenticate User: POST /login - Authenticate a user with username and password.
+User Account Management:
+### Users 
+`GET /users`
+###### Returns a list of users
+Responses: 
+- `200 OK`
+```json
+[
+  {
+    "id": 1,
+    "emailAddress": "kevin.mcdermott@unosquare.com",
+    "firstName": "Kevin",
+    "lastName": "McDermott",
+    "nationality": "Irish"
+  },
+  {
+    "id": 2,
+    "emailAddress": "erling.haaland@unosquare.com",
+    "firstName": "Erling",
+    "lastName": "Haaland",
+    "nationality": "Norwegian"
+  }
+]
+```
 
-**Country Information:**
-Get Country List: GET /countries - Get a list of countries.
-Get Country Details: GET /countries/{country_id} - Get details of a specific country, including entry requirements.
 
-**Border Fees:**
-Get Border Fee Details for a country: GET /countries/{country_id}/borderfees/{borderfee_id}.
+---
+
+`GET /user/{userId}`
+###### Returns a user account
+
+Responses: 
+- `200 OK`
+- `404 Not Found`
+```json
+  {
+    "id": 1,
+    "emailAddress": "kevin.mcdermott@unosquare.com",
+    "firstName": "Kevin",
+    "lastName": "McDermott",
+    "nationality": "Irish"
+  },
+```
+`POST /users`
+###### Creates an account
+
+Request:
+```json
+{
+   "emailAddress": "kevin.mcdermott@unosquare.com",
+    "firstName": "Kevin",
+    "lastName": "McDermott",
+    "nationality": "Irish",
+    "password": "ABC12345!"
+}
+```
+
+Responses: 
+- `201 Created`
+- `400 Bad Request`
+```json
+{
+    "id": 1,
+    "emailAddress": "kevin.mcdermott@unosquare.com",
+    "firstName": "Kevin",
+    "lastName": "McDermott",
+    "nationality": "Irish"
+}
+```
+
+---
+
+`PUT /users/{userId}`
+###### Updates an account
+_NOTE: Password is an optional field, if it is not supplied, it is not updated._
+
+Request:
+```json
+{
+    "emailAddress": "kevin.mcdermott@unosquare.com",
+    "firstName": "Kevin",
+    "lastName": "McDermott",
+    "password": "ABC12345!"
+}
+```
+
+Responses: 
+- `204 No Content`
+- `400 Bad Request`
+- `404 Not Found`
+
+---
+
+`DELETE /users/{userId}`
+###### deletes a user account
+_NOTE: This actually performs a 'soft' deletion, we don't remove the account from the database, we simply mark it as inactive._
+
+Response: `204 No Content`
+
+---
+---
+
+### Countries 
+`GET /countries`
+###### Returns a list of countries
+Responses: 
+- `200 OK`
+```json
+[
+  {
+    "id": 1,
+    "name": "Brazil",
+    "currency": "Brazilian real",
+    "language": "Portuguese"
+  },
+  {
+   "id": 2,
+    "name": "Colombia",
+    "currency": "Colombian Peso",
+    "language": "Spannish"
+  }
+]
+```
+
+
+---
+
+`GET /country/{countryId}`
+###### Returns a user account
+
+Responses: 
+- `200 OK`
+- `404 Not Found`
+```json
+  {
+    "id": 1,
+    "name": "Brazil",
+    "currency": "Brazilian real",
+    "language": "Portuguese"
+  },
+```
+
+
+### Border Fees 
+`GET /countries/{country_id}/borders/{border_country_id}`
+###### Returns the border fee when entering a country
+Responses: 
+- `200 OK`
+```json
+[
+  {
+    "sourceCountry": "Brazil",
+    "destinationCountry": "Colombia",
+    "borderfee": "$12"
+  }
+]
+```
 
 **Visa Types:**
 Get Visa Type List: GET countries/{country_id}/visatypes.
