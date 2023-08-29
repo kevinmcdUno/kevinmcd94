@@ -289,7 +289,7 @@ Responses:
 ---
 
 `GET /country/{countryId}`
-###### Returns a user account
+###### Returns details for a specific country
 
 Responses: 
 - `200 OK`
