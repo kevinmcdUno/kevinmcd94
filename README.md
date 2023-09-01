@@ -312,6 +312,7 @@ Responses:
 ```json
 [
   {
+    "id": "654"
     "sourceCountry": "Brazil",
     "destinationCountry": "Colombia",
     "borderfee": "$12"
