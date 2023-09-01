@@ -319,15 +319,95 @@ Responses:
 ]
 ```
 
-**Visa Types:**
-Get Visa Type List: GET countries/{country_id}/visatypes.
-Get Visa Fees: GET /countries/{country_id}/visafees.
+### Entry Fees 
+`GET /countries/{country_id}/visatypes/{visa_type_id}`
+###### Returns All fees required to enter a country
+Responses: 
+- `200 OK`
+```json
+[
+  {
+    "visa": "ESTA",
+    "Visafee": "$15",
+    "borderfee": "$12"
+  }
+]
+```
 
-**Entry Requirements:**
-Get Entry Requirement Details for a country: GET /countries/{country_id}/entryrequirements/{entry_requirement_id}.
+### Transport 
+`GET /transportmodes?source={source_country_id}&destination={destination_country_id}`
+###### Returns the border fee when entering a country
+Responses: 
+- `200 OK`
+```json
+[
+  {
+    "mode": "Flight",
+    "average_cost": 300
+  },
+  {
+    "mode": "Bus",
+    "average_cost": 50
+  },
+  {
+    "mode": "Car Rental",
+    "average_cost": 100
+  },
+  {
+    "mode": "Boat",
+    "average_cost": 200
+  }
+]
+```
 
-**Transport Information:**
-Get available transport modes: GET /transportmodes?source={source_country_id}&destination={destination_country_id}.
+`POST /trip`
+###### Creates a trip for the user 
+
+Request:
+```json
+{
+  "name": "South America Trip",
+  "user_emailAddress": "kevin.mcdermott@unosquare.com",
+  "start_date": "2023-08-01",
+  "end_date": "2023-08-10",
+  "countries": [
+    {
+      "country": "Colombia",
+      "stay_duration": 7,
+    },
+    {
+      "country": "Brazil",
+      "stay_duration": 3
+    }
+  ]
+}
+```
+
+Responses: 
+- `201 Created`
+- `400 Bad Request`
+```json
+{
+  "tripId": "trip123",
+  "userId": "user1",
+  "start_date": "2023-01-01",
+  "end_date": "2023-03-10",
+  "countries": [
+    {
+      "country_id": "country123",
+      "country": "Columbia",
+      "stay_duration": 7,
+    },
+    {
+      "country_id": "country898",
+      "country": "Brazil",
+      "stay_duration": 3,
+    }
+  ]
+}
+```
+
+---
 
 **Trip Management:**
 Create Trip: POST /trips - Create a new trip with start and end dates, and associate user ID.
