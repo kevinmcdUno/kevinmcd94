@@ -338,7 +338,7 @@ Responses:
 
 ### Transport 
 `GET /transportmodes?source={source_country_id}&destination={destination_country_id}`
-###### Returns the border fee when entering a country
+###### Returns the transport options from source Country to Destination country
 Responses: 
 - `200 OK`
 ```json
