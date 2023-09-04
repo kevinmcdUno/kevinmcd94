@@ -170,14 +170,14 @@ Responses:
 ```json
 [
   {
-    "id": 1,
+    "user_id": 1,
     "emailAddress": "kevin.mcdermott@unosquare.com",
     "firstName": "Kevin",
     "lastName": "McDermott",
     "nationality": "Irish"
   },
   {
-    "id": 2,
+    "user_id": 2,
     "emailAddress": "erling.haaland@unosquare.com",
     "firstName": "Erling",
     "lastName": "Haaland",
@@ -296,7 +296,7 @@ Responses:
 - `404 Not Found`
 ```json
   {
-    "id": 1,
+    "country_id": 1,
     "name": "Brazil",
     "currency": "Brazilian real",
     "language": "Portuguese"
