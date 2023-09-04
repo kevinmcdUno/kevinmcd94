@@ -197,7 +197,7 @@ Responses:
 - `404 Not Found`
 ```json
   {
-    "id": 1,
+    "user_id": 1,
     "emailAddress": "kevin.mcdermott@unosquare.com",
     "firstName": "Kevin",
     "lastName": "McDermott",
@@ -223,7 +223,7 @@ Responses:
 - `400 Bad Request`
 ```json
 {
-    "id": 1,
+    "user_id": 1,
     "emailAddress": "kevin.mcdermott@unosquare.com",
     "firstName": "Kevin",
     "lastName": "McDermott",
@@ -271,13 +271,13 @@ Responses:
 ```json
 [
   {
-    "id": 1,
+    "country_id": 1,
     "name": "Brazil",
     "currency": "Brazilian real",
     "language": "Portuguese"
   },
   {
-   "id": 2,
+   "country_id": 2,
     "name": "Colombia",
     "currency": "Colombian Peso",
     "language": "Spannish"
@@ -312,7 +312,7 @@ Responses:
 ```json
 [
   {
-    "id": "654",
+    "border_fee_id": 654,
     "sourceCountry": "Brazil",
     "destinationCountry": "Colombia",
     "borderfee": "$12"
@@ -328,6 +328,7 @@ Responses:
 ```json
 [
   {
+    "entry_id": 1,
     "visa": "ESTA",
     "Visafee": "$15",
     "borderfee": "$12"
@@ -342,6 +343,7 @@ Responses:
 - `200 OK`
 ```json
 [
+"transportmode_id": 1
   {
     "mode": "Flight",
     "average_cost": 300
@@ -367,6 +369,7 @@ Responses:
 Request:
 ```json
 {
+  "trip_id": 1
   "name": "South America Trip",
   "user_emailAddress": "kevin.mcdermott@unosquare.com",
   "start_date": "2023-08-01",
@@ -389,8 +392,8 @@ Responses:
 - `400 Bad Request`
 ```json
 {
-  "tripId": "trip123",
-  "userId": "user1",
+  "trip_id": "123",
+  "user_id": "1",
   "start_date": "2023-01-01",
   "end_date": "2023-03-10",
   "countries": [
