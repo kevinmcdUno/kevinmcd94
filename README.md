@@ -343,7 +343,8 @@ Responses:
 - `200 OK`
 ```json
 [
-"transportmode_id": 1
+  "transportmode_id": 1,
+  "available_options": [
   {
     "mode": "Flight",
     "average_cost": 300
