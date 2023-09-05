@@ -271,13 +271,13 @@ Responses:
 ```json
 [
   {
-    "country_id": 1,
+    "country_id": 123,
     "name": "Brazil",
     "currency": "Brazilian real",
     "language": "Portuguese"
   },
   {
-   "country_id": 2,
+   "country_id": 898,
     "name": "Colombia",
     "currency": "Colombian Peso",
     "language": "Spannish"
@@ -296,7 +296,7 @@ Responses:
 - `404 Not Found`
 ```json
   {
-    "country_id": 1,
+    "country_id": 123,
     "name": "Brazil",
     "currency": "Brazilian real",
     "language": "Portuguese"
@@ -398,12 +398,12 @@ Responses:
   "end_date": "2023-03-10",
   "countries": [
     {
-      "country_id": "country123",
+      "country_id": "123",
       "country": "Columbia",
       "stay_duration": 7,
     },
     {
-      "country_id": "country898",
+      "country_id": "898",
       "country": "Brazil",
       "stay_duration": 3,
     }
