@@ -363,14 +363,13 @@ Responses:
   }
 ]
 ```
-
+### Trips
 `POST /trip`
 ###### Creates a trip for the user 
 
 Request:
 ```json
 {
-  "trip_id": 1
   "name": "South America Trip",
   "user_emailAddress": "kevin.mcdermott@unosquare.com",
   "start_date": "2023-08-01",
