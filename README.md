@@ -261,7 +261,6 @@ _NOTE: This actually performs a 'soft' deletion, we don't remove the account fro
 Response: `204 No Content`
 
 ---
----
 
 ### Countries 
 `GET /countries`
