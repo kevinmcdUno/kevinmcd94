@@ -255,7 +255,7 @@ Responses:
 ---
 
 `DELETE /users/{userId}`
-###### deletes a user account
+###### Delete user account
 _NOTE: This actually performs a 'soft' deletion, we don't remove the account from the database, we simply mark it as inactive._
 
 Response: `204 No Content`
@@ -309,6 +309,7 @@ Responses:
 ###### Returns the border fee when entering a country
 Responses: 
 - `200 OK`
+- `404 Not Found`
 ```json
 [
   {
@@ -325,6 +326,7 @@ Responses:
 ###### Returns All fees required to enter a country
 Responses: 
 - `200 OK`
+- `404 Not Found`
 ```json
 [
   {
@@ -341,8 +343,9 @@ Responses:
 ###### Returns the transport options from source Country to Destination country
 Responses: 
 - `200 OK`
+- `404 Not Found`
 ```json
-[
+{
   "transportmode_id": 1,
   "available_options": [
   {
@@ -362,6 +365,7 @@ Responses:
     "average_cost": 200
   }
 ]
+}
 ```
 ### Trips
 `POST /trip`
@@ -376,12 +380,12 @@ Request:
   "end_date": "2023-08-10",
   "countries": [
     {
-      "country": "Colombia",
-      "stay_duration": 7,
+      "country_id": 1,
+      "country": "Colombia"
     },
     {
-      "country": "Brazil",
-      "stay_duration": 3
+      "country_id": 2,
+      "country": "Brazil"
     }
   ]
 }
@@ -392,20 +396,19 @@ Responses:
 - `400 Bad Request`
 ```json
 {
-  "trip_id": "123",
-  "user_id": "1",
+  "trip_id": 1,
+  "name": "South America Trip",
+  "user_emailAddress": "kevin.mcdermott@unosquare.com",
   "start_date": "2023-01-01",
   "end_date": "2023-03-10",
   "countries": [
     {
-      "country_id": "123",
-      "country": "Columbia",
-      "stay_duration": 7,
+      "country_id": 1,
+      "country": "Columbia"
     },
     {
-      "country_id": "898",
-      "country": "Brazil",
-      "stay_duration": 3,
+      "country_id": 2,
+      "country": "Brazil"
     }
   ]
 }
@@ -413,30 +416,326 @@ Responses:
 
 ---
 
-**Trip Management:**
-Create Trip: POST /trips - Create a new trip with start and end dates, and associate user ID.
-Get User's Trips: GET /users/{user_id}/trips - Get a list of trips associated with a specific user.
-Get Trip Details: GET /trips/{trip_id} - Get details of a specific trip, including countries and bookings.
-Update Trip: PUT /trips/{trip_id} - Update details of a specific trip.
-Delete Trip: DELETE /trips/{trip_id} - Delete a specific trip.
+`PUT /trip/{trip_id}`
+###### Updates details of a specific trip for the user 
 
-Add Transport Mode to Trip: POST /trips/{trip_id}/transportmodes.
+Request:
+```json
+{
+  "name": "South America Trip",
+  "user_emailAddress": "kevin.mcdermott@unosquare.com",
+  "start_date": "2023-08-01",
+  "end_date": "2023-08-10",
+  "countries": [
+    {
+      "country_id": 1,
+      "country": "Colombia",
+    },
+    {
+      "country_id": 2,
+      "country": "Brazil"
+    }
+  ]
+}
+```
 
-Request Body: { "mode": "flight", "cost": 200 }.
+Responses: 
+- `204 No Content`
+- `400 Bad Request`
+- `404 Not Found`
+```json
+{
+  "trip_id": 1,
+  "name": "South America Trip",
+  "user_emailAddress": "kevin.mcdermott@unosquare.com",
+  "start_date": "2023-01-01",
+  "end_date": "2023-03-10",
+  "countries": [
+    {
+      "country_id": 1,
+      "country": "Columbia"
+    },
+    {
+      "country_id": 2,
+      "country": "Brazil"
+    }
+  ]
+}
+```
 
-Update Transport Mode: PUT /trips/{trip_id}/transportmodes/{trip_transports_id}.
 
-Get Transport Mode Details: GET /trips/{trip_id}/transportmodes/{trip_transports_id}.
+---
 
-Delete Transport Mode: DELETE /trips/{trip_id}/transportmodes/{trip_transports_id}.
+`GET /users/{user_id}/trips`
+###### Get a list of trips associated with a specific user 
 
-Add Trip_Accommodations to Trip: POST /trips/{trip_id}/accommodations.
 
-Request Body: { "mode": "hotel", "cost": 150 }.
+Responses: 
+- `200 OK`
+- `404 Not Found`
+```json
+{
+  "trip_name": "South America Trip",
+  "user_emailAddress": "kevin.mcdermott@unosquare.com",
+  "trips": [
+    {
+     "trip_id": 1,
+     "trip_name": "South America Trip",
+      "start_date": "2023-01-01",
+      "end_date": "2023-03-10",
+      "countries": [
+      {
+          "country_id": 1,
+          "country": "Columbia"
+      },
+      {
+          "country_id": 2,
+          "country": "Brazil"
+      }
+    ]
+  },
+  {
+      "trip_id": 2,
+      "trip_name": "North America Trip",
+      "start_date": "2023-07-01",
+      "end_date": "2023-10-28",
+      "countries": [
+      {
+          "country_id": 4,
+          "country": "USA"
+      },
+      {
+          "country_id": 5,
+          "country": "Canada"
+      }
+    ]
+   }
+  ]
+}
+```
 
-Update Accommodation: PUT /trips/{trip_id}/accommodations/{trip_accommodations_id}.
 
-Get Accommodation Mode Details: GET /trips/{trip_id}/accommodations/{trip_accommodations_id}.
+---
 
-Delete Accommodation Mode: DELETE /trips/{trip_id}/accommodations/{trip_accommodations_id}.
+`GET /trips/{trip_id}`
+###### Get details of a specific trip, including countries and bookings 
+
+
+Responses: 
+- `200 OK`
+- `404 Not Found`
+```json
+{
+  "trip_id": 1,
+  "name": "South America Trip",
+  "user_emailAddress": "kevin.mcdermott@unosquare.com",
+  "start_date": "2023-01-01",
+  "end_date": "2023-03-10",
+  "countries": [
+    {
+      "country_id": 1,
+      "country": "Columbia"
+    },
+    {
+      "country_id": 2,
+      "country": "Brazil"
+    }
+  ],
+  "transports": [
+    {
+      "trip_transports_id": 1,
+      "mode": "flight",
+      "cost": 200
+    },
+    {
+      "trip_transports_id": 2,
+      "mode": "bus",
+      "cost": 50
+    }
+  ],
+  "lodgings": [
+    {
+     "trip_lodging_id": 76,
+      "description": "hotel",
+      "cost": 200
+    },
+    {
+     "trip_lodging_id": 46,
+      "description": "Airbnb",
+      "cost": 200
+    }
+  ]
+}
+```
+
+---
+
+
+
+`DELETE /trips/{trip_id}`
+###### Delete a specific trip
+_NOTE: This actually performs a 'soft' deletion, we don't remove the account from the database, we simply mark it as inactive._
+
+Response: `204 No Content`
+
+---
+
+`POST /trips/{trip_id}/transportmodes`
+###### Creates a transport mode for the trip
+
+Request:
+```json
+
+    {
+      "mode": "flight",
+      "cost": 200
+    }
+```
+
+Responses: 
+- `201 Created`
+- `400 Bad Request`
+```json
+{
+     "trip_transports_id": 46,
+      "mode": "flight",
+      "cost": 200,
+      "trip_id": 1
+}
+```
+
+---
+
+`PUT /trips/{trip_id}/transportmodes/{trip_transports_id}`
+###### updates transport mode for the trip
+
+Request:
+```json
+
+    {
+      "mode": "flight",
+      "cost": 200,
+    }
+```
+
+Responses: 
+- `204 No Content`
+- `400 Bad Request`
+- `404 Not Found`
+```json
+{
+      "trip_transports_id": 1,
+      "mode": "flight",
+      "cost": 200,
+}
+```
+
+---
+
+`GET /trips/{trip_id}/transportmodes/{trip_transports_id}`
+###### updates transport mode for the trip
+
+
+Responses: 
+- `200 OK`
+- `404 Not Found`
+```json
+{
+      "trip_transports_id": 1,
+      "mode": "flight",
+      "cost": 200
+}
+```
+
+---
+
+`DELETE /trips/{trip_id}/transportmodes/{trip_transports_id}`
+###### deletes a trip transport 
+_NOTE: This actually performs a 'soft' deletion, we don't remove the account from the database, we simply mark it as inactive._
+
+Response: `204 No Content`
+
+---
+
+
+
+`POST /trips/{trip_id}/lodgings`
+###### Creates a lodging type for the trip
+
+Request:
+```json
+
+    {
+      "description": "hotel",
+      "cost": 200
+    }
+```
+
+Responses: 
+- `201 Created`
+- `400 Bad Request`
+```json
+{
+     "trip_lodging_id": 76,
+      "description": "hotel",
+      "cost": 200,
+      "trip_id": 1
+}
+```
+
+---
+
+`PUT /trips/{trip_id}/lodgings/{trip_lodging_id}`
+###### Updates lodging type for the trip
+
+Request:
+```json
+
+    {
+      "description": "hotel",
+      "cost": 200
+    }
+```
+
+Responses: 
+- `204 No Content`
+- `400 Bad Request`
+- `404 Not Found`
+```json
+{
+     "trip_lodging_id": 76,
+      "description": "hotel",
+      "cost": 200,
+      "trip_id": 1
+}
+```
+
+---
+
+---
+
+`GET /trips/{trip_id}/lodgings/{trip_lodging_id}`
+###### Returns lodging type for the trip
+
+Responses: 
+- `200 OK`
+- `404 Not Found`
+```json
+{
+     "trip_lodging_id": 76,
+      "description": "hotel",
+      "cost": 200,
+      "trip_id": 1
+}
+```
+
+---
+
+`DELETE /trips/{trip_id}/transportmodes/{trip_lodging_id}`
+###### Delete a trip lodging 
+_NOTE: This actually performs a 'soft' deletion, we don't remove the account from the database, we simply mark it as inactive._
+
+Response: `204 No Content`
+
+---
 
