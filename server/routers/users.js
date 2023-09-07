@@ -14,11 +14,11 @@ const router = Router();
  *        in: query
  *        type: string
  *        description: The filter for user email
- *      - name: first_name
+ *      - name: firstName
  *        in: query
  *        type: string
  *        description: The filter for user first name
- *      - name: second_name
+ *      - name: secondName
  *        in: query
  *        type: string
  *        description: The filter for user second name
@@ -30,7 +30,7 @@ const router = Router();
  *             examples:
  *               jsonObject:
  *                 summary: An example JSON response
- *                 value: '[{ "user_id": 1, "email": "kevin.mcdermott@unosquare.com", "first_name": "Kevin", "second_name": "McDermott", "password": "pa$$word", "nationality": "Irish" }, { "user_id": 2, "email": "kevin.mcdermott@unosquare.com", "first_name": "Kevy", "second_name": "McDermott", "password": "passw0rd", "nationality": "Irish" }]'
+ *                 value: '[{ "userId": 1, "email": "kevin.mcdermott@unosquare.com", "firstName": "Kevin", "secondName": "McDermott", "password": "pa$$word", "nationality": "Irish" }, { "userId": 2, "email": "kevin.mcdermott@unosquare.com", "firstName": "Kevy", "secondName": "McDermott", "password": "passw0rd", "nationality": "Irish" }]'
  *       204:
  *         description: No content
  */
@@ -38,18 +38,18 @@ router.route("/").get((req, res) => res.send('Hello World'))
 
 /**
  * @swagger
- * /users/{user_id}:
+ * /users/{userId}:
  *   get:
  *     tags: [
  *       "Users"
  *     ]
  *     summary: Returns a user by user ID
  *     parameters:
- *      - name: first_name
+ *      - name: firstName
  *        in: query
  *        type: string
  *        description: The filter for user first name
- *      - name: second_name
+ *      - name: secondName
  *        in: query
  *        type: string
  *        description: The filter for user second name
@@ -61,7 +61,7 @@ router.route("/").get((req, res) => res.send('Hello World'))
  *             examples:
  *               jsonObject:
  *                 summary: An example JSON response
- *                 value: '[{ "user_id": 1, "email": "kevin.mcdermott@unosquare.com", "first_name": "Kevin", "second_name": "McDermott", "password": "pa$$word", "nationality": "Irish" }, { "user_id": 2, "email": "kevin.mcdermott@unosquare.com",  "first_name": "Kevy", "second_name": "McDermott", "password": "passw0rd", "nationality": "Irish" }]'
+ *                 value: '[{ "userId": 1, "email": "kevin.mcdermott@unosquare.com", "firstName": "Kevin", "secondName": "McDermott", "password": "pa$$word", "nationality": "Irish" }, { "userId": 2, "email": "kevin.mcdermott@unosquare.com",  "firstName": "Kevy", "secondName": "McDermott", "password": "passw0rd", "nationality": "Irish" }]'
  *       204:
  *         description: No content
  */
@@ -80,49 +80,49 @@ router.route("/").get((req, res) => res.send('Hello World'))
  *         schema:
  *           type: object   
  *           properties:
- *        email:
- *          type: string
- *          required: true
- *          description: The users email
- *        first_name:
- *          type: string
- *          required: true
- *          description: The users first name
- *        second_name:
- *          type: string
- *          required: true
- *          description: The users second name
- *        password:
- *          type: string
- *          required: true
- *          description: The users password
- *       nationality:
- *          type: string
- *          required: true
- *          description: The users nationality
+ *            email:
+ *              type: string
+ *              required: true
+ *              description: The users email
+ *            firstName:
+ *              type: string
+ *              required: true
+ *              description: The users first name
+ *            secondName:
+ *              type: string
+ *              required: true
+ *              description: The users second name
+ *            password:
+ *              type: string
+ *              required: true
+ *              description: The users password
+ *            nationality:
+ *              type: string
+ *              required: true
+ *              description: The users nationality
  *     responses:
- *       200:
- *         description: OK
+ *       201:
+ *         description: Created
  *         content:
  *           application/json:
  *             examples:
  *               jsonObject:
  *                 summary: An example JSON response
- *                 value: '[{ "user_id": 1, "email": "kevin.mcdermott@unosquare.com", "first_name": "Kevin", "second_name": "McDermott", "password": "pa$$word", "nationality": "Irish" }, { "user_id": 2, "email": "kevin.mcdermott@unosquare.com", "first_name": "Kevy", "second_name": "McDermott", "password": "passw0rd", "nationality": "Irish" }]'
- *       204:
- *         description: No content
+ *                 value: '[{ "userId": 1, "email": "kevin.mcdermott@unosquare.com", "firstName": "Kevin", "secondName": "McDermott", "password": "pa$$word", "nationality": "Irish" }, { "userId": 2, "email": "kevin.mcdermott@unosquare.com", "firstName": "Kevy", "secondName": "McDermott", "password": "passw0rd", "nationality": "Irish" }]'
+ *       400:
+ *         description: Bad Request
  */
 
 /**
  * @swagger
- * /users/{user_id}:
+ * /users/{userId}:
  *   put:
  *     tags: [
  *       "Users"
  *     ]
  *     summary: Updates a user by user ID
  *     parameters:
- *      - name: user_id
+ *      - name: userId
  *        in: path
  *        type: interger
  *        description: The ID of the requested user
@@ -132,11 +132,11 @@ router.route("/").get((req, res) => res.send('Hello World'))
  *          schema:
  *            type: object
  *            properties:
- *              first_name:
+ *              firstName:
  *                type: string
  *                required: true
  *                descriptions: The users first name
- *              second_name:
+ *              secondName:
  *                type: string
  *                required: true
  *                descriptions: The users second name
@@ -152,7 +152,7 @@ router.route("/").get((req, res) => res.send('Hello World'))
  *             examples:
  *               jsonObject:
  *                 summary: An example JSON response
- *                 value: '[{ "user_id": 1, "email": "kevin.mcdermott@unosquare.com", "first_name": "Kevin", "second_name": "McDermott", "password": "pa$$word" }, { "user_id": 2, "email": "kevin.mcdermott@unosquare.com",  "first_name": "Kevy", "second_name": "McDermott", "password": "passw0rd" }]'
+ *                 value: '[{ "userId": 1, "email": "kevin.mcdermott@unosquare.com", "firstName": "Kevin", "secondName": "McDermott", "password": "pa$$word" }, { "userId": 2, "email": "kevin.mcdermott@unosquare.com",  "firstName": "Kevy", "secondName": "McDermott", "password": "passw0rd" }]'
  *       204:
  *         description: No content
  */

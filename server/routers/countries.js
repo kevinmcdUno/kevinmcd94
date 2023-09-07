@@ -31,13 +31,13 @@ const router = Router();
  *               jsonObject:
  *                 summary: An example JSON response
  *                 value: '[{  "id": 1, "name": "Brazil", "currency": "Brazilian real","language": "Portuguese" }, { "id": 1, "name": "Colombia", "currency": "Colombian peso","language": "Spannish"}]'
- *       204:
- *         description: No content
+ *       404:
+ *         description: Not Found
  */
 
 /**
  * @swagger
- *   /country/{country_id}:
+ *   /country/{CountryId}:
  *   get:
  *     tags: [
  *       "Countries"
@@ -64,9 +64,9 @@ const router = Router();
  *             examples:
  *               jsonObject:
  *                 summary: An example JSON response
- *                 value: '[{  "id": 1, "name": "Brazil", "currency": "Brazilian real","language": "Portuguese" }'
- *       204:
- *         description: No content
+ *                 value: '[{  "id": 1, "name": "Brazil", "currency": "Brazilian real","language": "Portuguese" }]'
+ *       404:
+ *         description: Not Found 
  */
 router.route("/").get((req, res) => res.send('Hello World'))
 

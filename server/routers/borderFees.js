@@ -3,18 +3,18 @@ const router = Router();
 
 /**
  * @swagger
- *  /transportmodes?source={source_country_id}&destination={destination_country_id}:
+ * /countries/{CountryId}/borders/{borderCountryId}:
  *   get:
  *     tags: [
- *       "Transport"
+ *       "Border Fees"
  *     ]
- *     summary: Returns an array of Transport modes from Source Country to the Destination country
+ *     summary: Returns the border fee when entering a country 
  *     parameters:
- *      - name: country_id
+ *      - name: CountryId
  *        in: query
  *        type: int
  *        description: The filter for the source country
- *      - name: border_country_id
+ *      - name: borderCountryId
  *        in: query
  *        type: int
  *        description: The filter for the destination country
@@ -26,12 +26,11 @@ const router = Router();
  *             examples:
  *               jsonObject:
  *                 summary: An example JSON response
- *                 value: '[{  "transport_id": 1, available_options: [ { "mode": "Flight", "avg_cost": 300 }, { "mode": "Bus", "avg_cost": 50 }, { "mode": "Train", "avg_cost": 150 }]}]'
- *       204:
- *         description: No content
+ *                 value: '[{    "id": "654", "sourceCountry": "Brazil", "destinationCountry": "Colombia", "borderfee": "$12" }]'
+ *       404:
+ *         description: Not Found
  */
-
 router.route("/").get((req, res) => res.send('Hello World'))
 
 
-module.exports = router;
+module.exports = router; 
