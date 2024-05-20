@@ -1,13 +1,21 @@
+const express = require('express');
+const swaggerJsdoc = require('swagger-jsdoc');
+const swaggerUI = require('swagger-ui-express');
+
 const usersRouter = require('./routers/users');
-const countriesRouters = require('./routers/countries');
-const border_feesRouters = require('./routers/border_fees');
+const countriesRouter = require('./routers/countries');
+const borderFeesRouter = require('./routers/borderFees');
+const entryRequirementsRouter = require('./routers/entryRequirements');
+const tripsRouter = require('./routers/trips');
+const tripCountriesRouter = require('./routers/tripCountries');
+const tripTransportsRouter = require('./routers/tripTransports');
+const tripLodgingsRouter = require('./routers/tripLodgings'); 
+const transportModesRouter = require('./routers/transportModes');
 
 
 
-const swaggerJsdoc = require("swagger-jsdoc");
-const swaggerUI = require("swagger-ui-express");
 
-const express = require('express')
+
 const app = express()
 
 
@@ -36,8 +44,16 @@ const openapiSpecification = swaggerJsdoc({
 app.use(express.json());
 
 app.use("/users", usersRouter);
-app.use("/countries", countriesRouters);
-app.use("/border_fees", border_feesRouters);
+app.use("/countries", countriesRouter);
+app.use("/borderFees", borderFeesRouter);
+app.use("/entryRequirements", entryRequirementsRouter);
+app.use("/trips", tripsRouter);
+app.use("/tripCountries", tripCountriesRouter);
+app.use("/tripTransports", tripTransportsRouter);
+app.use("/tripLodgings", tripLodgingsRouter);
+app.use('/transportmodes', transportModesRouter);
+
+
 
 
 app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(openapiSpecification));

@@ -1,0 +1,155 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model border_fees {
+  id                 Int                  @id(map: "border_fees_pk") @default(autoincrement())
+  cost               Int?
+  country_id         Int?
+  countries          countries?           @relation(fields: [country_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "border_fees_countries_country_id_fk")
+  entry_requirements entry_requirements[]
+}
+
+model countries {
+  id                                                                Int                  @id(map: "country_pk") @default(autoincrement())
+  name                                                              String
+  language_id                                                       Int?
+  currency_id                                                       Int?
+  border_fees                                                       border_fees[]
+  currencies                                                        currencies?          @relation(fields: [currency_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "countries_currencies_currency_id_fk")
+  languages                                                         languages?           @relation(fields: [language_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "countries_languages_language_id_fk")
+  entry_requirements                                                entry_requirements[]
+  transport_modes_transport_modes_destination_country_idTocountries transport_modes[]    @relation("transport_modes_destination_country_idTocountries")
+  transport_modes_transport_modes_source_country_idTocountries      transport_modes[]    @relation("transport_modes_source_country_idTocountries")
+  trip_countries                                                    trip_countries[]
+}
+
+model currencies {
+  id        Int         @id(map: "currencies_pk") @default(autoincrement())
+  name      String
+  countries countries[]
+}
+
+model entry_requirements {
+  id               Int          @id(map: "entry_requirements_pk") @default(autoincrement())
+  cost             Int?
+  exceeds_max_days Boolean      @default(false)
+  border_fee_id    Int?
+  visa_type_id     Int?
+  country_id       Int?
+  border_fees      border_fees? @relation(fields: [border_fee_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "entry_requirements_border_fees_border_fee_id_fk")
+  countries        countries?   @relation(fields: [country_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "entry_requirements_countries_country_id_fk")
+  visa_types       visa_types?  @relation(fields: [visa_type_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "entry_requirements_visa_types_visa_id_fk")
+}
+
+model flyway_schema_history {
+  installed_rank Int      @id(map: "flyway_schema_history_pk")
+  version        String?  @db.VarChar(50)
+  description    String   @db.VarChar(200)
+  type           String   @db.VarChar(20)
+  script         String   @db.VarChar(1000)
+  checksum       Int?
+  installed_by   String   @db.VarChar(100)
+  installed_on   DateTime @default(now()) @db.Timestamp(6)
+  execution_time Int
+  success        Boolean
+
+  @@index([success], map: "flyway_schema_history_s_idx")
+}
+
+model languages {
+  id        Int         @id(map: "languages_pk") @default(autoincrement())
+  name      String
+  countries countries[]
+}
+
+model nationalities {
+  id    Int     @id(map: "nationalities_pk") @default(autoincrement())
+  name  String
+  users users[]
+}
+
+model transport_mode_types {
+  id              Int               @id(map: "transport_mode_types_pk") @default(autoincrement())
+  description     String
+  transport_modes transport_modes[]
+  trip_transports trip_transports[]
+}
+
+model transport_modes {
+  id                                                          Int                   @id(map: "transport_modes_pk") @default(autoincrement())
+  source_country_id                                           Int?
+  destination_country_id                                      Int?
+  transport_mode_type_id                                      Int?
+  avg_cost                                                    Int
+  countries_transport_modes_destination_country_idTocountries countries?            @relation("transport_modes_destination_country_idTocountries", fields: [destination_country_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "transport_modes_countries_destination_country_id_fk")
+  countries_transport_modes_source_country_idTocountries      countries?            @relation("transport_modes_source_country_idTocountries", fields: [source_country_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "transport_modes_countries_source_country_id_fk")
+  transport_mode_types                                        transport_mode_types? @relation(fields: [transport_mode_type_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "transport_modes_transport_mode_types_transport_mode_type_id_fk")
+}
+
+model trip_countries {
+  id         Int        @id(map: "trip_countries_pk") @default(autoincrement())
+  trip_id    Int?
+  country_id Int?
+  countries  countries? @relation(fields: [country_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "trip_countries_countries_country_id_fk")
+  trips      trips?     @relation(fields: [trip_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "trip_countries_trips_trip_id_fk")
+}
+
+model trip_transports {
+  id                     Int                   @id(map: "tansports_pk") @default(autoincrement())
+  cost                   Int
+  trip_id                Int?
+  transport_mode_type_id Int?
+  transport_mode_types   transport_mode_types? @relation(fields: [transport_mode_type_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "trip_transports_transport_mode_types_transport_mode_type_id_fk")
+  trips                  trips?                @relation(fields: [trip_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "trip_transports_trips_trip_id_fk")
+}
+
+model trips {
+  id              Int               @id(map: "trips_pk") @default(autoincrement())
+  name            String
+  description     String
+  start_date      String
+  end_date        String
+  users_id        Int?
+  trip_countries  trip_countries[]
+  trip_lodgings   trip_lodgings[]
+  trip_transports trip_transports[]
+  users           users?            @relation(fields: [users_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "trips_users_users_id_fk")
+}
+
+model users {
+  id             Int            @id(map: "users_pk") @default(autoincrement())
+  email          String
+  first_name     String
+  second_name    String
+  password       String
+  nationality_id Int?
+  trips          trips[]
+  nationalities  nationalities? @relation(fields: [nationality_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "users_nationalities_nationality_id_fk")
+}
+
+model visa_types {
+  id                 Int                  @id(map: "visa_types_pk") @default(autoincrement())
+  name               String?
+  entry_requirements entry_requirements[]
+}
+
+model lodging_types {
+  id            Int             @id(map: "lodging_types_pk") @default(autoincrement())
+  description   String
+  trip_lodgings trip_lodgings[]
+}
+
+model trip_lodgings {
+  id              Int            @id(map: "trip_lodgings_pk") @default(autoincrement())
+  cost            Int
+  trip_id         Int?
+  lodging_type_id Int?
+  lodging_types   lodging_types? @relation(fields: [lodging_type_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "trip_lodgings_lodging_types_lodging_type_id_fk")
+  trips           trips?         @relation(fields: [trip_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "trip_lodgings_trips_trip_id_fk")
+}
