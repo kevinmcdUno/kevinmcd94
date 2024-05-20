@@ -1,0 +1,51 @@
+const { PrismaClient } = require('@prisma/client');
+const prisma = new PrismaClient();
+
+const getBorderFees = async (req, res) => {
+  try {
+    const borderFees = await prisma.border_fees.findMany({
+      include: {
+       countries: {
+        select: {
+          name: true
+        }
+       }
+      },
+    });
+
+    if (borderFees.length > 0) {
+      return res.status(200).json(borderFees);
+    } else {
+      return res.status(404).json({ error: 'No border fees found' });
+    }
+  } catch (error) {
+    console.error('Error retrieving border fees:', error);
+    return res.status(500).json({ error: 'Internal Server Error' });
+  } finally {
+    await prisma.$disconnect();
+  }
+};
+
+
+const getSingleBorderFees = async (req, res) => {     
+  const { borderFeesId } = req.params
+   const borderFee = await prisma.border_fees.findUnique({
+      where: { 
+        id: parseInt(borderFeesId),
+      },
+        include: {
+          countries: {
+            select: {
+              name: true
+            }
+          }
+        }
+    },  
+    );
+  if (borderFee) {
+    return res.status(200).json(borderFee);
+  }
+  return res.sendStatus(204);
+}
+
+module.exports = { getBorderFees, getSingleBorderFees };

@@ -1,23 +1,49 @@
-const { Router } = require("express");
-const router = Router();
+const express = require('express');
+const router = express.Router();
+const { getBorderFees, getSingleBorderFees } = require('../controllers/borderFees');
 
 /**
  * @swagger
- * /countries/{CountryId}/borders/{borderCountryId}:
+ * /borderFees:
+ *   get:
+ *     tags:
+ *       - Border Fees
+ *     summary: Retrieve all border fees with associated countries and entry requirements.
+ *     responses:
+ *       200:
+ *         description: Successful response with an array of border fees.
+ *         content:
+ *           application/json:
+ *             example:
+ *               - id: 1
+ *                 cost: 50
+ *                 country_id: 1
+ *                 countries: { name: "Mexico" }
+ *               - id: 2
+ *                 cost: 30
+ *                 country_id: 2
+ *                 countries: { name: "Costa Rica" }
+ *       404:
+ *         description: Not Found. No border fees found.
+ *       500:
+ *         description: Internal Server Error.
+ */
+router.get('/', getBorderFees);
+
+
+/**
+ * @swagger
+ *  /borderFees/{borderFeesId}:
  *   get:
  *     tags: [
  *       "Border Fees"
  *     ]
- *     summary: Returns the border fee when entering a country 
+ *     summary: Returns Details for the Border Fees entering a country
  *     parameters:
- *      - name: CountryId
- *        in: query
- *        type: int
- *        description: The filter for the source country
- *      - name: borderCountryId
- *        in: query
- *        type: int
- *        description: The filter for the destination country
+ *       - name: borderFeesId
+ *         in: path
+ *         type: int
+ *         description: The filter for Id of the border fees
  *     responses:
  *       200:
  *         description: OK
@@ -26,11 +52,15 @@ const router = Router();
  *             examples:
  *               jsonObject:
  *                 summary: An example JSON response
- *                 value: '[{    "id": "654", "sourceCountry": "Brazil", "destinationCountry": "Colombia", "borderfee": "$12" }]'
+ *                 value: 
+ *                     borderFeesId: 1
+ *                     costId: 1
+ *                     countryId: 1
+ *                     Countries: { name: "Mexico" }
  *       404:
  *         description: Not Found
  */
-router.route("/").get((req, res) => res.send('Hello World'))
+router.route("/:borderFeesId(\\d+)").get(getSingleBorderFees)
 
 
-module.exports = router; 
+module.exports = router;

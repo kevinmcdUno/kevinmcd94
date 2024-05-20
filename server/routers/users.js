@@ -1,70 +1,9 @@
 const { Router } = require("express");
+const validation = require("../utils/validation");
+const { body } = require("express-validator")
+const { getAll, createUser, updateUser, deleteUser, getSingle } = require("../controllers/users")
 const router = Router();
 
-/**
- * @swagger
- * /users:
- *   get:
- *     tags: [
- *       "Users"
- *     ]
- *     summary: Returns an array of users with the user ID, email, name, password & nationality 
- *     parameters:
- *      - name: email
- *        in: query
- *        type: string
- *        description: The filter for user email
- *      - name: firstName
- *        in: query
- *        type: string
- *        description: The filter for user first name
- *      - name: secondName
- *        in: query
- *        type: string
- *        description: The filter for user second name
- *     responses:
- *       200:
- *         description: OK
- *         content:
- *           application/json:
- *             examples:
- *               jsonObject:
- *                 summary: An example JSON response
- *                 value: '[{ "userId": 1, "email": "kevin.mcdermott@unosquare.com", "firstName": "Kevin", "secondName": "McDermott", "password": "pa$$word", "nationality": "Irish" }, { "userId": 2, "email": "kevin.mcdermott@unosquare.com", "firstName": "Kevy", "secondName": "McDermott", "password": "passw0rd", "nationality": "Irish" }]'
- *       204:
- *         description: No content
- */
-router.route("/").get((req, res) => res.send('Hello World'))
-
-/**
- * @swagger
- * /users/{userId}:
- *   get:
- *     tags: [
- *       "Users"
- *     ]
- *     summary: Returns a user by user ID
- *     parameters:
- *      - name: firstName
- *        in: query
- *        type: string
- *        description: The filter for user first name
- *      - name: secondName
- *        in: query
- *        type: string
- *        description: The filter for user second name
- *     responses:
- *       200:
- *         description: OK
- *         content:
- *           application/json:
- *             examples:
- *               jsonObject:
- *                 summary: An example JSON response
- *                 value: '[{ "userId": 1, "email": "kevin.mcdermott@unosquare.com", "firstName": "Kevin", "secondName": "McDermott", "password": "pa$$word", "nationality": "Irish" }, { "userId": 2, "email": "kevin.mcdermott@unosquare.com",  "firstName": "Kevy", "secondName": "McDermott", "password": "passw0rd", "nationality": "Irish" }]'
- *       204:
- *         description: No content
- */
 
 /**
  * @swagger
@@ -78,26 +17,31 @@ router.route("/").get((req, res) => res.send('Hello World'))
  *       content:
  *        application/json:
  *         schema:
- *           type: object   
+ *           type: object
  *           properties:
  *            email:
  *              type: string
+ *              pattern: ^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$
+ *              format: email
  *              required: true
  *              description: The users email
- *            firstName:
+ *            forename:
  *              type: string
  *              required: true
- *              description: The users first name
- *            secondName:
+ *              description: The users forename
+ *            surname:
  *              type: string
  *              required: true
- *              description: The users second name
+ *              description: The users surname
  *            password:
  *              type: string
  *              required: true
+ *              minLength: 8
+ *              maxLength: 15
  *              description: The users password
- *            nationality:
- *              type: string
+ *              pattern: "^(?=.*[a-zA-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]+$"
+ *            nationalityId:
+ *              type: integer
  *              required: true
  *              description: The users nationality
  *     responses:
@@ -105,13 +49,119 @@ router.route("/").get((req, res) => res.send('Hello World'))
  *         description: Created
  *         content:
  *           application/json:
- *             examples:
- *               jsonObject:
- *                 summary: An example JSON response
- *                 value: '[{ "userId": 1, "email": "kevin.mcdermott@unosquare.com", "firstName": "Kevin", "secondName": "McDermott", "password": "pa$$word", "nationality": "Irish" }, { "userId": 2, "email": "kevin.mcdermott@unosquare.com", "firstName": "Kevy", "secondName": "McDermott", "password": "passw0rd", "nationality": "Irish" }]'
+ *             example:
+ *                 id: 1 
+ *                 email: "testemail@test.com"
+ *                 forename: "Testforename"
+ *                 surname: "testsurname"
+ *                 password: "pa$$word" 
+ *                 nationality: "Irish" 
  *       400:
  *         description: Bad Request
  */
+router.route("/").post(
+  [
+    body("email")
+      .isLength({ min: 3 })
+      .withMessage("the email must have minimum length of 3")
+      .isEmail()
+      .withMessage("the email must be in a valid email format")
+      .trim(),
+    body("forename")
+      .isString()
+      .isLength({ min: 3 })
+      .withMessage("the forname must have minimum length of 3")
+      .trim(),
+    body("surname")
+      .isString()
+      .isLength({ min: 3 })
+      .withMessage("the surname must have minimum length of 3")
+      .trim(),
+    body("password")
+      .isLength({ min: 8, max: 15 })
+      .withMessage("the password should have min and max length between 8-15")
+      .matches(/\d/)
+      .withMessage("the password should have at least one number")
+      .matches(/[!@#$%^&*(),.?":{}|<>]/)
+      .withMessage("the password should have at least one special character"),
+  ],
+  validation.validate,
+  createUser
+);
+
+/**
+ * @swagger
+ * /users:
+ *   get:
+ *     tags: [
+ *       "Users"
+ *     ]
+ *     summary: Returns an array of users with the user ID, email, name, password & nationality
+ *     parameters:
+ *      - name: email
+ *        in: query
+ *        type: string
+ *        description: The filter for user email
+ *      - name: forename
+ *        in: query
+ *        type: string
+ *        description: The filter for user forename
+ *      - name: surname
+ *        in: query
+ *        type: string
+ *        description: The filter for user surname
+ *     responses:
+ *       200:
+ *         description: OK
+ *         content:
+ *           application/json:
+ *             example:
+ *               - id: 1 
+ *                 email: "testemail@test.com"
+ *                 forename: "Testforename"
+ *                 surname: "testsurname"
+ *                 password: "pa$$word" 
+ *                 nationality: "Irish" 
+ *               - id: 2, 
+ *                 email: "test@test.com"  
+ *                 forename: "test2fore" 
+ *                 surname: "testSur" 
+ *                 password: "passw0rd"
+ *                 nationality: "Irish"
+ *       204:
+ *         description: No content
+ */
+router.route("/").get(getAll);
+
+/**
+ * @swagger
+ * /users/{userId}:
+ *   get:
+ *     tags: [
+ *       "Users"
+ *     ]
+ *     summary: Returns a user by user ID
+ *     parameters:
+ *      - name: userId
+ *        in: path
+ *        type: int
+ *        description: The filter for userId
+ *     responses:
+ *       200:
+ *         description: OK
+ *         content:
+ *           application/json:
+ *             example:
+ *               - id: 1 
+ *                 email: "testemail@test.com"
+ *                 forename: "Testforename"
+ *                 surname: "testsurname"
+ *                 password: "pa$$word" 
+ *                 nationality: "Irish" 
+ *       404:
+ *         description: Not Found
+ */
+router.route("/:userId(\\d+)").get(getSingle)
 
 /**
  * @swagger
@@ -132,30 +182,93 @@ router.route("/").get((req, res) => res.send('Hello World'))
  *          schema:
  *            type: object
  *            properties:
- *              firstName:
+ *              email:
+ *                type: string
+ *                pattern: ^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$
+ *                format: email
+ *                required: true
+ *                descriptions: The users email
+ *              forename:
  *                type: string
  *                required: true
- *                descriptions: The users first name
- *              secondName:
+ *                descriptions: The users forename
+ *              surname:
  *                type: string
  *                required: true
- *                descriptions: The users second name
+ *                descriptions: The users surname
  *              password:
  *                type: string
  *                required: true
- *                descriptions: The users password
+ *                minLength: 8
+ *                maxLength: 15
+ *                description: The users password
+ *                pattern: "^(?=.*[a-zA-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]+$"
+ *              nationalityId:
+ *                type: integer
+ *                required: true
+ *                description: The users nationality
  *     responses:
  *       200:
  *         description: OK
  *         content:
  *           application/json:
- *             examples:
- *               jsonObject:
- *                 summary: An example JSON response
- *                 value: '[{ "userId": 1, "email": "kevin.mcdermott@unosquare.com", "firstName": "Kevin", "secondName": "McDermott", "password": "pa$$word" }, { "userId": 2, "email": "kevin.mcdermott@unosquare.com",  "firstName": "Kevy", "secondName": "McDermott", "password": "passw0rd" }]'
+ *             example:
+ *               - id: 1 
+ *                 email: "testemail@test.com"
+ *                 forename: "Testforename"
+ *                 surname: "testsurname"
+ *                 password: "pa$$word" 
+ *                 nationality: "Irish" 
  *       204:
  *         description: No content
  */
+router.route("/:userId(\\d+)").put(
+  [
+    body("email")
+      .isLength({ min: 3 })
+      .withMessage("the email must have minimum length of 3")
+      .isEmail()
+      .withMessage("the email must be in a valid email format")
+      .trim(),
+    body("forename")
+      .isString()
+      .isLength({ min: 3 })
+      .withMessage("the first_name must have minimum length of 3")
+      .trim(),
+    body("surname")
+      .isString()
+      .isLength({ min: 3 })
+      .withMessage("the second_name must have minimum length of 3")
+      .trim(),
+    body("password")
+      .isLength({ min: 8, max: 15 })
+      .withMessage("the password should have min and max length between 8-15")
+      .matches(/\d/)
+      .withMessage("the password should have at least one number")
+      .matches(/[!@#$%^&*(),.?":{}|<>]/)
+      .withMessage("the password should have at least one special character"),
+  ],
+  validation.validate,
+updateUser);
 
+/**
+ * @swagger
+ * /users/{userId}:
+ *   delete:
+ *     tags: [
+ *       "Users"
+ *     ]
+ *     summary: Updates a user by user ID
+ *     parameters:
+ *      - name: userId
+ *        in: path
+ *        type: interger
+ *        description: The ID of the requested user
+ *     responses:
+ *       204:
+ *         description: No content
+ */
+router.route("/:userId(\\d+)").delete(
+deleteUser);
 
 module.exports = router;

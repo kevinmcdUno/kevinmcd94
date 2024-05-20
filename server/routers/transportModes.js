@@ -1,45 +1,55 @@
 const { Router } = require("express");
+const {
+  getTransportModes,
+} = require("../controllers/transportModes");
 const router = Router();
 
 /**
  * @swagger
- *  /transportmodes?source={sourceCountryId}&destination={destinationCountryId}:
+ * /transportmodes:
  *   get:
- *     tags: [
- *       "Transport"
- *     ]
- *     summary: Returns an array of Transport modes from Source Country to the Destination country
+ *     tags:
+ *       - Transport Modes
+ *     summary: Retrieve transport modes based on source and destination country IDs.
  *     parameters:
- *      - name: CountryId
- *        in: query
- *        type: int
- *        description: The filter for the source country
- *      - name: destinationCountryId
- *        in: query
- *        type: int
- *        description: The filter for the destination country
-  *     responses:
+ *       - in: query
+ *         name: sourceCountryId
+ *         schema:
+ *           type: integer
+ *         required: true
+ *         description: The ID of the source country.
+ *       - in: query
+ *         name: destinationCountryId
+ *         schema:
+ *           type: integer
+ *         required: true
+ *         description: The ID of the destination country.
+ *     responses:
  *       200:
- *         description: OK
+ *         description: Successful response with an array of transport modes.
  *         content:
  *           application/json:
- *             examples:
- *               jsonObject:
- *                 summary: An example JSON response
- *                 value: 
- *                   - transportmodeId: 1
- *                     availableOptions: 
- *                       - mode: "Flight"
- *                         averageCost: 300
- *                       - mode: "Bus"
- *                         averageCost: 50
- *                       - mode: "Train"
- *                         averageCost: 150
+ *             example:
+ *               - id: 1
+ *                 source_country_id: 1
+ *                 destination_country_id: 2
+ *                 transport_mode_type_id: 1
+ *                 avg_cost: 100
+ *                 transport_mode_types: { description: "Aeroplane"}
+ *               - id: 1
+ *                 source_country_id: 1
+ *                 destination_country_id: 2
+ *                 transport_mode_type_id: 1
+ *                 avg_cost: 10
+ *                 transport_mode_types: { description: "Bus"}
+ *       400:
+ *         description: Bad Request. Both sourceCountryId and destinationCountryId are required.
  *       404:
- *         description: Not Found
+ *         description: No transport modes found for the specified countries.
+ *       500:
+ *         description: Internal Server Error.
  */
 
-router.route("/").get((req, res) => res.send('Hello World'))
-
+router.get('/', getTransportModes);
 
 module.exports = router;
