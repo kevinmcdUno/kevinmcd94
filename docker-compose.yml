@@ -16,7 +16,7 @@ services:
     command: -url=jdbc:postgresql://db/travel -schemas=public -user=postgres
       -password=password -connectRetries=5 migrate
     volumes:
-      - ./migrations:/flyway/sql
+      - ./database:/flyway/sql
     depends_on:
       - db
 volumes:

@@ -1,0 +1,37 @@
+
+name: Execute API Tests
+
+# on:
+#   pull_request:
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  test_execution:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 🛎 Checkout
+        uses: actions/checkout@v2
+      - name: Install newman
+        run: |
+          npm install -g newman
+          npm install -g newman-reporter-htmlextra
+      # - name: execute api in docker 🐳  - later we will run this compose instead which will run the DB, flyway and the API
+      #   run: docker-compose up -d
+      - name: Start application
+        run: |
+          npm i --prefix ./server && (npm start --prefix ./server&)
+      - name: Make Directory for results
+        run: mkdir -p TestResults
+        # it's also possible to supply specific environment variables by using the -e argument here. e.g. -e ./Internal_Staging.postman_environment.json
+      - name: Run POSTMAN collection
+        run: |
+          newman run Travel\ API.postman_collection.json -r cli,htmlextra --reporter-htmlextra-export TestResults/htmlreport.html
+      - name: Output the run Details
+        uses: actions/upload-artifact@v3
+        if: always()
+        with:
+          name: ReportOutput
+          path: TestResults

@@ -175,7 +175,7 @@ router.route("/").get(getAllTrips),
  *                     description: "test"
  *                     start_date: "2023-03-10"
  *                     end_date: "2023-04-10"
- *                     users_id: 1
+ *                     user_id: 1
  *       404:
  *         description: Not Found
  */
