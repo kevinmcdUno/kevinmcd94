@@ -1,0 +1,4158 @@
+{
+	"info": {
+		"_postman_id": "96ea6dc7-4ff0-4090-acd4-26e8329eef86",
+		"name": "Travel API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "7399715"
+	},
+	"item": [
+		{
+			"name": "borderFees",
+			"item": [
+				{
+					"name": "{borderFeesId}",
+					"item": [
+						{
+							"name": "Returns Details for the Border Fees entering a country",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/borderFees/:borderFeesId",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"borderFees",
+										":borderFeesId"
+									],
+									"variable": [
+										{
+											"key": "borderFeesId",
+											"value": "",
+											"description": "The filter for Id of the border fees"
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "OK",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/borderFees/:borderFeesId",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"borderFees",
+												":borderFeesId"
+											],
+											"variable": [
+												{
+													"key": "borderFeesId"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"examples\": {\n    \"jsonObject\": {\n      \"summary\": \"An example JSON response\",\n      \"value\": {\n        \"borderFeesId\": 1,\n        \"costId\": 1,\n        \"countryId\": 1,\n        \"Countries\": {\n          \"name\": \"Mexico\"\n        }\n      }\n    }\n  }\n}"
+								},
+								{
+									"name": "Not Found",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/borderFees/:borderFeesId",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"borderFees",
+												":borderFeesId"
+											],
+											"variable": [
+												{
+													"key": "borderFeesId"
+												}
+											]
+										}
+									},
+									"status": "Not Found",
+									"code": 404,
+									"_postman_previewlanguage": "text",
+									"header": [],
+									"cookie": [],
+									"body": ""
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "Retrieve all border fees with associated countries and entry requirements.",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"pm.test(\"Response is an array\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.be.an('array');",
+									"});",
+									"pm.test(\"Array items contain required fields\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    jsonData.forEach(function(item) {",
+									"        pm.expect(item).to.have.property('id');",
+									"        pm.expect(item).to.have.property('cost');",
+									"        pm.expect(item).to.have.property('country_id');",
+									"        pm.expect(item.countries).to.have.property('name');",
+									"    });",
+									"});",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/borderFees",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"borderFees"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Successful response with an array of border fees.",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/borderFees",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"borderFees"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"example\": [\n    {\n      \"id\": 1,\n      \"cost\": 50,\n      \"country_id\": 1,\n      \"countries\": {\n        \"name\": \"Mexico\"\n      }\n    },\n    {\n      \"id\": 2,\n      \"cost\": 30,\n      \"country_id\": 2,\n      \"countries\": {\n        \"name\": \"Costa Rica\"\n      }\n    }\n  ]\n}"
+						},
+						{
+							"name": "Not Found. No border fees found.",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/borderFees",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"borderFees"
+									]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": "text",
+							"header": [],
+							"cookie": [],
+							"body": ""
+						},
+						{
+							"name": "Internal Server Error.",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/borderFees",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"borderFees"
+									]
+								}
+							},
+							"status": "Internal Server Error",
+							"code": 500,
+							"_postman_previewlanguage": "text",
+							"header": [],
+							"cookie": [],
+							"body": ""
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "countries",
+			"item": [
+				{
+					"name": "{countryId}",
+					"item": [
+						{
+							"name": "Returns details for a specific country",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/countries/:countryId",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"countries",
+										":countryId"
+									],
+									"variable": [
+										{
+											"key": "countryId",
+											"value": "",
+											"description": "The filter for the country Id"
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "OK",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/countries/:countryId",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"countries",
+												":countryId"
+											],
+											"variable": [
+												{
+													"key": "countryId"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"example\": {\n    \"id\": 1,\n    \"name\": \"Mexico\",\n    \"language_id\": 1,\n    \"currency_id\": 1,\n    \"languages\": {\n      \"name\": \"Spanish\"\n    },\n    \"currencies\": {\n      \"name\": \"MXN_Pesos\"\n    }\n  }\n}"
+								},
+								{
+									"name": "Not Found",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/countries/:countryId",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"countries",
+												":countryId"
+											],
+											"variable": [
+												{
+													"key": "countryId"
+												}
+											]
+										}
+									},
+									"status": "Not Found",
+									"code": 404,
+									"_postman_previewlanguage": "text",
+									"header": [],
+									"cookie": [],
+									"body": ""
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "Returns an array of countries with the country id, name, currency and lanaguage",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"pm.test(\"Response is an array\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.be.an('array');",
+									"});",
+									"pm.test(\"Array items contain required fields\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    jsonData.forEach(function(item) {",
+									"        pm.expect(item).to.have.property('id');",
+									"        pm.expect(item).to.have.property('name');",
+									"        pm.expect(item).to.have.property('language_id');",
+									"        pm.expect(item).to.have.property('currency_id');",
+									"        pm.expect(item.languages).to.have.property('name');",
+									"        pm.expect(item.currencies).to.have.property('name');",
+									"    });",
+									"});",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/countries?name=&currency=&language=",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"countries"
+							],
+							"query": [
+								{
+									"key": "name",
+									"value": "",
+									"description": "The filter for the country name"
+								},
+								{
+									"key": "currency",
+									"value": "",
+									"description": "The filter for the country currency"
+								},
+								{
+									"key": "language",
+									"value": "",
+									"description": "The filter for the country language"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "OK",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/countries?name=&currency=&language=",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"countries"
+									],
+									"query": [
+										{
+											"key": "name",
+											"value": "",
+											"description": "The filter for the country name"
+										},
+										{
+											"key": "currency",
+											"value": "",
+											"description": "The filter for the country currency"
+										},
+										{
+											"key": "language",
+											"value": "",
+											"description": "The filter for the country language"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"example\": [\n    {\n      \"id\": 1,\n      \"name\": \"Mexico\",\n      \"language_id\": 1,\n      \"currency_id\": 1,\n      \"languages\": {\n        \"name\": \"Spanish\"\n      },\n      \"currencies\": {\n        \"name\": \"MXN_Pesos\"\n      }\n    },\n    {\n      \"id\": 2,\n      \"name\": \"Costa Rica\",\n      \"language_id\": 1,\n      \"currency_id\": 2,\n      \"languages\": {\n        \"name\": \"Spanish\"\n      },\n      \"currencies\": {\n        \"name\": \"CR_Colon\\\"\"\n      }\n    }\n  ]\n}"
+						},
+						{
+							"name": "Not Found",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/countries?name=&currency=&language=",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"countries"
+									],
+									"query": [
+										{
+											"key": "name",
+											"value": "",
+											"description": "The filter for the country name"
+										},
+										{
+											"key": "currency",
+											"value": "",
+											"description": "The filter for the country currency"
+										},
+										{
+											"key": "language",
+											"value": "",
+											"description": "The filter for the country language"
+										}
+									]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": "text",
+							"header": [],
+							"cookie": [],
+							"body": ""
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "entryRequirements",
+			"item": [
+				{
+					"name": "{entryRequirementsId}",
+					"item": [
+						{
+							"name": "Retrieve all entry requirements with associated border fees, countries, and visa types.",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/entryRequirements/:entryRequirementsId",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"entryRequirements",
+										":entryRequirementsId"
+									],
+									"variable": [
+										{
+											"key": "entryRequirementsId",
+											"value": "",
+											"description": "The filter for Id of the entry requirements"
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Successful response with an array of entry requirements.",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/entryRequirements/:entryRequirementsId",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"entryRequirements",
+												":entryRequirementsId"
+											],
+											"variable": [
+												{
+													"key": "entryRequirementsId"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "null"
+								},
+								{
+									"name": "Not Found. No entry requirements found.",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/entryRequirements/:entryRequirementsId",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"entryRequirements",
+												":entryRequirementsId"
+											],
+											"variable": [
+												{
+													"key": "entryRequirementsId"
+												}
+											]
+										}
+									},
+									"status": "Not Found",
+									"code": 404,
+									"_postman_previewlanguage": "text",
+									"header": [],
+									"cookie": [],
+									"body": ""
+								},
+								{
+									"name": "Internal Server Error.",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/entryRequirements/:entryRequirementsId",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"entryRequirements",
+												":entryRequirementsId"
+											],
+											"variable": [
+												{
+													"key": "entryRequirementsId"
+												}
+											]
+										}
+									},
+									"status": "Internal Server Error",
+									"code": 500,
+									"_postman_previewlanguage": "text",
+									"header": [],
+									"cookie": [],
+									"body": ""
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "Retrieve all entry requirements with associated border fees, countries, and visa types.",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"pm.test(\"Response is an array\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.be.an('array');",
+									"});",
+									"pm.test(\"Array items contain required fields\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    jsonData.forEach(function(item) {",
+									"        pm.expect(item).to.have.property('id');",
+									"        pm.expect(item).to.have.property('cost');",
+									"        pm.expect(item).to.have.property('exceeds_max_days');",
+									"        pm.expect(item).to.have.property('border_fee_id');",
+									"        pm.expect(item).to.have.property('visa_type_id');",
+									"        pm.expect(item).to.have.property('country_id');",
+									"        pm.expect(item.countries).to.have.property('name');",
+									"        pm.expect(item.border_fees).to.have.property('cost');",
+									"        pm.expect(item.visa_types).to.have.property('name');",
+									"    });",
+									"});",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/entryRequirements",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"entryRequirements"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Successful response with an array of entry requirements.",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/entryRequirements",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"entryRequirements"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "null"
+						},
+						{
+							"name": "Not Found. No entry requirements found.",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/entryRequirements",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"entryRequirements"
+									]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": "text",
+							"header": [],
+							"cookie": [],
+							"body": ""
+						},
+						{
+							"name": "Internal Server Error.",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/entryRequirements",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"entryRequirements"
+									]
+								}
+							},
+							"status": "Internal Server Error",
+							"code": 500,
+							"_postman_previewlanguage": "text",
+							"header": [],
+							"cookie": [],
+							"body": ""
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "transportmodes",
+			"item": [
+				{
+					"name": "Retrieve transport modes based on source and destination country IDs.",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function() {",
+									"   pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Response is an array\", function(){",
+									"var jsonData = pm.response.json()",
+									"pm.expect(jsonData).to.be.an('array');",
+									"});",
+									"",
+									"pm.test(\"Array items contain required fields\", function(){",
+									"var jsonData = pm.response.json()",
+									"jsonData.forEach(function(item){",
+									"pm.expect(item).to.have.property('id');",
+									"pm.expect(item).to.have.property('source_country_id')",
+									"pm.expect(item).to.have.property('destination_country_id');",
+									"pm.expect(item).to.have.property('transport_mode_type_id');",
+									"pm.expect(item).to.have.property('avg_cost');",
+									"pm.expect(item).to.have.property('transport_mode_types');",
+									"});",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/transportmodes?sourceCountryId=1&destinationCountryId=2",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"transportmodes"
+							],
+							"query": [
+								{
+									"key": "sourceCountryId",
+									"value": "1",
+									"description": "(Required) The ID of the source country."
+								},
+								{
+									"key": "destinationCountryId",
+									"value": "2",
+									"description": "(Required) The ID of the destination country."
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Successful response with an array of transport modes.",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/transportmodes?sourceCountryId=<integer>&destinationCountryId=<integer>",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"transportmodes"
+									],
+									"query": [
+										{
+											"key": "sourceCountryId",
+											"value": "<integer>",
+											"description": "(Required) The ID of the source country."
+										},
+										{
+											"key": "destinationCountryId",
+											"value": "<integer>",
+											"description": "(Required) The ID of the destination country."
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"example\": [\n    {\n      \"id\": 1,\n      \"source_country_id\": 1,\n      \"destination_country_id\": 2,\n      \"transport_mode_type_id\": 1,\n      \"avg_cost\": 100,\n      \"transport_mode_types\": {\n        \"description\": \"Aeroplane\"\n      }\n    },\n    {\n      \"id\": 1,\n      \"source_country_id\": 1,\n      \"destination_country_id\": 2,\n      \"transport_mode_type_id\": 1,\n      \"avg_cost\": 10,\n      \"transport_mode_types\": {\n        \"description\": \"Bus\"\n      }\n    }\n  ]\n}"
+						},
+						{
+							"name": "Bad Request. Both sourceCountryId and destinationCountryId are required.",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/transportmodes?sourceCountryId=<integer>&destinationCountryId=<integer>",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"transportmodes"
+									],
+									"query": [
+										{
+											"key": "sourceCountryId",
+											"value": "<integer>",
+											"description": "(Required) The ID of the source country."
+										},
+										{
+											"key": "destinationCountryId",
+											"value": "<integer>",
+											"description": "(Required) The ID of the destination country."
+										}
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "text",
+							"header": [],
+							"cookie": [],
+							"body": ""
+						},
+						{
+							"name": "No transport modes found for the specified countries.",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/transportmodes?sourceCountryId=<integer>&destinationCountryId=<integer>",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"transportmodes"
+									],
+									"query": [
+										{
+											"key": "sourceCountryId",
+											"value": "<integer>",
+											"description": "(Required) The ID of the source country."
+										},
+										{
+											"key": "destinationCountryId",
+											"value": "<integer>",
+											"description": "(Required) The ID of the destination country."
+										}
+									]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": "text",
+							"header": [],
+							"cookie": [],
+							"body": ""
+						},
+						{
+							"name": "Internal Server Error.",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/transportmodes?sourceCountryId=<integer>&destinationCountryId=<integer>",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"transportmodes"
+									],
+									"query": [
+										{
+											"key": "sourceCountryId",
+											"value": "<integer>",
+											"description": "(Required) The ID of the source country."
+										},
+										{
+											"key": "destinationCountryId",
+											"value": "<integer>",
+											"description": "(Required) The ID of the destination country."
+										}
+									]
+								}
+							},
+							"status": "Internal Server Error",
+							"code": 500,
+							"_postman_previewlanguage": "text",
+							"header": [],
+							"cookie": [],
+							"body": ""
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "tripCountries",
+			"item": [
+				{
+					"name": "{tripCountriesId}",
+					"item": [
+						{
+							"name": "Retrieve a trip-country association by ID",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function() {",
+											" pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Json Response is an Object\", function() {",
+											" var jsonData = pm.response.json()",
+											"pm.expect(jsonData).to.be.an('object');",
+											"});",
+											"",
+											"pm.test(\"Object response contains required fields\", function(){",
+											"    var jsonData = pm.response.json()",
+											"     pm.expect(jsonData).to.have.property('id');",
+											"     pm.expect(jsonData).to.have.property('trip_id');",
+											"     pm.expect(jsonData).to.have.property('country_id');",
+											"    });",
+											"    ",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/tripCountries/1",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"tripCountries",
+										"1"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Successfully retrieved trip-country association",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/tripCountries/:tripCountriesId",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"tripCountries",
+												":tripCountriesId"
+											],
+											"variable": [
+												{
+													"key": "tripCountriesId"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "text",
+									"header": [],
+									"cookie": [],
+									"body": ""
+								},
+								{
+									"name": "Trip-country association not found",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/tripCountries/:tripCountriesId",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"tripCountries",
+												":tripCountriesId"
+											],
+											"variable": [
+												{
+													"key": "tripCountriesId"
+												}
+											]
+										}
+									},
+									"status": "Not Found",
+									"code": 404,
+									"_postman_previewlanguage": "text",
+									"header": [],
+									"cookie": [],
+									"body": ""
+								},
+								{
+									"name": "Internal server error",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/tripCountries/:tripCountriesId",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"tripCountries",
+												":tripCountriesId"
+											],
+											"variable": [
+												{
+													"key": "tripCountriesId"
+												}
+											]
+										}
+									},
+									"status": "Internal Server Error",
+									"code": 500,
+									"_postman_previewlanguage": "text",
+									"header": [],
+									"cookie": [],
+									"body": ""
+								}
+							]
+						},
+						{
+							"name": "Update a trip-country association",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status Code is 200\", function() {",
+											" pm.response.to.have.status(200);",
+											"});",
+											"",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"tripId\": 1,\n  \"countryId\": 1\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/tripCountries/1",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"tripCountries",
+										"1"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Successfully updated trip-country association",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"trip_id\": \"<integer>\",\n  \"country_id\": \"<integer>\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/tripCountries/:tripCountriesId",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"tripCountries",
+												":tripCountriesId"
+											],
+											"variable": [
+												{
+													"key": "tripCountriesId"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "text",
+									"header": [],
+									"cookie": [],
+									"body": ""
+								},
+								{
+									"name": "Bad request, check request body",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"trip_id\": \"<integer>\",\n  \"country_id\": \"<integer>\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/tripCountries/:tripCountriesId",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"tripCountries",
+												":tripCountriesId"
+											],
+											"variable": [
+												{
+													"key": "tripCountriesId"
+												}
+											]
+										}
+									},
+									"status": "Bad Request",
+									"code": 400,
+									"_postman_previewlanguage": "text",
+									"header": [],
+									"cookie": [],
+									"body": ""
+								},
+								{
+									"name": "Trip-country association not found",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"trip_id\": \"<integer>\",\n  \"country_id\": \"<integer>\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/tripCountries/:tripCountriesId",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"tripCountries",
+												":tripCountriesId"
+											],
+											"variable": [
+												{
+													"key": "tripCountriesId"
+												}
+											]
+										}
+									},
+									"status": "Not Found",
+									"code": 404,
+									"_postman_previewlanguage": "text",
+									"header": [],
+									"cookie": [],
+									"body": ""
+								},
+								{
+									"name": "Internal server error",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"trip_id\": \"<integer>\",\n  \"country_id\": \"<integer>\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/tripCountries/:tripCountriesId",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"tripCountries",
+												":tripCountriesId"
+											],
+											"variable": [
+												{
+													"key": "tripCountriesId"
+												}
+											]
+										}
+									},
+									"status": "Internal Server Error",
+									"code": 500,
+									"_postman_previewlanguage": "text",
+									"header": [],
+									"cookie": [],
+									"body": ""
+								}
+							]
+						},
+						{
+							"name": "Delete a trip-country association by ID",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/tripCountries/6",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"tripCountries",
+										"6"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Successfully deleted trip-country association",
+									"originalRequest": {
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/tripCountries/:tripCountriesId",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"tripCountries",
+												":tripCountriesId"
+											],
+											"variable": [
+												{
+													"key": "tripCountriesId"
+												}
+											]
+										}
+									},
+									"status": "No Content",
+									"code": 204,
+									"_postman_previewlanguage": "text",
+									"header": [],
+									"cookie": [],
+									"body": ""
+								},
+								{
+									"name": "Trip-country association not found",
+									"originalRequest": {
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/tripCountries/:tripCountriesId",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"tripCountries",
+												":tripCountriesId"
+											],
+											"variable": [
+												{
+													"key": "tripCountriesId"
+												}
+											]
+										}
+									},
+									"status": "Not Found",
+									"code": 404,
+									"_postman_previewlanguage": "text",
+									"header": [],
+									"cookie": [],
+									"body": ""
+								},
+								{
+									"name": "Internal server error",
+									"originalRequest": {
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/tripCountries/:tripCountriesId",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"tripCountries",
+												":tripCountriesId"
+											],
+											"variable": [
+												{
+													"key": "tripCountriesId"
+												}
+											]
+										}
+									},
+									"status": "Internal Server Error",
+									"code": 500,
+									"_postman_previewlanguage": "text",
+									"header": [],
+									"cookie": [],
+									"body": ""
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "Create a new trip-country association",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status Code is 201\", function() {",
+									" pm.expect.response.to.have.status(201);",
+									"})"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"tripId\": 2,\n  \"countryId\": 3\n}",
+							"options": {
+								"raw": {
+									"headerFamily": "json",
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/tripCountries",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"tripCountries"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Successfully created trip-country association",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"tripId\": \"<integer>\",\n  \"countryId\": \"<integer>\"\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/tripCountries",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"tripCountries"
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "text",
+							"header": [],
+							"cookie": [],
+							"body": ""
+						},
+						{
+							"name": "Bad request, check request body",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"tripId\": \"<integer>\",\n  \"countryId\": \"<integer>\"\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/tripCountries",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"tripCountries"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "text",
+							"header": [],
+							"cookie": [],
+							"body": ""
+						}
+					]
+				},
+				{
+					"name": "Retrieve all trip-country associations",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/tripCountries",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"tripCountries"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Successfully retrieved trip-country associations",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/tripCountries",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"tripCountries"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "text",
+							"header": [],
+							"cookie": [],
+							"body": ""
+						},
+						{
+							"name": "Internal server error",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/tripCountries",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"tripCountries"
+									]
+								}
+							},
+							"status": "Internal Server Error",
+							"code": 500,
+							"_postman_previewlanguage": "text",
+							"header": [],
+							"cookie": [],
+							"body": ""
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "tripLodgings",
+			"item": [
+				{
+					"name": "{tripLodgingId}",
+					"item": [
+						{
+							"name": "Get a single trip lodging by ID",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Get Trip Lodging - Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Get Trip Lodging - Response should be an object\", function () {",
+											"    pm.expect(pm.response.json()).to.be.an('object');",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/tripLodgings/2",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"tripLodgings",
+										"2"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "OK",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/tripLodgings/:tripLodgingId",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"tripLodgings",
+												":tripLodgingId"
+											],
+											"variable": [
+												{
+													"key": "tripLodgingId"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"example\": {\n    \"id\": 1,\n    \"cost\": 100,\n    \"tripId\": 1,\n    \"lodgingTypeId\": 1\n  }\n}"
+								},
+								{
+									"name": "Not Found",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/tripLodgings/:tripLodgingId",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"tripLodgings",
+												":tripLodgingId"
+											],
+											"variable": [
+												{
+													"key": "tripLodgingId"
+												}
+											]
+										}
+									},
+									"status": "Not Found",
+									"code": 404,
+									"_postman_previewlanguage": "text",
+									"header": [],
+									"cookie": [],
+									"body": ""
+								}
+							]
+						},
+						{
+							"name": "Update a single trip lodging",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Update Trip Lodging - Status code is 204\", function () {",
+											"    pm.response.to.have.status(204);",
+											"});",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"tripId\": \"<integer>\",\n  \"lodgingTypeId\": \"<integer>\",\n  \"cost\": \"<integer>\"\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/tripLodgings/3",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"tripLodgings",
+										"3"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "OK",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"tripId\": \"<integer>\",\n  \"lodgingTypeId\": \"<integer>\",\n  \"cost\": \"<integer>\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/tripLodgings/:tripLodgingId",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"tripLodgings",
+												":tripLodgingId"
+											],
+											"variable": [
+												{
+													"key": "tripLodgingId"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"example\": {\n    \"id\": 1,\n    \"cost\": 150,\n    \"tripId\": 2,\n    \"lodgingTypeId\": 3\n  }\n}"
+								},
+								{
+									"name": "No content",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"tripId\": \"<integer>\",\n  \"lodgingTypeId\": \"<integer>\",\n  \"cost\": \"<integer>\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/tripLodgings/:tripLodgingId",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"tripLodgings",
+												":tripLodgingId"
+											],
+											"variable": [
+												{
+													"key": "tripLodgingId"
+												}
+											]
+										}
+									},
+									"status": "No Content",
+									"code": 204,
+									"_postman_previewlanguage": "text",
+									"header": [],
+									"cookie": [],
+									"body": ""
+								}
+							]
+						},
+						{
+							"name": "Delete a trip lodging by ID",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Delete tripLodgings - Status code is 204\", function () {",
+											"    pm.response.to.have.status(204);",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/tripLodgings/5",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"tripLodgings",
+										"5"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "No content",
+									"originalRequest": {
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/tripLodgings/:tripLodgingId",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"tripLodgings",
+												":tripLodgingId"
+											],
+											"variable": [
+												{
+													"key": "tripLodgingId"
+												}
+											]
+										}
+									},
+									"status": "No Content",
+									"code": 204,
+									"_postman_previewlanguage": "text",
+									"header": [],
+									"cookie": [],
+									"body": ""
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "Create a new trip lodging",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Tests for POST /trips",
+									"pm.test(\"POST /tripLodgings - Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});",
+									"",
+									"pm.test(\"POST /tripLodgings - Response should be an object\", function () {",
+									"    pm.expect(pm.response.json()).to.be.an('object');",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"tripId\": 3,\n  \"lodgingTypeId\":2,\n  \"cost\": 50\n}",
+							"options": {
+								"raw": {
+									"headerFamily": "json",
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/tripLodgings",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"tripLodgings"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Created",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"tripId\": \"<integer>\",\n  \"lodgingTypeId\": \"<integer>\",\n  \"cost\": \"<integer>\"\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/tripLodgings",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"tripLodgings"
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"example\": {\n    \"id\": 1,\n    \"cost\": 100,\n    \"tripId\": 1,\n    \"lodgingTypeId\": 1\n  }\n}"
+						},
+						{
+							"name": "Bad Request",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"tripId\": \"<integer>\",\n  \"lodgingTypeId\": \"<integer>\",\n  \"cost\": \"<integer>\"\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/tripLodgings",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"tripLodgings"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "text",
+							"header": [],
+							"cookie": [],
+							"body": ""
+						}
+					]
+				},
+				{
+					"name": "Get all trip lodgings",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Tests for GET /tripLodgings",
+									"pm.test(\"GET /tripLodgings - Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"GET /tripLodgings - Response should be an array\", function () {",
+									"    pm.expect(pm.response.json()).to.be.an('array');",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/tripLodgings",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"tripLodgings"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "OK",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/tripLodgings",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"tripLodgings"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"example\": [\n    {\n      \"id\": 1,\n      \"cost\": 100,\n      \"tripId\": 1,\n      \"lodgingTypeId\": 1\n    },\n    {\n      \"id\": 2,\n      \"cost\": 150,\n      \"tripId\": 1,\n      \"lodgingTypeId\": 2\n    }\n  ]\n}"
+						},
+						{
+							"name": "No content",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/tripLodgings",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"tripLodgings"
+									]
+								}
+							},
+							"status": "No Content",
+							"code": 204,
+							"_postman_previewlanguage": "text",
+							"header": [],
+							"cookie": [],
+							"body": ""
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "trips",
+			"item": [
+				{
+					"name": "{tripId}",
+					"item": [
+						{
+							"name": "Returns Details for the Trip",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"// Tests for GET /trips/:tripId",
+											"pm.test(\"GET /trips/:tripId - Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"GET /trips/:tripId - Response should be an object\", function () {",
+											"    pm.expect(pm.response.json()).to.be.an('object');",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/trips/{{tripId}}",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"trips",
+										"{{tripId}}"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "OK",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/trips/:tripId",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"trips",
+												":tripId"
+											],
+											"variable": [
+												{
+													"key": "tripId"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"examples\": {\n    \"jsonObject\": {\n      \"summary\": \"An example JSON response\",\n      \"value\": {\n        \"id\": 1,\n        \"name\": \"testTrip\",\n        \"description\": \"test\",\n        \"start_date\": \"2023-03-10\",\n        \"end_date\": \"2023-04-10\",\n        \"users_id\": 1\n      }\n    }\n  }\n}"
+								},
+								{
+									"name": "Not Found",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/trips/:tripId",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"trips",
+												":tripId"
+											],
+											"variable": [
+												{
+													"key": "tripId"
+												}
+											]
+										}
+									},
+									"status": "Not Found",
+									"code": 404,
+									"_postman_previewlanguage": "text",
+									"header": [],
+									"cookie": [],
+									"body": ""
+								}
+							]
+						},
+						{
+							"name": "Update Details for the Trip",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"// Tests for PUT /trips/:tripId",
+											"pm.test(\"PUT /trips/:tripId - Status code is 204\", function () {",
+											"    pm.response.to.have.status(204);",
+											"});",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"name\": \"<string>\",\n  \"startDate\": \"2023-08-08\",\n  \"endDate\": \"2023-11-11\",\n  \"countries\": \"<string>\",\n  \"userId\": 2\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/trips/{{tripId}}",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"trips",
+										"{{tripId}}"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "OK",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"name\": \"<string>\",\n  \"userId\": \"<integer>\",\n  \"startDate\": \"<string>\",\n  \"endDate\": \"<string>\",\n  \"countries\": \"<string>\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/trips/:tripId",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"trips",
+												":tripId"
+											],
+											"variable": [
+												{
+													"key": "tripId"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"examples\": {\n    \"jsonObject\": {\n      \"summary\": \"An example JSON response\",\n      \"value\": [\n        {\n          \"tripId\": 123,\n          \"userId\": 1,\n          \"startDate\": \"2023-01-01\",\n          \"endDate\": \"2023-03-10\",\n          \"countries\": [\n            {\n              \"countryId\": 24,\n              \"country\": \"Colombia\"\n            },\n            {\n              \"countryId\": 28,\n              \"country\": \"Brazil\"\n            }\n          ]\n        }\n      ]\n    }\n  }\n}"
+								},
+								{
+									"name": "No content",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"name\": \"<string>\",\n  \"userId\": \"<integer>\",\n  \"startDate\": \"<string>\",\n  \"endDate\": \"<string>\",\n  \"countries\": \"<string>\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/trips/:tripId",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"trips",
+												":tripId"
+											],
+											"variable": [
+												{
+													"key": "tripId"
+												}
+											]
+										}
+									},
+									"status": "No Content",
+									"code": 204,
+									"_postman_previewlanguage": "text",
+									"header": [],
+									"cookie": [],
+									"body": ""
+								},
+								{
+									"name": "Bad Request",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"name\": \"<string>\",\n  \"userId\": \"<integer>\",\n  \"startDate\": \"<string>\",\n  \"endDate\": \"<string>\",\n  \"countries\": \"<string>\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/trips/:tripId",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"trips",
+												":tripId"
+											],
+											"variable": [
+												{
+													"key": "tripId"
+												}
+											]
+										}
+									},
+									"status": "Bad Request",
+									"code": 400,
+									"_postman_previewlanguage": "text",
+									"header": [],
+									"cookie": [],
+									"body": ""
+								}
+							]
+						},
+						{
+							"name": "Deletes a trip by trip ID",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"// Tests for DELETE /trips/:tripId",
+											"pm.test(\"DELETE /trips/:tripId - Status code is 400\", function () {",
+											"    pm.response.to.have.status(400);",
+											"});",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/trips/{{tripId}}",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"trips",
+										"{{tripId}}"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "No content",
+									"originalRequest": {
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/trips/:tripId",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"trips",
+												":tripId"
+											],
+											"variable": [
+												{
+													"key": "tripId"
+												}
+											]
+										}
+									},
+									"status": "No Content",
+									"code": 204,
+									"_postman_previewlanguage": "text",
+									"header": [],
+									"cookie": [],
+									"body": ""
+								}
+							]
+						}
+					],
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.collectionVariables.set(\"tripId\", \"1\");"
+								]
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "Creates a new trip",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Tests for POST /trips",
+									"pm.test(\"POST /trips - Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});",
+									"",
+									"pm.test(\"POST /trips - Response should be an object\", function () {",
+									"    pm.expect(pm.response.json()).to.be.an('object');",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"<string>\",\n  \"description\": \"<string>\",\n  \"start_date\": \"2023-06-06\",\n  \"end_date\": \"2023-09-06\",\n  \"user_id\": 1\n}",
+							"options": {
+								"raw": {
+									"headerFamily": "json",
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/trips",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"trips"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Created",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"name\": \"<string>\",\n  \"description\": \"<string>\",\n  \"start_date\": \"<string>\",\n  \"end_date\": \"<string>\",\n  \"user_id\": \"<integer>\"\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/trips",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"trips"
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"examples\": {\n    \"jsonObject\": {\n      \"summary\": \"An example JSON response\",\n      \"value\": {\n        \"id\": 1,\n        \"name\": \"testTrip\",\n        \"description\": \"test\",\n        \"start_date\": \"2023-03-10\",\n        \"end_date\": \"2023-04-10\",\n        \"user_id\": 1\n      }\n    }\n  }\n}"
+						},
+						{
+							"name": "Bad Request",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"name\": \"<string>\",\n  \"description\": \"<string>\",\n  \"start_date\": \"<string>\",\n  \"end_date\": \"<string>\",\n  \"user_id\": \"<integer>\"\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/trips",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"trips"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "text",
+							"header": [],
+							"cookie": [],
+							"body": ""
+						}
+					]
+				},
+				{
+					"name": "Returns Details for the All Trips for the User",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Tests for GET /trips",
+									"pm.test(\"GET /trips - Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"GET /trips - Response should be an array\", function () {",
+									"    pm.expect(pm.response.json()).to.be.an('array');",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/trips?userId=1",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"trips"
+							],
+							"query": [
+								{
+									"key": "userId",
+									"value": "1",
+									"description": "The filter for userId"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "OK",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/trips?userId=",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"trips"
+									],
+									"query": [
+										{
+											"key": "userId",
+											"value": "",
+											"description": "The filter for userId"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"examples\": {\n    \"jsonObject\": {\n      \"summary\": \"An example JSON response\",\n      \"value\": [\n        {\n          \"trip_id\": 1,\n          \"name\": \"testTrip\",\n          \"start_date\": \"2024-03-10\",\n          \"end_date\": \"2023-04-10\",\n          \"countries\": [\n            \"Mexico\",\n            \"Costa Rica\",\n            \"Guatemala\"\n          ],\n          \"transports\": [\n            \"Bus\",\n            \"Train\",\n            \"Boat\"\n          ],\n          \"lodgings\": [\n            \"Hotel\",\n            \"Airbnb\"\n          ],\n          \"user\": {\n            \"id\": 1,\n            \"email\": \"ussr@test.com\",\n            \"first_name\": \"testforename\",\n            \"second_name\": \"testsurname\"\n          }\n        },\n        {\n          \"trip_id\": 2,\n          \"name\": \"testTrip2\",\n          \"start_date\": \"2024-03-10\",\n          \"end_date\": \"2023-04-10\",\n          \"countries\": [\n            \"Colombia\",\n            \"Peru\",\n            \"Brazil\"\n          ],\n          \"transports\": [\n            \"Train\",\n            \"Bus\"\n          ],\n          \"lodgings\": [\n            \"Airbnb\",\n            \"Hostel\"\n          ],\n          \"user\": {\n            \"id\": 1,\n            \"email\": \"user@test.com\",\n            \"first_name\": \"testforename\",\n            \"second_name\": \"testsurname\"\n          }\n        }\n      ]\n    }\n  }\n}"
+						},
+						{
+							"name": "Not Found",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/trips?userId=",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"trips"
+									],
+									"query": [
+										{
+											"key": "userId",
+											"value": "",
+											"description": "The filter for userId"
+										}
+									]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": "text",
+							"header": [],
+							"cookie": [],
+							"body": ""
+						}
+					]
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"pm.collectionVariables.set(\"tripId\", \"1\");"
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"",
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "tripTransports",
+			"item": [
+				{
+					"name": "{tripTransportId}",
+					"item": [
+						{
+							"name": "Get a single trip transport by ID",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Get Trip Transport - Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Get Trip Transport - Response should be an object\", function () {",
+											"    pm.expect(pm.response.json()).to.be.an('object');",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/tripTransports/1",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"tripTransports",
+										"1"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "OK",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/tripTransports/:tripTransportId",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"tripTransports",
+												":tripTransportId"
+											],
+											"variable": [
+												{
+													"key": "tripTransportId"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"example\": {\n    \"id\": 1,\n    \"cost\": 100,\n    \"tripId\": 1,\n    \"transportModeTypeId\": 1\n  }\n}"
+								},
+								{
+									"name": "Not Found",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/tripTransports/:tripTransportId",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"tripTransports",
+												":tripTransportId"
+											],
+											"variable": [
+												{
+													"key": "tripTransportId"
+												}
+											]
+										}
+									},
+									"status": "Not Found",
+									"code": 404,
+									"_postman_previewlanguage": "text",
+									"header": [],
+									"cookie": [],
+									"body": ""
+								}
+							]
+						},
+						{
+							"name": "Update a single trip transport",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Update Trip Transport - Status code is 204\", function () {",
+											"    pm.response.to.have.status(204);",
+											"});",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"tripId\": \"<integer>\",\n  \"transportModeTypeId\": \"<integer>\",\n  \"cost\": \"<integer>\"\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/tripTransports/1",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"tripTransports",
+										"1"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "OK",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"tripId\": \"<integer>\",\n  \"transportModeTypeId\": \"<integer>\",\n  \"cost\": \"<integer>\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/tripTransports/:tripTransportId",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"tripTransports",
+												":tripTransportId"
+											],
+											"variable": [
+												{
+													"key": "tripTransportId"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"example\": [\n    {\n      \"id\": 1,\n      \"cost\": 150,\n      \"tripId\": 2,\n      \"transportModeTypeId\": 3\n    }\n  ]\n}"
+								},
+								{
+									"name": "No content",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"tripId\": \"<integer>\",\n  \"transportModeTypeId\": \"<integer>\",\n  \"cost\": \"<integer>\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/tripTransports/:tripTransportId",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"tripTransports",
+												":tripTransportId"
+											],
+											"variable": [
+												{
+													"key": "tripTransportId"
+												}
+											]
+										}
+									},
+									"status": "No Content",
+									"code": 204,
+									"_postman_previewlanguage": "text",
+									"header": [],
+									"cookie": [],
+									"body": ""
+								}
+							]
+						},
+						{
+							"name": "Delete a trip transport by ID",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Delete tripTransports - Status code is 204\", function () {",
+											"    pm.response.to.have.status(204);",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/tripTransports/:tripTransportId",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"tripTransports",
+										":tripTransportId"
+									],
+									"variable": [
+										{
+											"key": "tripTransportId"
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "No content",
+									"originalRequest": {
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/tripTransports/:tripTransportId",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"tripTransports",
+												":tripTransportId"
+											],
+											"variable": [
+												{
+													"key": "tripTransportId"
+												}
+											]
+										}
+									},
+									"status": "No Content",
+									"code": 204,
+									"_postman_previewlanguage": "text",
+									"header": [],
+									"cookie": [],
+									"body": ""
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "Create a new trip transport",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Get Trip Transport - Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Get Trip Transport - Response should be an object\", function () {",
+									"    pm.expect(pm.response.json()).to.be.an('object');",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"tripId\": \"<integer>\",\n  \"transportModeTypeId\": \"<integer>\",\n  \"cost\": \"<integer>\"\n}",
+							"options": {
+								"raw": {
+									"headerFamily": "json",
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/tripTransports",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"tripTransports"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Created",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"tripId\": \"<integer>\",\n  \"transportModeTypeId\": \"<integer>\",\n  \"cost\": \"<integer>\"\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/tripTransports",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"tripTransports"
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"example\": {\n    \"id\": 1,\n    \"cost\": 100,\n    \"tripId\": 1,\n    \"transportModeTypeId\": 1\n  }\n}"
+						},
+						{
+							"name": "Bad Request",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"tripId\": \"<integer>\",\n  \"transportModeTypeId\": \"<integer>\",\n  \"cost\": \"<integer>\"\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/tripTransports",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"tripTransports"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "text",
+							"header": [],
+							"cookie": [],
+							"body": ""
+						}
+					]
+				},
+				{
+					"name": "Get all trip transports",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Tests for GET /tripTransports",
+									"pm.test(\"GET /tripTransports - Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"GET /tripTransports - Response should be an array\", function () {",
+									"    pm.expect(pm.response.json()).to.be.an('array');",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/tripTransports",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"tripTransports"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "OK",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/tripTransports",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"tripTransports"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"example\": [\n    {\n      \"id\": 1,\n      \"cost\": 100,\n      \"tripId\": 1,\n      \"transportModeTypeId\": 1\n    },\n    {\n      \"id\": 2,\n      \"cost\": 150,\n      \"tripId\": 1,\n      \"transportModeTypeId\": 2\n    }\n  ]\n}"
+						},
+						{
+							"name": "No content",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/tripTransports",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"tripTransports"
+									]
+								}
+							},
+							"status": "No Content",
+							"code": 204,
+							"_postman_previewlanguage": "text",
+							"header": [],
+							"cookie": [],
+							"body": ""
+						}
+					]
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							"pm.collectionVariables.set(\"tripTansId\", \"2\");"
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "users",
+			"item": [
+				{
+					"name": "{userId}",
+					"item": [
+						{
+							"name": "Returns a user by user ID",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Get Single User - Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Get Single User - Response should be an object\", function () {",
+											"    pm.expect(pm.response.json()).to.be.an('object');",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/users/{{userId}}",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"users",
+										"{{userId}}"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "OK",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/users/:userId",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"users",
+												":userId"
+											],
+											"variable": [
+												{
+													"key": "userId"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"example\": [\n    {\n      \"id\": 1,\n      \"email\": \"testemail@test.com\",\n      \"forename\": \"Testforename\",\n      \"surname\": \"testsurname\",\n      \"password\": \"pa$$word\",\n      \"nationality\": \"Irish\"\n    }\n  ]\n}"
+								},
+								{
+									"name": "Not Found",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/users/:userId",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"users",
+												":userId"
+											],
+											"variable": [
+												{
+													"key": "userId"
+												}
+											]
+										}
+									},
+									"status": "Not Found",
+									"code": 404,
+									"_postman_previewlanguage": "text",
+									"header": [],
+									"cookie": [],
+									"body": ""
+								}
+							]
+						},
+						{
+							"name": "Updates a user by user ID",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"",
+											"pm.test(\"Update User - Status code is 204\", function () {",
+											"    pm.response.to.have.status(204);",
+											"});",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"email\": \"6pdr0z5Yxi@9.nrysRwwzDAnP\",\n  \"forename\": \"<string>\",\n  \"surname\": \"<string>\",\n  \"password\": \"GGGGGGGG12(\",\n  \"nationalityId\": \"<integer>\"\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/users/{{userId}}",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"users",
+										"{{userId}}"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "OK",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"email\": \"6pdr0z5Yxi@9.nrysRwwzDAnP\",\n  \"forename\": \"<string>\",\n  \"surname\": \"<string>\",\n  \"password\": \"GGGGGGGG\",\n  \"nationalityId\": \"<integer>\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/users/:userId",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"users",
+												":userId"
+											],
+											"variable": [
+												{
+													"key": "userId"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"example\": [\n    {\n      \"id\": 1,\n      \"email\": \"testemail@test.com\",\n      \"forename\": \"Testforename\",\n      \"surname\": \"testsurname\",\n      \"password\": \"pa$$word\",\n      \"nationality\": \"Irish\"\n    }\n  ]\n}"
+								},
+								{
+									"name": "No content",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"email\": \"6pdr0z5Yxi@9.nrysRwwzDAnP\",\n  \"forename\": \"<string>\",\n  \"surname\": \"<string>\",\n  \"password\": \"GGGGGGGG\",\n  \"nationalityId\": \"<integer>\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/users/:userId",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"users",
+												":userId"
+											],
+											"variable": [
+												{
+													"key": "userId"
+												}
+											]
+										}
+									},
+									"status": "No Content",
+									"code": 204,
+									"_postman_previewlanguage": "text",
+									"header": [],
+									"cookie": [],
+									"body": ""
+								}
+							]
+						},
+						{
+							"name": "Updates a user by user ID",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Delete User - Status code is 204\", function () {",
+											"    pm.response.to.have.status(204);",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/users/{{userId}}",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"users",
+										"{{userId}}"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "No content",
+									"originalRequest": {
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/users/:userId",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"users",
+												":userId"
+											],
+											"variable": [
+												{
+													"key": "userId"
+												}
+											]
+										}
+									},
+									"status": "No Content",
+									"code": 204,
+									"_postman_previewlanguage": "text",
+									"header": [],
+									"cookie": [],
+									"body": ""
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "Creates a new user",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Create User - Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});",
+									"",
+									"pm.test(\"Create User - Response should be an object\", function () {",
+									"    pm.expect(pm.response.json()).to.be.an('object');",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"email\": \"6i@y6CH7qV.cCE\",\n  \"forename\": \"<string>\",\n  \"surname\": \"<string>\",\n  \"password\": \"M7!ONM7!ON\",\n  \"nationalityId\": \"<integer>\"\n}",
+							"options": {
+								"raw": {
+									"headerFamily": "json",
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/users",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Created",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"email\": \"6i@y6CH7qV.cCE\",\n  \"forename\": \"<string>\",\n  \"surname\": \"<string>\",\n  \"password\": \"M7!ONM7!ON\",\n  \"nationalityId\": \"<integer>\"\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/users",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"users"
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"example\": {\n    \"id\": 1,\n    \"email\": \"testemail@test.com\",\n    \"forename\": \"Testforename\",\n    \"surname\": \"testsurname\",\n    \"password\": \"pa$$word\",\n    \"nationality\": \"Irish\"\n  }\n}"
+						},
+						{
+							"name": "Bad Request",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"email\": \"6i@y6CH7qV.cCE\",\n  \"forename\": \"<string>\",\n  \"surname\": \"<string>\",\n  \"password\": \"M7!ONM7!ON\",\n  \"nationalityId\": \"<integer>\"\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/users",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"users"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "text",
+							"header": [],
+							"cookie": [],
+							"body": ""
+						}
+					]
+				},
+				{
+					"name": "Returns an array of users with the user ID, email, name, password & nationality",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Get All Users - Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Get All Users - Response should be an array\", function () {",
+									"    pm.expect(pm.response.json()).to.be.an('array');",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/users?email=&forename=&surname=",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"users"
+							],
+							"query": [
+								{
+									"key": "email",
+									"value": "",
+									"description": "The filter for user email"
+								},
+								{
+									"key": "forename",
+									"value": "",
+									"description": "The filter for user forename"
+								},
+								{
+									"key": "surname",
+									"value": "",
+									"description": "The filter for user surname"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "OK",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/users?email=&forename=&surname=",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"users"
+									],
+									"query": [
+										{
+											"key": "email",
+											"value": "",
+											"description": "The filter for user email"
+										},
+										{
+											"key": "forename",
+											"value": "",
+											"description": "The filter for user forename"
+										},
+										{
+											"key": "surname",
+											"value": "",
+											"description": "The filter for user surname"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"example\": [\n    {\n      \"id\": 1,\n      \"email\": \"testemail@test.com\",\n      \"forename\": \"Testforename\",\n      \"surname\": \"testsurname\",\n      \"password\": \"pa$$word\",\n      \"nationality\": \"Irish\"\n    },\n    {\n      \"email\": \"test@test.com\",\n      \"forename\": \"test2fore\",\n      \"surname\": \"testSur\",\n      \"password\": \"passw0rd\",\n      \"nationality\": \"Irish\"\n    }\n  ]\n}"
+						},
+						{
+							"name": "No content",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/users?email=&forename=&surname=",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"users"
+									],
+									"query": [
+										{
+											"key": "email",
+											"value": "",
+											"description": "The filter for user email"
+										},
+										{
+											"key": "forename",
+											"value": "",
+											"description": "The filter for user forename"
+										},
+										{
+											"key": "surname",
+											"value": "",
+											"description": "The filter for user surname"
+										}
+									]
+								}
+							},
+							"status": "No Content",
+							"code": 204,
+							"_postman_previewlanguage": "text",
+							"header": [],
+							"cookie": [],
+							"body": ""
+						}
+					]
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"pm.variables.set(\"userId\", \"5\");"
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"",
+							"",
+							""
+						]
+					}
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://localhost:3000"
+		},
+		{
+			"key": "userId",
+			"value": ""
+		},
+		{
+			"key": "tripId",
+			"value": ""
+		},
+		{
+			"key": "2",
+			"value": "tripTrans"
+		},
+		{
+			"key": "tripTansId",
+			"value": ""
+		}
+	]
+}

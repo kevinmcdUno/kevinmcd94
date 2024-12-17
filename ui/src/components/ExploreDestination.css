@@ -1,0 +1,47 @@
+/* src/components/ExploreDestinations.css */
+
+.explore-destinations {
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    max-width: 1000px;
+    margin: 20px auto;
+  }
+  
+  .explore-destinations h1 {
+    font-size: 2em;
+    margin-bottom: 20px;
+  }
+  
+  .explore-destinations ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .explore-destinations li {
+    background-color: #fff;
+    margin-bottom: 20px;
+    padding: 20px;
+    border-radius: 4px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  }
+  
+  .explore-destinations h2 {
+    font-size: 1.5em;
+    margin-bottom: 10px;
+  }
+  
+  .explore-destinations p {
+    font-size: 1.2em;
+  }
+  
+  .explore-destinations ul ul {
+    margin-top: 10px;
+  }
+  
+  .explore-destinations ul ul li {
+    margin-bottom: 10px;
+    padding: 10px;
+  }
+  

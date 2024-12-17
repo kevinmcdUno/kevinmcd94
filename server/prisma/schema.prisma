@@ -124,7 +124,7 @@ model trips {
 
 model users {
   id             Int            @id(map: "users_pk") @default(autoincrement())
-  email          String
+  email          String         @unique
   first_name     String
   second_name    String
   password       String

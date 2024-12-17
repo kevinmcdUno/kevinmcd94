@@ -1,4 +1,5 @@
 const express = require('express');
+const cors = require('cors');
 const swaggerJsdoc = require('swagger-jsdoc');
 const swaggerUI = require('swagger-ui-express');
 
@@ -11,13 +12,21 @@ const tripCountriesRouter = require('./routers/tripCountries');
 const tripTransportsRouter = require('./routers/tripTransports');
 const tripLodgingsRouter = require('./routers/tripLodgings'); 
 const transportModesRouter = require('./routers/transportModes');
-
+const transportModeTypesRouter = require('./routers/transportModeTypes');
+const lodgingTypesRouter = require('./routers/lodgingTypes');
+const authRouter = require("./routers/auth");
 
 
 
 
 const app = express()
 
+// Use CORS middleware
+app.use(cors({
+  origin: 'http://localhost:3001', // Allow requests from your frontend
+  methods: 'GET,POST,PUT,DELETE', // Allowed methods
+  credentials: true // Include this if your frontend needs to send cookies or auth headers
+}));
 
 
 const swaggerDefinition = {
@@ -52,6 +61,9 @@ app.use("/tripCountries", tripCountriesRouter);
 app.use("/tripTransports", tripTransportsRouter);
 app.use("/tripLodgings", tripLodgingsRouter);
 app.use('/transportmodes', transportModesRouter);
+app.use('/transportModeTypes', transportModeTypesRouter);
+app.use('/lodgingTypes', lodgingTypesRouter);
+app.use("/auth", authRouter);
 
 
 

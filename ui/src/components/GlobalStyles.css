@@ -1,0 +1,188 @@
+/* GlobalStyles.css */
+
+/* Center align the form and buttons */
+.landing-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.text-box input {
+  width: calc(75% - 20px);
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+}
+
+/* Container */
+.container {
+    max-width: 600px;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Header */
+  h1, h2 {
+    font-family: 'Arial', sans-serif;
+    text-align: center;
+    margin-bottom: 20px;
+    color: #333;
+  }
+  
+/* Container Alignment */
+.text-box, .register-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Center-aligns the inputs */
+}
+/* Input Fields */
+.text-box input, 
+.register-form input, 
+.register-form select {
+  width: calc(75% - 20px);
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+}
+
+/* Label and Input Wrapper */
+.register-form label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+/* Align Labels and Inputs */
+.register-form label, 
+.register-form input, 
+.register-form select {
+  width: 75%;
+  box-sizing: border-box; /* Ensures consistent sizing with padding */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+/* Label styling */
+.register-form label span {
+  min-width: 150px; /* Set a minimum width for the label area */
+  margin-right: 10px; /* Space between label and input */
+  text-align: right; /* Align text to the right */
+}
+
+/* Container for buttons */
+.button-container {
+  width: calc(75% - 20px); /* Match the width of input fields */
+  margin-top: 10px;
+  text-align: center; /* Center the buttons horizontally */
+  display: flex;
+  gap: 10px;
+  justify-content: center; /* Ensures the buttons stay centered */
+}
+
+/* Buttons */
+.button-container button {
+  flex: 1; /* Make both buttons take up equal space */
+  max-width: 200px; /* Limit button width to prevent them from becoming too wide */
+  padding: 10px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.button-container button:hover {
+  background-color: #0056b3;
+}
+
+.success-message {
+  color: green;
+  background-color: #e0ffe0; 
+  border: 1px solid green;
+  padding: 10px;
+  border-radius: 4px;
+  margin-top: 10px;
+}
+
+
+  form {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  label {
+    font-size: 16px;
+    margin-bottom: 5px;
+  }
+  
+
+  .dashboard {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+
+  section {
+    margin-bottom: 40px;
+  }
+  
+  section h2 {
+    font-size: 24px;
+    margin-bottom: 20px;
+    border-bottom: 2px solid #ccc;
+    padding-bottom: 10px;
+  }
+  
+  .user-profile p {
+    margin: 5px 0;
+  }
+  
+  .upcoming-trips ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .upcoming-trips li {
+    background-color: #f9f9f9;
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+  }
+  
+  .planning-form label {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 15px;
+  }
+  
+  .planning-form textarea {
+    resize: vertical;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  .planning-form button {
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .planning-form button:hover {
+    background-color: #0056b3;
+  }

@@ -18,36 +18,42 @@ const getSingle = async (req, res) => {
    const user = await prisma.users.findUnique({
       where: { 
         id: parseInt(userId)
+      }, 
+    include: {
+    nationalities: {
+      select: {
+        name: true,
       }
-    },  
-    );
+    }
+  }
+},  
+);
   if (user) {
     return res.status(200).json(user);
   }
   return res.sendStatus(204);
 }
-/*
-"email": "string",
-"forename": "string",
-"surname": "string",
-"password": "string",
-"nationality": "string" */
+
 
 const createUser = async(req, res) => {
-const { email, forename, surname, password, nationalityId } = req.body
- const newUser = await prisma.users.create({
+  const { email, forename, surname, password, nationalityId } = req.body;
+
+  // Validate and convert nationalityId
+  const parsedNationalityId = parseInt(nationalityId, 10);
+  if (isNaN(parsedNationalityId)) {
+    return res.status(400).json({ error: "Invalid nationalityId" });
+  }
+  
+  const newUser = await prisma.users.create({
     data: { 
       email: email,
       first_name: forename,
       second_name: surname,
-      nationality_id: parseInt(nationalityId),
-      password: password
-
+      password: password,
+      nationality_id: parsedNationalityId,
     } 
-
   });
-
-
+  
   res.status(201).json(newUser);
 
 
