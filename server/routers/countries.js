@@ -34,20 +34,12 @@ const {
  *             example:
  *               - id: 1
  *                 name: "Mexico" 
- *                 language_id: 1
- *                 currency_id: 1
- *                 languages:
- *                   name: "Spanish"          
- *                 currencies: 
- *                   name: "MXN_Pesos"
+ *                 language: "Spanish"          
+ *                 currency: "MXN_Pesos"
  *               - id: 2
  *                 name: "Costa Rica" 
- *                 language_id: 1
- *                 currency_id: 2
- *                 languages:
- *                   name: "Spanish"          
- *                 currencies: 
- *                   name: CR_Colon"
+ *                 language: "Spanish"          
+ *                 currency: "CR_Colon"
  *       404:
  *         description: Not Found
  */
@@ -74,12 +66,8 @@ router.get('/', getAllCountries);
  *             example:
  *                 id: 1
  *                 name: "Mexico" 
- *                 language_id: 1
- *                 currency_id: 1
- *                 languages:
- *                   name: "Spanish"          
- *                 currencies: 
- *                   name: "MXN_Pesos"
+ *                 language: "Spanish"          
+ *                 currency: "MXN_Pesos"
  *                   
  *       404:
  *         description: Not Found 

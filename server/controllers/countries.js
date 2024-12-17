@@ -2,7 +2,6 @@ const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 
 const getAllCountries = async (req, res) => { 
-    
     const countries = await prisma.countries.findMany({
     include: {
       languages: {
@@ -17,9 +16,15 @@ const getAllCountries = async (req, res) => {
       }
     }
   });
-  
-    if (countries && countries.length > 0) {
-      return res.status(200).json(countries);
+  const formattedCountries = countries.map(country => ({
+    country_id: country.id,
+    name: country.name,
+    language: country.languages.name,
+    currency: country.currencies.name
+  }))
+
+    if (formattedCountries && formattedCountries.length > 0) {
+      return res.status(200).json(formattedCountries);
     }
     return res.sendStatus(204);
 }
@@ -45,8 +50,14 @@ const getSingleCountry = async (req, res) => {
       }
     },  
     );
-  if (country) {
-    return res.status(200).json(country);
+    const formattedCountry = {
+      country_id: country.id,
+      name: country.name,
+      language: country.languages.name,
+      currency: country.currencies.name
+    }
+  if (formattedCountry) {
+    return res.status(200).json(formattedCountry);
   }
   return res.sendStatus(204);
 }
