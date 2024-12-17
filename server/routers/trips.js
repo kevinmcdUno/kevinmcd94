@@ -170,12 +170,21 @@ router.route("/").get(getAllTrips),
  *               jsonObject:
  *                 summary: An example JSON response
  *                 value: 
- *                     id: 1
- *                     name: testTrip
- *                     description: "test"
- *                     start_date: "2023-03-10"
- *                     end_date: "2023-04-10"
- *                     user_id: 1
+ *                   - trip_id: 2
+ *                     name: Mexico Trip
+ *                     start_date: "2024-06-21"
+ *                     end_date: "2024-08-21"
+ *                     countries:
+ *                       - Mexico
+ *                     transports: 
+ *                       - Aeroplane
+ *                     lodgings: 
+ *                       - Hotel
+ *                     user:
+ *                       id: 2
+ *                       email: test@test.com
+ *                       first_name: string
+ *                       second_name: string
  *       404:
  *         description: Not Found
  */
