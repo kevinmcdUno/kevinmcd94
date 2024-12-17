@@ -161,27 +161,91 @@ erDiagram
 
  ## API Specification: 
 
+User Authentication:
+### Auth 
+`POST /auth/login`
+###### User Login
+
+Request:
+```json
+{
+  "email": "string",
+  "password": "string"
+}
+```
+
+Responses: 
+- `200 Login successful`
+- `401 Invalid email or password`
+- `500 Server error`
+```json
+{
+  "message": "Login successful",
+  "user": {
+    "id": 1,
+    "email": "testemail@test.com",
+    "forename": "John",
+    "surname": "Doe",
+    "nationality_id": 1
+  }
+}
+```
+
+---
+
+
 User Account Management:
 ### Users 
+`POST /users`
+###### Creates an account
+
+Request:
+```json
+{
+   "email": "user@example.com",
+    "forename": "string",
+    "surname": "string",
+    "password": "ABC12345!",
+    "nationalityId": 0
+}
+```
+
+Responses: 
+- `201 Created`
+- `400 Bad Request`
+```json
+{
+    "id": 1,
+    "email": "user@example.com",
+    "forename": "string",
+    "surname": "string",
+    "password": "ABC12345!",
+    "nationality": "Irish"
+}
+```
+
+---
 `GET /users`
 ###### Returns a list of users
 Responses: 
 - `200 OK`
 ```json
 [
-  {
-    "userId": 1,
-    "emailAddress": "kevin.mcdermott@unosquare.com",
-    "firstName": "Kevin",
-    "lastName": "McDermott",
+ {
+    "id": 1,
+    "email": "testemail@test.com",
+    "forename": "Testforename",
+    "surname": "testsurname",
+    "password": "pa$word",
     "nationality": "Irish"
   },
   {
-    "userId": 2,
-    "emailAddress": "erling.haaland@unosquare.com",
-    "firstName": "Erling",
-    "lastName": "Haaland",
-    "nationality": "Norwegian"
+    "id": "2,",
+    "email": "test@test.com",
+    "forename": "test2fore",
+    "surname": "testSur",
+    "password": "passw0rd",
+    "nationality": "Irish"
   }
 ]
 ```
@@ -196,41 +260,17 @@ Responses:
 - `200 OK`
 - `404 Not Found`
 ```json
+[
   {
-    "userId": 1,
-    "emailAddress": "kevin.mcdermott@unosquare.com",
-    "firstName": "Kevin",
-    "lastName": "McDermott",
+    "id": 1,
+    "email": "testemail@test.com",
+    "forename": "Testforename",
+    "surname": "testsurname",
+    "password": "pa$word",
     "nationality": "Irish"
-  },
+  }
+]
 ```
-`POST /users`
-###### Creates an account
-
-Request:
-```json
-{
-   "emailAddress": "kevin.mcdermott@unosquare.com",
-    "firstName": "Kevin",
-    "lastName": "McDermott",
-    "nationality": "Irish",
-    "password": "ABC12345!"
-}
-```
-
-Responses: 
-- `201 Created`
-- `400 Bad Request`
-```json
-{
-    "userId": 1,
-    "emailAddress": "kevin.mcdermott@unosquare.com",
-    "firstName": "Kevin",
-    "lastName": "McDermott",
-    "nationality": "Irish"
-}
-```
-
 ---
 
 `PUT /users/{userId}`
@@ -240,10 +280,11 @@ _NOTE: Password is an optional field, if it is not supplied, it is not updated._
 Request:
 ```json
 {
-    "emailAddress": "kevin.mcdermott@unosquare.com",
-    "firstName": "Kevin",
-    "lastName": "McDermott",
-    "password": "ABC12345!"
+  "email": "user@example.com",
+  "forename": "string",
+  "surname": "string",
+  "password": "@oF$?IDq9Ff7RHJ",
+  "nationalityId": 0
 }
 ```
 
@@ -251,7 +292,18 @@ Responses:
 - `204 No Content`
 - `400 Bad Request`
 - `404 Not Found`
-
+```json
+[
+  {
+    "id": 1,
+    "email": "testemail@test.com",
+    "forename": "Testforename",
+    "surname": "testsurname",
+    "password": "pa$word",
+    "nationality": "Irish"
+  }
+]
+```
 ---
 
 `DELETE /users/{userId}`
@@ -270,16 +322,28 @@ Responses:
 ```json
 [
   {
-    "countryId": 123,
-    "countryName": "Brazil",
-    "currency": "Brazilian real",
-    "language": "Portuguese"
+    "id": 1,
+    "name": "Mexico",
+    "language_id": 1,
+    "currency_id": 1,
+    "languages": {
+      "name": "Spanish"
+    },
+    "currencies": {
+      "name": "MXN_Pesos"
+    }
   },
   {
-   "countryId": 898,
-    "countryName": "Colombia",
-    "currency": "Colombian Peso",
-    "language": "Spannish"
+    "id": 2,
+    "name": "Costa Rica",
+    "language_id": 1,
+    "currency_id": 2,
+    "languages": {
+      "name": "Spanish"
+    },
+    "currencies": {
+      "name": "CR_Colon"
+    }
   }
 ]
 ```
@@ -294,17 +358,23 @@ Responses:
 - `200 OK`
 - `404 Not Found`
 ```json
-  {
-    "countryId": 123,
-    "countryName": "Brazil",
-    "currency": "Brazilian real",
-    "language": "Portuguese"
+{
+  "id": 1,
+  "name": "Mexico",
+  "language_id": 1,
+  "currency_id": 1,
+  "languages": {
+    "name": "Spanish"
   },
+  "currencies": {
+    "name": "MXN_Pesos"
+  }
+}
 ```
 
 
 ### Border Fees 
-`GET /countries/{countryId}/borders/{borderCountryId}`
+`GET /borderFees`
 ###### Returns the border fee when entering a country
 Responses: 
 - `200 OK`
@@ -312,16 +382,42 @@ Responses:
 ```json
 [
   {
-    "borderFeeId": 654,
-    "sourceCountry": "Brazil",
-    "destinationCountry": "Colombia",
-    "borderFee": "$12"
+    "id": 1,
+    "cost": 50,
+    "country_id": 1,
+    "countries": {
+      "name": "Mexico"
+    }
+  },
+  {
+    "id": 2,
+    "cost": 30,
+    "country_id": 2,
+    "countries": {
+      "name": "Costa Rica"
+    }
   }
 ]
 ```
 
-### Entry Fees 
-`GET /countries/{countryId}/visatypes/{visaTypeId}`
+`GET /borderFees/{borderFeesId}`
+###### Returns the border fee when entering a country
+Responses: 
+- `200 OK`
+- `404 Not Found`
+```json
+{
+  "borderFeesId": 1,
+  "costId": 1,
+  "countryId": 1,
+  "Countries": {
+    "name": "Mexico"
+  }
+}
+```
+
+### Entry Requirements 
+`GET /entryRequirements`
 ###### Returns All fees required to enter a country
 Responses: 
 - `200 OK`
@@ -329,10 +425,48 @@ Responses:
 ```json
 [
   {
-    "entryId": 1,
-    "visa": "ESTA",
-    "VisaFee": "$15",
-    "borderFee": "$12"
+    "id": 1,
+    "cost": 30,
+    "exceeds_max_days": false,
+    "border_fee_id": 1,
+    "visa_type_id": 1,
+    "country_id": 1,
+    "countries": {
+      "name": "Mexico"
+    },
+    "border_fees": {
+      "cost": 50
+    },
+    "visa_types": {
+      "name": "Tourist Visa"
+    }
+  }
+]
+```
+
+`GET /entryRequirements/{entryRequirementsId}`
+###### Returns All fees required to enter a country
+Responses: 
+- `200 OK`
+- `404 Not Found`
+```json
+[
+  {
+    "id": 1,
+    "cost": 30,
+    "exceeds_max_days": false,
+    "border_fee_id": 1,
+    "visa_type_id": 1,
+    "country_id": 1,
+    "countries": {
+      "name": "Mexico"
+    },
+    "border_fees": {
+      "cost": 50
+    },
+    "visa_types": {
+      "name": "Tourist Visa"
+    }
   }
 ]
 ```
@@ -373,21 +507,13 @@ Responses:
 Request:
 ```json
 {
-  "tripName": "South America Trip",
-  "userEmailAddress": "kevin.mcdermott@unosquare.com",
-  "startDate": "2023-08-01",
-  "endDate": "2023-08-10",
-  "countries": [
-    {
-      "countryId": 1,
-      "country": "Colombia"
-    },
-    {
-      "countryId": 2,
-      "country": "Brazil"
-    }
-  ]
+  "name": "string",
+  "description": "string",
+  "start_date": "string",
+  "end_date": "string",
+  "user_id": 1
 }
+
 ```
 
 Responses: 
@@ -395,21 +521,12 @@ Responses:
 - `400 Bad Request`
 ```json
 {
-  "tripId": 1,
-  "tripName": "South America Trip",
-  "userEmailAddress": "kevin.mcdermott@unosquare.com",
-  "startDate": "2023-01-01",
-  "endDate": "2023-03-10",
-  "countries": [
-    {
-      "countryId": 1,
-      "country": "Columbia"
-    },
-    {
-      "countryId": 2,
-      "country": "Brazil"
-    }
-  ]
+  "id": 1,
+  "name": "testTrip",
+  "description": "test",
+  "start_date": "2023-03-10",
+  "end_date": "2023-04-10",
+  "user_id": 1
 }
 ```
 
@@ -421,20 +538,11 @@ Responses:
 Request:
 ```json
 {
-  "tripName": "South America Trip",
-  "userEmailAddress": "kevin.mcdermott@unosquare.com",
-  "startDate": "2023-08-01",
-  "endDate": "2023-08-10",
-  "countries": [
-    {
-      "countryId": 1,
-      "country": "Colombia",
-    },
-    {
-      "countryId": 2,
-      "country": "Brazil"
-    }
-  ]
+  "name": "string",
+  "userId": 0,
+  "startDate": "string",
+  "endDate": "string",
+  "countries": "string"
 }
 ```
 
@@ -443,29 +551,30 @@ Responses:
 - `400 Bad Request`
 - `404 Not Found`
 ```json
-{
-  "tripId": 1,
-  "tripName": "South America Trip",
-  "userEmailAddress": "kevin.mcdermott@unosquare.com",
-  "startDate": "2023-01-01",
-  "endDate": "2023-03-10",
-  "countries": [
-    {
-      "countryId": 1,
-      "country": "Columbia"
-    },
-    {
-      "countryId": 2,
-      "country": "Brazil"
-    }
-  ]
-}
+[
+  {
+    "tripId": 123,
+    "userId": 1,
+    "startDate": "2023-01-01",
+    "endDate": "2023-03-10",
+    "countries": [
+      {
+        "countryId": 24,
+        "country": "Colombia"
+      },
+      {
+        "countryId": 28,
+        "country": "Brazil"
+      }
+    ]
+  }
+]
 ```
 
 
 ---
 
-`GET /users/{userId}/trips`
+`GET /trips`
 ###### Get a list of trips associated with a specific user 
 
 
@@ -473,44 +582,59 @@ Responses:
 - `200 OK`
 - `404 Not Found`
 ```json
-{
-  "tripName": "South America Trip",
-  "userEmailAddress": "kevin.mcdermott@unosquare.com",
-  "trips": [
-    {
-     "tripId": 1,
-     "tripName": "South America Trip",
-      "startDate": "2023-01-01",
-      "endDate": "2023-03-10",
-      "countries": [
-      {
-          "countryId": 1,
-          "country": "Columbia"
-      },
-      {
-          "countryId": 2,
-          "country": "Brazil"
-      }
-    ]
+[
+  {
+    "trip_id": 1,
+    "name": "testTrip",
+    "start_date": "2024-03-10",
+    "end_date": "2023-04-10",
+    "countries": [
+      "Mexico",
+      "Costa Rica",
+      "Guatemala"
+    ],
+    "transports": [
+      "Bus",
+      "Train",
+      "Boat"
+    ],
+    "lodgings": [
+      "Hotel",
+      "Airbnb"
+    ],
+    "user": {
+      "id": 1,
+      "email": "ussr@test.com",
+      "first_name": "testforename",
+      "second_name": "testsurname"
+    }
   },
   {
-      "tripId": 2,
-      "tripName": "North America Trip",
-      "startDate": "2023-07-01",
-      "endDate": "2023-10-28",
-      "countries": [
-      {
-          "countryId": 4,
-          "country": "USA"
-      },
-      {
-          "countryId": 5,
-          "country": "Canada"
-      }
-    ]
-   }
-  ]
-}
+    "trip_id": 2,
+    "name": "testTrip2",
+    "start_date": "2024-03-10",
+    "end_date": "2023-04-10",
+    "countries": [
+      "Colombia",
+      "Peru",
+      "Brazil"
+    ],
+    "transports": [
+      "Train",
+      "Bus"
+    ],
+    "lodgings": [
+      "Airbnb",
+      "Hostel"
+    ],
+    "user": {
+      "id": 1,
+      "email": "user@test.com",
+      "first_name": "testforename",
+      "second_name": "testsurname"
+    }
+  }
+]
 ```
 
 
@@ -525,45 +649,25 @@ Responses:
 - `404 Not Found`
 ```json
 {
-  "tripId": 1,
-  "tripName": "South America Trip",
-  "userEmailAddress": "kevin.mcdermott@unosquare.com",
-  "startDate": "2023-01-01",
-  "endDate": "2023-03-10",
+  "trip_id": 3,
+  "name": "USA trip",
+  "start_date": "2024-06-10",
+  "end_date": "2024-06-10",
   "countries": [
-    {
-      "countryId": 1,
-      "country": "Columbia"
-    },
-    {
-      "countryId": 2,
-      "country": "Brazil"
-    }
+    "USA"
   ],
   "transports": [
-    {
-      "tripTransportsId": 1,
-      "mode": "flight",
-      "cost": 200
-    },
-    {
-      "tripTransportsId": 2,
-      "mode": "bus",
-      "cost": 50
-    }
+    "Aeroplane"
   ],
   "lodgings": [
-    {
-     "tripLodgingId": 76,
-      "description": "hotel",
-      "cost": 200
-    },
-    {
-     "tripLodgingId": 46,
-      "description": "Airbnb",
-      "cost": 200
-    }
-  ]
+    "Hostel"
+  ],
+  "user": {
+    "id": 2,
+    "email": "test@test.com",
+    "first_name": "string",
+    "second_name": "string"
+  }
 }
 ```
 
@@ -581,16 +685,17 @@ Response: `204 No Content`
 
 ### Trip Transports
 
-`POST /trips/{tripId}/transportmodes`
+`POST /tripTransportmodes`
 ###### Creates a transport mode for the trip
 
 Request:
 ```json
 
-    {
-      "mode": "flight",
-      "cost": 200
-    }
+  {
+  "tripId": 0,
+  "transportModeTypeId": 0,
+  "cost": 0
+}
 ```
 
 Responses: 
@@ -598,25 +703,26 @@ Responses:
 - `400 Bad Request`
 ```json
 {
-     "tripTransportsId": 46,
-      "mode": "flight",
-      "cost": 200,
-      "tripId": 1
+  "id": 1,
+  "cost": 100,
+  "tripId": 1,
+  "transportModeTypeId": 1
 }
 ```
 
 ---
 
-`PUT /trips/{tripId}/transportmodes/{tripTransportsId}`
+`PUT /tripTransportmodes/{tripTransportsId}`
 ###### updates transport mode for the trip
 
 Request:
 ```json
 
-    {
-      "mode": "flight",
-      "cost": 200,
-    }
+{
+  "tripId": 0,
+  "transportModeTypeId": 0,
+  "cost": 0
+}
 ```
 
 Responses: 
@@ -624,17 +730,44 @@ Responses:
 - `400 Bad Request`
 - `404 Not Found`
 ```json
-{
-      "tripTransportsId": 1,
-      "mode": "flight",
-      "cost": 200,
-}
+ {
+    "id": 1,
+    "cost": 150,
+    "tripId": 2,
+    "transportModeTypeId": 3
+  }
 ```
 
 ---
 
-`GET /trips/{tripId}/transportmodes/{tripTransportsId}`
-###### updates transport mode for the trip
+`GET /tripTransportmodes`
+###### Get all trip transports
+
+
+Responses: 
+- `200 OK`
+- `404 Not Found`
+```json
+[
+  {
+    "id": 1,
+    "cost": 100,
+    "tripId": 1,
+    "transportModeTypeId": 1
+  },
+  {
+    "id": 2,
+    "cost": 150,
+    "tripId": 1,
+    "transportModeTypeId": 2
+  }
+]
+```
+
+---
+
+`GET /tripTransportmodes/{tripTransportsId}`
+###### Get a single trip transport by ID
 
 
 Responses: 
@@ -642,15 +775,16 @@ Responses:
 - `404 Not Found`
 ```json
 {
-      "tripTransportsId": 1,
-      "mode": "flight",
-      "cost": 200
+  "id": 1,
+  "cost": 100,
+  "tripId": 1,
+  "transportModeTypeId": 1
 }
 ```
 
 ---
 
-`DELETE /trips/{tripId}/transportmodes/{tripTransportsId}`
+`DELETE /tripTransportmodes/{tripTransportsId}`
 ###### deletes a trip transport 
 _NOTE: This actually performs a 'soft' deletion, we don't remove the account from the database, we simply mark it as inactive._
 
@@ -660,16 +794,17 @@ Response: `204 No Content`
 
 ### Trip Lodgings
 
-`POST /trips/{tripId}/lodgings`
+`POST /tripLodgings`
 ###### Creates a lodging type for the trip
 
 Request:
 ```json
 
-    {
-      "description": "hotel",
-      "cost": 200
-    }
+  {
+  "tripId": 0,
+  "lodgingTypeId": 0,
+  "cost": 0
+}
 ```
 
 Responses: 
@@ -686,16 +821,17 @@ Responses:
 
 ---
 
-`PUT /trips/{tripId}/lodgings/{tripLodgingId}`
+`PUT /tripLodgings/{tripLodgingId}`
 ###### Updates lodging type for the trip
 
 Request:
 ```json
 
-    {
-      "description": "hotel",
-      "cost": 200
-    }
+  {
+  "tripId": 0,
+  "lodgingTypeId": 0,
+  "cost": 0
+}
 ```
 
 Responses: 
@@ -704,10 +840,10 @@ Responses:
 - `404 Not Found`
 ```json
 {
-     "tripLodgingId": 76,
-      "description": "hotel",
-      "cost": 200,
-      "tripId": 1
+  "id": 1,
+  "cost": 150,
+  "tripId": 2,
+  "lodgingTypeId": 3
 }
 ```
 
@@ -715,24 +851,50 @@ Responses:
 
 ---
 
-`GET /trips/{tripId}/lodgings/{tripLodgingId}`
+`GET /tripLodgings`
 ###### Returns lodging type for the trip
 
 Responses: 
 - `200 OK`
 - `404 Not Found`
 ```json
+[
+  {
+    "id": 1,
+    "cost": 100,
+    "tripId": 1,
+    "lodgingTypeId": 1
+  },
+  {
+    "id": 2,
+    "cost": 150,
+    "tripId": 1,
+    "lodgingTypeId": 2
+  }
+]
+```
+
+---
+
+
+`GET /tripLodgings{tripLodgingId}`
+###### Returns single trip lodging by ID
+
+Responses: 
+- `200 OK`
+- `404 Not Found`
+```json
 {
-     "tripLodgingId": 76,
-      "description": "hotel",
-      "cost": 200,
-      "tripId": 1
+  "id": 1,
+  "cost": 100,
+  "tripId": 1,
+  "lodgingTypeId": 1
 }
 ```
 
 ---
 
-`DELETE /trips/{tripId}/transportmodes/{tripLodgingId}`
+`DELETE /tripLodgings{tripLodgingId}`
 ###### Delete a trip lodging 
 _NOTE: This actually performs a 'soft' deletion, we don't remove the account from the database, we simply mark it as inactive._
 

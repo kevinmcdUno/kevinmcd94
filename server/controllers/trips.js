@@ -97,16 +97,67 @@ const getSingleTrip = async (req, res) => {
       id: parseInt(tripId),
     },
     include: {
-      trip_countries: true,
-      trip_lodgings: true,
-      trip_transports: true,
-      users: true,
+      trip_countries: {
+        include: {
+          countries: {
+            select: {
+              name: true
+            }
+          }
+        }
+      },
+      trip_transports: {
+        include: {
+          transport_mode_types: {
+            select: {
+              description: true
+            }
+          }
+        }
+      },
+      trip_lodgings: {
+        include: {
+          lodging_types: {
+            select: {
+              description: true
+            }
+          }
+        }
+      },
+      users: {
+        select: {
+          id: true,
+          email: true,
+          first_name: true,
+          second_name: true,
+
+        }
+      }
     },
   });
-  if (trip) {
-    return res.status(200).json(trip);
+  if (!trip) {
+    return res.sendStatus(204);
   }
-  return res.sendStatus(204);
+
+  const formattedTrip = {
+    trip_id: trip.id,
+    name: trip.name,
+    start_date: trip.start_date,
+    end_date: trip.end_date,
+    countries: trip.trip_countries.map(tc => tc.countries.name),
+    transports: trip.trip_transports.map(tt => tt.transport_mode_types.description),
+    lodgings: trip.trip_lodgings.map(tl => tl.lodging_types.description),
+    user: {
+      id: trip.users.id,
+      email: trip.users.email,
+      first_name: trip.users.first_name,
+      second_name: trip.users.second_name
+    }
+  };
+
+
+  return res.status(200).json(formattedTrip);
+
 };
 
 const updateTrip = async (req, res) => {
