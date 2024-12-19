@@ -37,7 +37,7 @@ const router = Router();
  *                 email: "testemail@test.com"
  *                 forename: "John"
  *                 surname: "Doe"
- *                 nationality_id: 1
+ *                 nationalityId: 1
  *       401:
  *         description: Invalid email or password
  *       500:

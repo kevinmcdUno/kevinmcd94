@@ -17,12 +17,10 @@ const { getBorderFees, getSingleBorderFees } = require('../controllers/borderFee
  *             example:
  *               - id: 1
  *                 cost: 50
- *                 country_id: 1
- *                 countries: { name: "Mexico" }
+ *                 country: "Mexico" 
  *               - id: 2
  *                 cost: 30
- *                 country_id: 2
- *                 countries: { name: "Costa Rica" }
+ *                 countries: "Costa Rica" 
  *       404:
  *         description: Not Found. No border fees found.
  *       500:
@@ -53,10 +51,9 @@ router.get('/', getBorderFees);
  *               jsonObject:
  *                 summary: An example JSON response
  *                 value: 
- *                     borderFeesId: 1
- *                     costId: 1
- *                     countryId: 1
- *                     Countries: { name: "Mexico" }
+ *                     id: 1
+ *                     cost: 1
+ *                     country: "Mexico" 
  *       404:
  *         description: Not Found
  */

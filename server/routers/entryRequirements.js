@@ -17,13 +17,20 @@ const { getEntryRequirements, getSingleEntryRequirements } = require('../control
  *             example:
  *               - id: 1
  *                 cost: 30
- *                 exceeds_max_days: false
- *                 border_fee_id: 1
- *                 visa_type_id: 1
- *                 country_id: 1
- *                 countries: { name: "Mexico" }
- *                 border_fees: { cost: 50 }
- *                 visa_types: { name: "Tourist Visa" }
+ *                 exceedsMaxDays: false
+ *                 borderFeeId: 1
+ *                 visaTypeId: 1
+ *                 country: "Mexico" 
+ *                 borderFees: 50 
+ *                 visaTypes: "Tourist Visa"
+ *               - id: 2
+ *                 cost: 30
+ *                 exceedsMaxDays: true
+ *                 borderFeeId: 2
+ *                 visaTypeId: 2
+ *                 country: "Mexico" 
+ *                 borderFees: 50 
+ *                 visaTypes: "Long-Term"
  *       404:
  *         description: Not Found. No entry requirements found.
  *       500:
@@ -49,15 +56,14 @@ router.get('/', getEntryRequirements);
  *         content:
  *           application/json:
  *             example:
- *               - id: 1
+ *                 id: 1
  *                 cost: 30
- *                 exceeds_max_days: false
- *                 border_fee_id: 1
- *                 visa_type_id: 1
- *                 country_id: 1
- *                 countries: { name: "Mexico" }
- *                 border_fees: { cost: 50 }
- *                 visa_types: { name: "Tourist Visa" }
+ *                 exceedsMaxDays: false
+ *                 borderFeeId: 1
+ *                 visaTypeId: 1
+ *                 country: "Mexico" 
+ *                 borderFees: 50 
+ *                 visaTypes: "Tourist Visa"
  *       404:
  *         description: Not Found. No entry requirements found.
  *       500:

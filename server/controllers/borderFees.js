@@ -13,8 +13,14 @@ const getBorderFees = async (req, res) => {
       },
     });
 
-    if (borderFees.length > 0) {
-      return res.status(200).json(borderFees);
+    const formattedBorderFees = borderFees.map(fee => ({
+      id: fee.id,
+      cost: fee.cost,
+      country: fee.countries.name
+    }))
+
+    if (formattedBorderFees.length > 0) {
+      return res.status(200).json(formattedBorderFees);
     } else {
       return res.status(404).json({ error: 'No border fees found' });
     }
@@ -42,8 +48,15 @@ const getSingleBorderFees = async (req, res) => {
         }
     },  
     );
-  if (borderFee) {
-    return res.status(200).json(borderFee);
+
+    const formattedBorderFee = {
+      id: borderFee.id,
+      cost: borderFee.cost,
+      country: borderFee.countries.name
+    }
+
+  if (formattedBorderFee) {
+    return res.status(200).json(formattedBorderFee);
   }
   return res.sendStatus(204);
 }

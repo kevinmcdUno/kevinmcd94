@@ -30,18 +30,13 @@ const router = Router();
  *         content:
  *           application/json:
  *             example:
- *               - id: 1
- *                 source_country_id: 1
- *                 destination_country_id: 2
- *                 transport_mode_type_id: 1
- *                 avg_cost: 100
- *                 transport_mode_types: { description: "Aeroplane"}
- *               - id: 1
- *                 source_country_id: 1
- *                 destination_country_id: 2
- *                 transport_mode_type_id: 1
- *                 avg_cost: 10
- *                 transport_mode_types: { description: "Bus"}
+ *                 sourceCountry: "Mexico"
+ *                 destinationCountry: "Costa Rica"
+ *                 availableOptions: 
+ *                    - mode: "Bus"
+ *                      averageCost: 10
+ *                    - mode: "Aeroplane"
+ *                      averageCost: 40
  *       400:
  *         description: Bad Request. Both sourceCountryId and destinationCountryId are required.
  *       404:

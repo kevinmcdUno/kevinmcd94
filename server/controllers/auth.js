@@ -11,6 +11,15 @@ const login = async (req, res) => {
       where: { email }, // Make sure the field name matches exactly
     });
 
+    const formattedUser = {
+      id: user.id,
+      email: user.email,
+      forename: user.first_name,
+      surname: user.second_name,
+      password: user.password,
+      nationalityId: user.nationality_id
+    }
+
     // If no user is found or passwords do not match
     if (!user) {
       console.error('User not found with email:', email);
@@ -23,7 +32,7 @@ const login = async (req, res) => {
     }
 
     // If login is successful
-    res.status(200).json({ message: 'Login successful', user });
+    res.status(200).json({ message: 'Login successful', formattedUser });
   } catch (error) {
     console.error('Error logging in user:', error);
     res.status(500).json({ message: 'Error logging in user', error });

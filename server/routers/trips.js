@@ -27,15 +27,15 @@ const router = Router();
  *              type: string
  *              required: true
  *              description: The users nationality
- *            start_date:
+ *            startDate:
  *              type: string
  *              required: true
  *              description: The trip start date
- *            end_date:
+ *            endDate:
  *              type: string
  *              required: true
  *              description: The trip end date
- *            user_id:
+ *            userId:
  *              type: integer
  *              required: true
  *              description: The UserId for the trip 
@@ -51,9 +51,9 @@ const router = Router();
  *                     id: 1
  *                     name: testTrip
  *                     description: "test"
- *                     start_date: "2023-03-10"
- *                     end_date: "2023-04-10"
- *                     user_id: 1
+ *                     startDate: "2023-03-10"
+ *                     endDate: "2023-04-10"
+ *                     userId: 1
  *       400:
  *         description: Bad Request
  */
@@ -63,15 +63,15 @@ router.route("/").post(
       .isLength({ min: 3 })
       .withMessage("the trip name must have minimum length of 3")
       .trim(),
-    body("start_date")
+    body("startDate")
       .isDate({ format: "yyyy-MM-dd"} )
       .withMessage("the date format must be correct")
       .trim(),
-      body("end_date")
+      body("endDate")
       .isDate({ format: "yyyy-MM-dd"} )
       .withMessage("the date format must be correct")
       .trim(),
-      body("user_id")
+      body("userId")
       .isInt()
       .trim(), 
   ],
@@ -101,10 +101,10 @@ router.route("/").post(
  *               jsonObject:
  *                 summary: An example JSON response
  *                 value: 
- *                   - trip_id: 1
+ *                   - tripId: 1
  *                     name: testTrip
- *                     start_date: "2024-03-10"
- *                     end_date: "2023-04-10"
+ *                     startDate: "2024-03-10"
+ *                     endDate: "2023-04-10"
  *                     countries:
  *                       - Mexico
  *                       - Costa Rica
@@ -119,12 +119,12 @@ router.route("/").post(
  *                     user:
  *                      id: 1
  *                      email: ussr@test.com
- *                      first_name: testforename
- *                      second_name: testsurname
- *                   - trip_id: 2
+ *                      forename: testforename
+ *                      surname: testsurname
+ *                   - tripId: 2
  *                     name: testTrip2
- *                     start_date: "2024-03-10"
- *                     end_date: "2023-04-10"
+ *                     startDate: "2024-03-10"
+ *                     endDate: "2023-04-10"
  *                     countries:
  *                       - Colombia
  *                       - Peru
@@ -138,8 +138,8 @@ router.route("/").post(
  *                     user:
  *                      id: 1
  *                      email: user@test.com
- *                      first_name: testforename
- *                      second_name: testsurname
+ *                      forename: testforename
+ *                      surname: testsurname
  *                    
  *       404:
  *         description: Not Found
@@ -170,10 +170,10 @@ router.route("/").get(getAllTrips),
  *               jsonObject:
  *                 summary: An example JSON response
  *                 value: 
- *                   - trip_id: 2
+ *                   - tripId: 2
  *                     name: Mexico Trip
- *                     start_date: "2024-06-21"
- *                     end_date: "2024-08-21"
+ *                     startDate: "2024-06-21"
+ *                     endDate: "2024-08-21"
  *                     countries:
  *                       - Mexico
  *                     transports: 
@@ -183,8 +183,8 @@ router.route("/").get(getAllTrips),
  *                     user:
  *                       id: 2
  *                       email: test@test.com
- *                       first_name: string
- *                       second_name: string
+ *                       forename: string
+ *                       surname: string
  *       404:
  *         description: Not Found
  */
