@@ -186,7 +186,7 @@ Responses:
     "email": "testemail@test.com",
     "forename": "John",
     "surname": "Doe",
-    "nationality_id": 1
+    "nationalityId": 1
   }
 }
 ```
