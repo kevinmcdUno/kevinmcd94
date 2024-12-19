@@ -322,19 +322,19 @@ Responses:
 ```json
 [
   {
-    "country_id": 1,
+    "id": 1,
     "name": "Mexico",
     "language": "Spanish",
     "currency": "MXN_Pesos"
   },
   {
-    "country_id": 2,
+    "id": 2,
     "name": "Costa Rica",
     "language": "Spanish",
     "currency": "CR_Colon"
   },
   {
-    "country_id": 3,
+    "id": 3,
     "name": "Guatemala",
     "language": "Spanish",
     "currency": "Guat_Quetzal"
@@ -353,7 +353,7 @@ Responses:
 - `404 Not Found`
 ```json
 {
-  "country_id": 1,
+  "id": 1,
   "name": "Mexico",
   "language": "Spanish",
   "currency": "MXN_Pesos"
@@ -372,19 +372,13 @@ Responses:
   {
     "id": 1,
     "cost": 50,
-    "country_id": 1,
-    "countries": {
-      "name": "Mexico"
-    }
+    "country": "Mexico"
   },
   {
     "id": 2,
     "cost": 30,
-    "country_id": 2,
-    "countries": {
-      "name": "Costa Rica"
+    "country": "Costa Rica"
     }
-  }
 ]
 ```
 
@@ -396,11 +390,8 @@ Responses:
 ```json
 {
   "borderFeesId": 1,
-  "costId": 1,
-  "countryId": 1,
-  "Countries": {
-    "name": "Mexico"
-  }
+  "cost": 50,
+  "country": "Mexico"
 }
 ```
 
@@ -415,19 +406,23 @@ Responses:
   {
     "id": 1,
     "cost": 30,
-    "exceeds_max_days": false,
-    "border_fee_id": 1,
-    "visa_type_id": 1,
-    "country_id": 1,
-    "countries": {
-      "name": "Mexico"
-    },
-    "border_fees": {
-      "cost": 50
-    },
-    "visa_types": {
-      "name": "Tourist Visa"
-    }
+    "exceedsMaxDays": false,
+    "borderFeeId": 1,
+    "visaTypeId": 1,
+    "countryId": 1,
+    "country": "Mexico",
+    "borderFees": 50,
+    "visaTypes": "Tourist Visa"
+  },
+  {
+    "id": 2,
+    "cost": 30,
+    "exceedsMaxDays": true,
+    "borderFeeId": 2,
+    "visaTypeId": 2,
+    "country": "Mexico",
+    "borderFees": 50,
+    "visaTypes": "Long-Term"
   }
 ]
 ```
@@ -438,25 +433,16 @@ Responses:
 - `200 OK`
 - `404 Not Found`
 ```json
-[
-  {
-    "id": 1,
-    "cost": 30,
-    "exceeds_max_days": false,
-    "border_fee_id": 1,
-    "visa_type_id": 1,
-    "country_id": 1,
-    "countries": {
-      "name": "Mexico"
-    },
-    "border_fees": {
-      "cost": 50
-    },
-    "visa_types": {
-      "name": "Tourist Visa"
-    }
-  }
-]
+{
+  "id": 1,
+  "cost": 30,
+  "exceedsMaxDays": false,
+  "borderFeeId": 1,
+  "visaTypeId": 1,
+  "country": "Mexico",
+  "borderFees": 50,
+  "visaTypes": "Tourist Visa"
+}
 ```
 
 ### Transport 
@@ -467,7 +453,8 @@ Responses:
 - `404 Not Found`
 ```json
 {
-  "transportmodeId": 1,
+  "sourceCountry": "Mexico",
+  "destinationCountry": "Costa Rica",
   "availableOptions": [
   {
     "mode": "Flight",
@@ -497,9 +484,9 @@ Request:
 {
   "name": "string",
   "description": "string",
-  "start_date": "string",
-  "end_date": "string",
-  "user_id": 1
+  "startDate": "string",
+  "endDate": "string",
+  "userId": 1
 }
 
 ```
@@ -512,9 +499,9 @@ Responses:
   "id": 1,
   "name": "testTrip",
   "description": "test",
-  "start_date": "2023-03-10",
-  "end_date": "2023-04-10",
-  "user_id": 1
+  "startDate": "2023-03-10",
+  "endDate": "2023-04-10",
+  "userId": 1
 }
 ```
 
@@ -539,24 +526,30 @@ Responses:
 - `400 Bad Request`
 - `404 Not Found`
 ```json
-[
   {
-    "tripId": 123,
-    "userId": 1,
-    "startDate": "2023-01-01",
-    "endDate": "2023-03-10",
+    "tripId": 2,
+    "name": "Mexico Trip",
+    "startDate": "2024-06-21",
+    "endDate": "2024-08-21",
     "countries": [
-      {
-        "countryId": 24,
-        "country": "Colombia"
-      },
-      {
-        "countryId": 28,
-        "country": "Brazil"
-      }
-    ]
+      "Mexico",
+      "Costa Rica"
+    ],
+    "transports": [
+      "Aeroplane",
+      "Bus"
+    ],
+    "lodgings": [
+      "Hotel",
+      "Airbnb"
+    ],
+    "user": {
+      "id": 2,
+      "email": "test@test.com",
+      "forename": "string",
+      "surname": "string"
+    }
   }
-]
 ```
 
 
@@ -572,10 +565,10 @@ Responses:
 ```json
 [
   {
-    "trip_id": 1,
+    "tripId": 1,
     "name": "testTrip",
-    "start_date": "2024-03-10",
-    "end_date": "2023-04-10",
+    "startDate": "2024-03-10",
+    "endDate": "2023-04-10",
     "countries": [
       "Mexico",
       "Costa Rica",
@@ -593,15 +586,15 @@ Responses:
     "user": {
       "id": 1,
       "email": "ussr@test.com",
-      "first_name": "testforename",
-      "second_name": "testsurname"
+      "forename": "testforename",
+      "surname": "testsurname"
     }
   },
   {
-    "trip_id": 2,
+    "tripId": 2,
     "name": "testTrip2",
-    "start_date": "2024-03-10",
-    "end_date": "2023-04-10",
+    "startDate": "2024-03-10",
+    "endDate": "2023-04-10",
     "countries": [
       "Colombia",
       "Peru",
@@ -618,8 +611,8 @@ Responses:
     "user": {
       "id": 1,
       "email": "user@test.com",
-      "first_name": "testforename",
-      "second_name": "testsurname"
+      "forename": "testforename",
+      "surname": "testsurname"
     }
   }
 ]
@@ -637,10 +630,10 @@ Responses:
 - `404 Not Found`
 ```json
 {
-  "trip_id": 3,
+  "tripId": 3,
   "name": "USA trip",
-  "start_date": "2024-06-10",
-  "end_date": "2024-06-10",
+  "startDate": "2024-06-10",
+  "endDate": "2024-06-10",
   "countries": [
     "USA"
   ],
@@ -653,8 +646,8 @@ Responses:
   "user": {
     "id": 2,
     "email": "test@test.com",
-    "first_name": "string",
-    "second_name": "string"
+    "forename": "string",
+    "surname": "string"
   }
 }
 ```

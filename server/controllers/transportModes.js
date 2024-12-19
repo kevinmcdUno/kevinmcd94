@@ -1,6 +1,7 @@
 const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 
+
 const getTransportModes = async (req, res) => {
   try {
     const { sourceCountryId, destinationCountryId } = req.query;
@@ -16,24 +17,41 @@ const getTransportModes = async (req, res) => {
       },
       select: {
         id: true,
-        source_country_id: true,
-        destination_country_id: true,
-        transport_mode_type_id: true,
         avg_cost: true,
         transport_mode_types: {
           select: {
-           description: true
+            description: true,
           },
-       },
-     },
-   });
+        },
+        countries_transport_modes_source_country_idTocountries: {
+          select: {
+            name: true,
+          },
+        },
+        countries_transport_modes_destination_country_idTocountries: {
+          select: {
+            name: true,
+          },
+        },
+      },
+    });
 
-
-    if (transportModes.length > 0) {
-      return res.status(200).json(transportModes);
-    } else {
+    if (transportModes.length === 0) {
       return res.status(404).json({ error: 'No transport modes found for the specified countries' });
     }
+
+    const response = {
+      sourceCountry:
+        transportModes[0]?.countries_transport_modes_source_country_idTocountries.name,
+      destinationCountry:
+        transportModes[0]?.countries_transport_modes_destination_country_idTocountries.name,
+      availableOptions: transportModes.map((transport) => ({
+        mode: transport.transport_mode_types.description,
+        averageCost: transport.avg_cost,
+      })),
+    };
+
+    return res.status(200).json(response);
   } catch (error) {
     console.error('Error retrieving transport modes:', error);
     return res.status(500).json({ error: 'Internal Server Error' });
@@ -41,6 +59,5 @@ const getTransportModes = async (req, res) => {
     await prisma.$disconnect();
   }
 };
-
 
 module.exports = { getTransportModes };
