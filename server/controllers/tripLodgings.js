@@ -11,34 +11,55 @@ const createTripLodging = async (req, res) => {
       },
     })
 
-    res.status(201).json(createdTripLodging);
+    const formattedLodging = {
+      id : createdTripLodging.id,
+      cost: createdTripLodging.cost,
+      tripId: createdTripLodging.trip_id,
+      lodgingTypeId: createdTripLodging.lodging_type_id
+    }
+
+    res.status(201).json(formattedLodging);
 
   }
 
   const getSingleTripLodging = async (req, res) => {
-    const { tripLodgingId } = req.params;
+    const { lodgingTypesId } = req.params; // Use correct param name
+    try {
+      // Ensure that lodgingTypesId is parsed as an integer
+      const lodgingType = await prisma.lodging_types.findUnique({
+        where: { 
+          id: parseInt(lodgingTypesId), // Parse the parameter to ensure it's an integer
+        },
+      });
   
-    const tripLodging = await prisma.trip_lodgings.findUnique({
-      where: {
-        id: parseInt(tripLodgingId),
-      },
-    });
-  
-    if (tripLodging) {
-      return res.status(200).json(tripLodging);
+      if (lodgingType) {
+        return res.status(200).json(lodgingType);
+      }
+      return res.sendStatus(404); // Not Found
+    } catch (error) {
+      console.error("Error fetching single lodging type:", error);
+      return res.status(500).json({ message: "Internal Server Error" });
     }
-  
-    return res.sendStatus(404);
   };
+  
 
 const getAllTripLodgings = async (req, res) => {
     const tripLodgings = await prisma.trip_lodgings.findMany();
     
-    if (tripLodgings && tripLodgings.length > 0) {
-      res.status(200).json(tripLodgings);
-    } 
+  const formattedLodgings = tripLodgings.map( tripLodge => ({
+    id: tripLodge.id,
+    cost: tripLodge.cost,
+    tripId: tripLodge.trip_id,
+    lodgingTypeId: tripLodge.lodging_type_id
+  })
+)
+
+    if (formattedLodgings && formattedLodgings.length > 0) {
+    return res.status(200).json(formattedLodgings);
+    } else {
       res.sendStatus(204);
     }
+  }
 
     const updateSingleTripLodging = async (req, res) => {
       const { tripId, lodgingTypeId, cost } = req.body;
@@ -53,7 +74,7 @@ const getAllTripLodgings = async (req, res) => {
           cost: cost,
         },
       });
-    
+      
       res.sendStatus(204);
     };
     

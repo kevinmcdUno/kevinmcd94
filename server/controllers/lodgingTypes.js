@@ -16,22 +16,26 @@ const getAllLodgingTypes = async (req, res) => {
 }
 
 const getSingleLodgingType = async (req, res) => {
-  const { lodgingTypesId } = req.params; // Use correct param name
+  const { lodgingTypeId } = req.params; //it must matche the route parameter name
+
   try {
     const lodgingType = await prisma.lodging_types.findUnique({
       where: { 
-        id: parseInt(lodgingTypesId), // Use correct param
+        id: parseInt(lodgingTypeId), 
       },
     });
-    
+
     if (lodgingType) {
       return res.status(200).json(lodgingType);
     }
     return res.sendStatus(404); // Not Found
   } catch (error) {
-    console.error("Error fetching single lodging type:", error);
-    return res.status(500).json({ message: "Internal Server Error" });
+    console.error("Detailed Error:", error); // Log detailed error
+    return res.status(500).json({
+      message: "Internal Server Error",
+      error: error.message || error,
+    });
   }
-}
+};
 
 module.exports = { getAllLodgingTypes, getSingleLodgingType };

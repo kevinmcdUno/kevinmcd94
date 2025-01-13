@@ -24,9 +24,9 @@ const {
  *         content:
  *           application/json:
  *             example:
- *               - transportModeTypeId: 1
+ *               - id: 1
  *                 description: "Bus"
- *               - transportModeTypeId: 2
+ *               - id: 2
  *                 description: "Train" 
  *       404:
  *         description: Not Found
@@ -52,7 +52,7 @@ router.get('/', getAllTransportModeTypes);
  *         content:
  *           application/json:
  *             example:
- *               - transportModeTypeId: 1
+ *                 id: 1
  *                 description: "Bus"                   
  *       404:
  *         description: Not Found 

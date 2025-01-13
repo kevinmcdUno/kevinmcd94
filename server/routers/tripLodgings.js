@@ -91,7 +91,7 @@ router.get("/", getAllTripLodgings);
  *     ]
  *     summary: Get a single trip lodging by ID
  *     parameters:
- *       - name: id
+ *       - name: tripLodgingId
  *         in: path
  *         type: integer
  *         description: The ID of the trip lodging

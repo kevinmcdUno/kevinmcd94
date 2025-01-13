@@ -5,12 +5,12 @@ import './AddTrip.css';
 function AddTrip() {
   const [name, setTripName] = useState('');
   const [description, setDescription] = useState('');
-  const [start_date, setStartDate] = useState('');
-  const [end_date, setEndDate] = useState('');
+  const [startDate, setStartDate] = useState('');
+  const [endDate, setEndDate] = useState('');
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
 
-  const user_id = localStorage.getItem('user_id');
+  const userId = localStorage.getItem('userId');
 
   const handleSaveTripDetails = async (e) => {
     e.preventDefault();
@@ -21,9 +21,9 @@ function AddTrip() {
       const tripBody = {
         name,
         description,
-        start_date,
-        end_date,
-        user_id,
+        startDate,
+        endDate,
+        userId,
       };
 
       await postTripData(tripBody);
@@ -66,14 +66,14 @@ function AddTrip() {
         <label>Start Date:</label>
         <input
           type="date"
-          value={start_date}
+          value={startDate}
           onChange={(e) => setStartDate(e.target.value)}
         />
 
         <label>End Date:</label>
         <input
           type="date"
-          value={end_date}
+          value={endDate}
           onChange={(e) => setEndDate(e.target.value)}
         />
 

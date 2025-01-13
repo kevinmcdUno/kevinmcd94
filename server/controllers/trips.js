@@ -40,29 +40,25 @@ const getAllTrips = async (req, res) => {
       trip_countries: {
         include: {
           countries: {
-            select: {
-              name: true
-            }
-          }
-        }
+            select: { name: true },
+          },
+        },
       },
       trip_transports: {
-        include: {
+        select: {
+          cost: true,
           transport_mode_types: {
-            select: {
-              description: true
-            }
-          }
-        }
+            select: { description: true },
+          },
+        },
       },
       trip_lodgings: {
-        include: {
+        select: {
+          cost: true,
           lodging_types: {
-            select: {
-              description: true
-            }
-          }
-        }
+            select: { description: true },
+          },
+        },
       },
       users: {
         select: {
@@ -70,19 +66,25 @@ const getAllTrips = async (req, res) => {
           email: true,
           first_name: true,
           second_name: true,
-
-        }
-      }
+        },
+      },
     },
   });
+
   const formattedTrips = trips.map(trip => ({
     tripId: trip.id,
     name: trip.name,
     startDate: trip.start_date,
     endDate: trip.end_date,
     countries: trip.trip_countries.map(tc => tc.countries.name),
-    transports: trip.trip_transports.map(tt => tt.transport_mode_types.description),
-    lodgings: trip.trip_lodgings.map(tl => tl.lodging_types.description),
+    transports: trip.trip_transports.map(tt => ({ 
+      description: tt.transport_mode_types.description,
+      cost: tt.cost
+                 })),
+    lodgings: trip.trip_lodgings.map(tl =>({
+      description: tl.lodging_types.description,
+      cost: tl.cost
+    })),
     user: {
       id: trip.users.id,
       email: trip.users.email,

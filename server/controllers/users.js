@@ -53,8 +53,17 @@ const createUser = async(req, res) => {
       nationality_id: parsedNationalityId,
     } 
   });
+
+  const formattedNewUser = {
+    id: newUser.id,
+    email: newUser.email,
+    forename: newUser.first_name,
+    surname: newUser.second_name,
+    password: newUser.password,
+    nationalityId: newUser.nationality_id
+  }
   
-  res.status(201).json(newUser);
+  res.status(201).json(formattedNewUser);
 
 
 }

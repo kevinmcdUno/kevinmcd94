@@ -17,7 +17,7 @@ const getAllCountries = async (req, res) => {
     }
   });
   const formattedCountries = countries.map(country => ({
-    country_id: country.id,
+    id: country.id,
     name: country.name,
     language: country.languages.name,
     currency: country.currencies.name
@@ -51,7 +51,7 @@ const getSingleCountry = async (req, res) => {
     },  
     );
     const formattedCountry = {
-      country_id: country.id,
+      id: country.id,
       name: country.name,
       language: country.languages.name,
       currency: country.currencies.name
