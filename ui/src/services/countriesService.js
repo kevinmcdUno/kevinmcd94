@@ -21,3 +21,25 @@ export const getCountriesData = async () => {
     }
   };
   
+
+  export const getSingleCountryData = async (countryId) => {
+    try {
+      const response = await fetch(`${API_URL}/countries/${countryId}`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+  
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+  
+      const data = await response.json();
+      return data;  
+    } catch (error) {
+      console.error('Error retrieving user data:', error);
+      throw error; 
+    }
+  };
+  

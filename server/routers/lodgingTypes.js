@@ -24,9 +24,9 @@ const {
  *         content:
  *           application/json:
  *             example:
- *               - lodgingTypeId: 1
+ *               - id: 1
  *                 description: "Hotel"
- *               - lodgingTypeId: 2
+ *               - id: 2
  *                 description: "Airbnb" 
  *       404:
  *         description: Not Found
@@ -40,11 +40,11 @@ router.get('/', getAllLodgingTypes);
  *     tags: [
  *       "Lodging Types"
  *     ]
- *     summary: Returns details for a specific lodgingTypes 
+ *     summary: Returns details for a specific lodgingType
  *     parameters:
  *      - name: lodgingTypeId
  *        in: path
- *        type: Int
+ *        type: integer
  *        description: The filter for the lodgingTypeId
  *     responses:
  *       200:
@@ -52,11 +52,12 @@ router.get('/', getAllLodgingTypes);
  *         content:
  *           application/json:
  *             example:
- *               - lodgingTypeId: 1
- *                 description: "Hotel"                   
+ *                 id: 1
+ *                 description: "Hotel"
  *       404:
- *         description: Not Found 
+ *         description: Not Found
  */
 router.route("/:lodgingTypeId(\\d+)").get(getSingleLodgingType); // Updated naming
+
 
 module.exports = router;

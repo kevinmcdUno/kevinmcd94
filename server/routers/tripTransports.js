@@ -86,7 +86,7 @@ router.get("/", getAllTripTransports);
  *     tags: ["Trip Transports"]
  *     summary: Get a single trip transport by ID
  *     parameters:
- *       - name: id
+ *       - name: tripTransportId
  *         in: path
  *         type: integer
  *         description: The ID of the trip transport

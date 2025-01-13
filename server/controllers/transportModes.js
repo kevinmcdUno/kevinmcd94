@@ -41,10 +41,8 @@ const getTransportModes = async (req, res) => {
     }
 
     const response = {
-      sourceCountry:
-        transportModes[0]?.countries_transport_modes_source_country_idTocountries.name,
-      destinationCountry:
-        transportModes[0]?.countries_transport_modes_destination_country_idTocountries.name,
+      sourceCountry: transportModes[0]?.countries_transport_modes_source_country_idTocountries.name,
+      destinationCountry: transportModes[0]?.countries_transport_modes_destination_country_idTocountries.name,
       availableOptions: transportModes.map((transport) => ({
         mode: transport.transport_mode_types.description,
         averageCost: transport.avg_cost,

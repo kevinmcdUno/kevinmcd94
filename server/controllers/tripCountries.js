@@ -13,7 +13,13 @@ const createTripCountry = async (req, res) => {
             },
         });
 
-        res.status(201).json(createdTripCountry);
+        const formattedTripCountry = {
+            id: createdTripCountry.id,
+            tripId: createdTripCountry.trip_id,
+            countryId: createdTripCountry.country_id
+        }
+
+        res.status(201).json(formattedTripCountry);
     } catch (error) {
         res.status(400).json({ error: error.message });
     }
@@ -22,7 +28,14 @@ const createTripCountry = async (req, res) => {
 const getAllTripCountries = async (req, res) => {
     try {
         const tripCountries = await prisma.trip_countries.findMany();
-        res.status(200).json(tripCountries);
+
+        const formattedTripCountries = tripCountries.map(tripCountry => ({
+            id: tripCountry.id,
+            tripId: tripCountry.trip_id,
+            countryId: tripCountry.country_id
+        })
+    )
+        res.status(200).json(formattedTripCountries);
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
@@ -38,11 +51,17 @@ const getTripCountryById = async (req, res) => {
             },
         });
 
-        if (!tripCountry) {
+        const formattedTripCountry = {
+            id: tripCountry.id,
+            tripId: tripCountry.trip_id,
+            countryId: tripCountry.country_id
+        }
+
+        if (!formattedTripCountry) {
             return res.status(404).json({ error: 'Trip Country Association not found' });
         }
 
-        res.status(200).json(tripCountry);
+        res.status(200).json(formattedTripCountry);
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
@@ -63,7 +82,13 @@ const updateTripCountry = async (req, res) => {
             },
         });
 
-        res.status(200).json(updatedTripCountry);
+        const formattedTripCountry = {
+            id: updatedTripCountry.id,
+            tripId: updatedTripCountry.trip_id,
+            countryId: updatedTripCountry.country_id
+        }
+
+        res.status(200).json(formattedTripCountry);
     } catch (error) {
         res.status(400).json({ error: error.message });
     }

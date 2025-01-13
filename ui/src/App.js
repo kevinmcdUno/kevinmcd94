@@ -4,7 +4,8 @@ import Dashboard from './components/Dashboard';
 import AddTrip from './components/AddTrip';
 import LandingPage from './components/LandingPage';
 import RegisterPage from './components/RegisterPage';
-import ManageTrips from './components/ManageTrips'
+import ManageTrips from './components/ManageTrips';
+import ExploreDestination from './components/ExploreDestination';
 import './App.css';
 
 function App() {
@@ -17,6 +18,7 @@ function App() {
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/add-trip" element={<AddTrip />} />
           <Route path="/manage-trips" element={<ManageTrips />} />
+          <Route path="/destinations" element={<ExploreDestination/>} />
         </Routes>
       </div>
     </Router>

@@ -4,8 +4,8 @@ import { postTripLodgings } from '../services/tripLodgingsService';
 import { postTripTransports } from '../services/tripTransportsService';
 import { getTripData } from '../services/tripService';
 import { getCountriesData } from '../services/countriesService';
-import { getLodgingTypesData } from '../services/lodgingTypesService'; // Assuming this is your import
-import { getTransportModesTypeData } from '../services/transportModesService'; // Assuming this is your import
+import { getLodgingTypesData } from '../services/lodgingTypesService';
+import { getTransportModesTypeData } from '../services/transportModesService';
 import './GlobalStyles.css';
 
 const ManageTrips = () => {
@@ -25,7 +25,7 @@ const ManageTrips = () => {
         const fetchData = async () => {
             try {
                 // Fetch trips data
-                const tripsData = await getTripData(localStorage.getItem('user_id'));
+                const tripsData = await getTripData(localStorage.getItem('userId'));
                 setTrips(tripsData);
   
                 // Fetch countries data
@@ -50,14 +50,15 @@ const ManageTrips = () => {
     const handleAddCountry = async () => {
         if (selectedTripId && selectedCountryId) {
             try {
-              const tripId = parseInt(selectedTripId, 10);
-              const countryId = parseInt(selectedCountryId, 10);
+                const tripId = parseInt(selectedTripId, 10);
+                const countryId = parseInt(selectedCountryId, 10);
 
                 await postTripCountries({
                     tripId: tripId,
                     countryId: countryId,
                 });
 
+                setError(''); // Clear previous errors
                 alert('Country added successfully to the trip!');
             } catch (error) {
                 setError('Failed to add country to the trip.');
@@ -68,43 +69,46 @@ const ManageTrips = () => {
     };
 
     const handleAddLodging = async () => {
-        if (selectedTripId && selectedLodgingTypeId) {
+        if (selectedTripId && selectedLodgingTypeId && lodgingCost && !isNaN(lodgingCost)) {
             try {
-              const tripId = parseInt(selectedTripId, 10);
-              const LodgingTypeId = parseInt(selectedLodgingTypeId, 10);
+                const tripId = parseInt(selectedTripId, 10);
+                const lodgingTypeId = parseInt(selectedLodgingTypeId, 10);
 
                 await postTripLodgings({
                     tripId: tripId,
-                    lodgingTypeId: LodgingTypeId,
-                    cost: parseInt(lodgingCost),
+                    lodgingTypeId: lodgingTypeId,
+                    cost: parseInt(lodgingCost, 10),
                 });
+
+                setError(''); // Clear previous errors
                 alert('Lodging added successfully to the trip!');
             } catch (error) {
                 setError('Failed to add lodging to the trip.');
             }
         } else {
-            setError('Please select both a trip and a lodging type.');
+            setError('Please select both a trip and a lodging type, and enter a valid lodging cost.');
         }
     };
 
     const handleAddTransportMode = async () => {
-        if (selectedTripId && selectedTransportModeId) {
+        if (selectedTripId && selectedTransportModeId && transportModeCost && !isNaN(transportModeCost)) {
             try {
-
-              const tripId = parseInt(selectedTripId, 10);
-              const transportModeId = parseInt(selectedTransportModeId, 10);
+                const tripId = parseInt(selectedTripId, 10);
+                const transportModeId = parseInt(selectedTransportModeId, 10);
 
                 await postTripTransports({
                     tripId: tripId,
                     transportModeTypeId: transportModeId,
-                    cost: parseInt(transportModeCost),
+                    cost: parseInt(transportModeCost, 10),
                 });
+
+                setError(''); // Clear previous errors
                 alert('Transport mode added successfully to the trip!');
             } catch (error) {
                 setError('Failed to add transport mode to the trip.');
             }
         } else {
-            setError('Please select both a trip and a transport mode.');
+            setError('Please select both a trip and a transport mode, and enter a valid transport mode cost.');
         }
     };
 
@@ -124,7 +128,7 @@ const ManageTrips = () => {
                 >
                     <option value="">-- Select a Trip --</option>
                     {trips.map((trip) => (
-                        <option key={trip.trip_id} value={trip.trip_id}>
+                        <option key={trip.tripId} value={trip.tripId}>
                             {trip.name}
                         </option>
                     ))}
@@ -179,7 +183,6 @@ const ManageTrips = () => {
             </div>
             <button onClick={handleAddLodging}>Add Lodging</button>
 
-           
             {/* Transport Mode Selection Dropdown */}
             <div>
                 <label htmlFor="transport">Select Transport Mode:</label>

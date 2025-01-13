@@ -11,7 +11,14 @@ const createTripTransport = async (req, res) => {
         cost: cost,
       },
     });
-    res.status(201).json(createdTripTransport);
+
+    const formattedTransport = {
+      id: createdTripTransport.id,
+      cost: createdTripTransport.cost,
+      tripId: createdTripTransport.trip_id,
+      transportModeTypeId: createdTripTransport.transport_mode_type_id
+    }
+    res.status(201).json(formattedTransport);
   } catch (error) {
     console.error("Error creating trip transport:", error);
     res.status(500).send("An error occurred while creating the trip transport.");
@@ -21,8 +28,15 @@ const createTripTransport = async (req, res) => {
 const getAllTripTransports = async (req, res) => {
   try {
     const tripTransports = await prisma.trip_transports.findMany();
-    if (tripTransports && tripTransports.length > 0) {
-      return res.status(200).json(tripTransports);
+
+    const formattedTripTransport = tripTransports.map(transport => ({
+      id: transport.id,
+      cost: transport.cost,
+      tripId: transport.trip_id,
+      transportModeTypeId: transport.transport_mode_type_id
+    }))
+    if (formattedTripTransport && formattedTripTransport.length > 0) {
+      return res.status(200).json(formattedTripTransport);
     }
     res.sendStatus(204);
   } catch (error) {
@@ -39,8 +53,15 @@ const getSingleTripTransport = async (req, res) => {
         id: parseInt(tripTransportId),
       },
     });
-    if (tripTransport) {
-      return res.status(200).json(tripTransport);
+
+    const formattedTripTransport = {
+      id: tripTransport.id,
+      cost: tripTransport.cost,
+      tripId: tripTransport.trip_id,
+      transportModeTypeId: tripTransport.transport_mode_type_id
+    }
+    if (formattedTripTransport) {
+      return res.status(200).json(formattedTripTransport);
     }
     res.sendStatus(404);
   } catch (error) {

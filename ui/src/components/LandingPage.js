@@ -12,21 +12,20 @@ function LandingPage() {
 
   const handleLogin = async (e) => {
     e.preventDefault();
-
     try {
-      // Make a POST request to login endpoint
+      // Make a POST request to the login endpoint
       const response = await axios.post(`${process.env.REACT_APP_API_URL}/auth/login`, {
         email,
         password,
       });
-
-      if (response.status === 200 && response.data.user) {
     
+      // Check if the response is successful and contains the formattedUser object
+      if (response.status === 200 && response.data.user) {
         const { user } = response.data;
-
+    
         // Store userId in localStorage
-        localStorage.setItem('user_id', user.id);
-
+        localStorage.setItem('userId', user.id);
+    
         // Navigate to the dashboard upon successful login
         navigate('/dashboard');
       } else {
@@ -34,10 +33,12 @@ function LandingPage() {
         setError('Invalid credentials, please try again.');
       }
     } catch (error) {
-      // Handle error: Network issues, server errors, etc.
-      setError('An error occurred during login. Please try again.');
+      // Handle network or server errors
+      setError(
+        error.response?.data?.message || 'An error occurred during login. Please try again.'
+      );
     }
-  };
+  };    
 
   const handleRegister = () => {
     navigate('/register');

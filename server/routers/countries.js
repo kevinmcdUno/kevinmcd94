@@ -35,11 +35,11 @@ const {
  *               - id: 1
  *                 name: "Mexico" 
  *                 language: "Spanish"          
- *                 currency: "MXN_Pesos"
+ *                 currency: "MXN Pesos"
  *               - id: 2
  *                 name: "Costa Rica" 
  *                 language: "Spanish"          
- *                 currency: "CR_Colon"
+ *                 currency: "CR Colon"
  *       404:
  *         description: Not Found
  */

@@ -1,51 +1,61 @@
-// src/components/ExploreDestinations.js
-import React, { useState, useEffect } from 'react';
-import { getDestinations } from '../apiService';
-import './ExploreDestinations.css';
+import React, { useState, useEffect } from "react";
+import { ComposableMap, Geographies, Geography } from "react-simple-maps";
+import { getCountriesData } from '../services/countriesService';
 
-function ExploreDestinations() {
-  const [destinations, setDestinations] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+const ExploreDestination = () => {
+  const [selectedCountry, setSelectedCountry] = useState(null); // Selected country details
+  const [countriesData, setCountriesData] = useState([]); // Store country data
+
+  const geoUrl = "https://unpkg.com/world-atlas@2.0.2/countries-110m.json";
 
   useEffect(() => {
-    const fetchDestinations = async () => {
-      try {
-        const destinationData = await getDestinations();
-        setDestinations(destinationData);
-      } catch (err) {
-        setError(err.message);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchDestinations();
+    // Fetch the country data when the component mounts
+    getCountriesData()
+      .then((data) => {
+        setCountriesData(data);
+      })
+      .catch((error) => {
+        console.error("Error fetching countries data:", error);
+      });
   }, []);
 
-  if (loading) return <p>Loading...</p>;
-  if (error) return <p>Error: {error}</p>;
+  const handleCountryClick = (countryName) => {
+    const country = countriesData.find((c) => c.name === countryName);
+    setSelectedCountry(country); // Update selected country
+  };
 
   return (
-    <div className="explore-destinations">
-      <h1>Explore Destinations</h1>
-      <ul>
-        {destinations.map((destination) => (
-          <li key={destination.id}>
-            <h2>{destination.name}</h2>
-            <p>Available Transport Options:</p>
-            <ul>
-              {destination.transportOptions.map((option) => (
-                <li key={option.id}>
-                  {option.mode}: ${option.cost}
-                </li>
-              ))}
-            </ul>
-          </li>
-        ))}
-      </ul>
+    <div className="map-container">
+      <ComposableMap>
+        <Geographies geography={geoUrl}>
+          {({ geographies }) =>
+            geographies.map((geo) => {
+              // No need for the 'country' variable anymore
+              const isSelected = selectedCountry && selectedCountry.name === geo.properties.name;
+
+              return (
+                <Geography
+                  key={geo.rsmKey}
+                  geography={geo}
+                  fill={isSelected ? "#FF5722" : "#D3D3D3"} // Highlight selected country
+                  stroke="#000"
+                  onClick={() => handleCountryClick(geo.properties.name)} // Trigger country info on click
+                />
+              );
+            })
+          }
+        </Geographies>
+      </ComposableMap>
+
+      {selectedCountry && (
+        <div className="tooltip">
+          <h3>{selectedCountry.name}</h3>
+          <p><strong>Language:</strong> {selectedCountry.language}</p>
+          <p><strong>Currency:</strong> {selectedCountry.currency}</p>
+        </div>
+      )}
     </div>
   );
-}
+};
 
-export default ExploreDestinations;
+export default ExploreDestination;

@@ -325,19 +325,19 @@ Responses:
     "id": 1,
     "name": "Mexico",
     "language": "Spanish",
-    "currency": "MXN_Pesos"
+    "currency": "MXN Pesos"
   },
   {
     "id": 2,
     "name": "Costa Rica",
     "language": "Spanish",
-    "currency": "CR_Colon"
+    "currency": "CR Colon"
   },
   {
     "id": 3,
     "name": "Guatemala",
     "language": "Spanish",
-    "currency": "Guat_Quetzal"
+    "currency": "Guat Quetzal"
   }
 ]
 ```
@@ -356,7 +356,7 @@ Responses:
   "id": 1,
   "name": "Mexico",
   "language": "Spanish",
-  "currency": "MXN_Pesos"
+  "currency": "MXN Pesos"
 }
 ```
 

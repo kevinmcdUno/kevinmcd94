@@ -12,7 +12,7 @@ function Dashboard() {
   
   useEffect(() => {
     // Retrieve user_id from localStorage
-    const user_id = localStorage.getItem('user_id');
+    const user_id = localStorage.getItem('userId');
   
     // Check if user_id exists in localStorage
     if (!user_id) {
@@ -84,8 +84,8 @@ function Dashboard() {
             {trips.map((trip, index) => (
               <li key={index}>
                 <h3>{trip.name}</h3>
-                <p><strong>Start Date:</strong> {trip.start_date}</p>
-                <p><strong>End Date:</strong> {trip.end_date}</p>
+                <p><strong>Start Date:</strong> {trip.startDate}</p>
+                <p><strong>End Date:</strong> {trip.endDate}</p>
               {/* Display Countries */}
           <p><strong>Countries:</strong></p>
           {trip.countries && trip.countries.length > 0 ? (
@@ -103,7 +103,8 @@ function Dashboard() {
           {trip.transports && trip.transports.length > 0 ? (
             <ul>
               {trip.transports.map((transport, i) => (
-                <li key={i}>{transport}</li>
+                <li key={i}>
+                  {transport.description} - ${transport.cost}</li>
               ))}
             </ul>
           ) : (
@@ -115,7 +116,9 @@ function Dashboard() {
           {trip.lodgings && trip.lodgings.length > 0 ? (
             <ul>
               {trip.lodgings.map((lodging, i) => (
-                <li key={i}>{lodging}</li>
+                <li key={i}>
+                  {lodging.description} - ${lodging.cost}
+                  </li>
               ))}
             </ul>
           ) : (
