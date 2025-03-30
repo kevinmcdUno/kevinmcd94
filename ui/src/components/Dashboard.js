@@ -11,11 +11,11 @@ function Dashboard() {
   const [error, setError] = useState('');
   
   useEffect(() => {
-    // Retrieve user_id from localStorage
-    const user_id = localStorage.getItem('userId');
+    // Retrieve userId from localStorage
+    const userId = localStorage.getItem('userId');
   
-    // Check if user_id exists in localStorage
-    if (!user_id) {
+    // Check if userId exists in localStorage
+    if (!userId) {
       setError('User ID not found. Please log in again.');
       return;
     }
@@ -23,7 +23,7 @@ function Dashboard() {
     // Fetch user data
     const fetchUserData = async () => {
       try {
-        const userData = await getUserData(user_id);
+        const userData = await getUserData(userId);
         setUserProfile(userData);
       } catch (error) {
         setError('Failed to fetch user data.');
@@ -33,7 +33,7 @@ function Dashboard() {
     // Fetch trip data
     const fetchTripData = async () => {
       try {
-        const tripsData = await getTripData(user_id); // Fetch trips array
+        const tripsData = await getTripData(userId); // Fetch trips array
         setTrips(tripsData); // Update state with fetched trips array
       } catch (error) {
         setError('Failed to fetch trip data.');
