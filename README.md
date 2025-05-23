@@ -36,17 +36,17 @@ Users can manage multiple trips within their profile, empowering them to prepare
 Overall, the application streamlines trip planning by furnishing essential details and accurately addressing varying visa prerequisites. It empowers users to make informed decisions about travel plans and allows them to create trips with specified dates, add bookings, and effectively budget for flights, accommodations, and activities.
 
 ### Glossary
-Term	Definition
-User	A person who registers with the application to plan and manage trips.
-Trip	A collection of travel plans made by a user, including dates, destinations, and expenses.
-Country	A travel destination selected by the user within a trip.
-Nationality	The user's country of citizenship, used to determine visa requirements.
-Visa Requirement	Rules and costs associated with entering a country, based on the user's nationality and stay duration.
-Transport Option	Available modes of travel between countries, such as flights or trains.
-Language	The primary spoken language of a country.
-Currency	The official currency used in a country.
-Expense	Any cost associated with a trip, such as transportation, accommodation, or activities.
-Accommodation	Lodging expenses during a trip, such as hotels or hostels.
+- **Term**:	Definition
+- **User**:	A person who registers with the application to plan and manage trips.
+- **Trip**:	A collection of travel plans made by a user, including dates, destinations, and expenses.
+- **Country**:	A travel destination selected by the user within a trip.
+- **Nationality**:	The user's country of citizenship, used to determine visa requirements.
+- **Visa Requirement**:	Rules and costs associated with entering a country, based on the user's nationality and stay duration.
+- **Transport Option**:	Available modes of travel between countries, such as flights or trains.
+- **Language**:	The primary spoken language of a country.
+- **Currency**:	The official currency used in a country.
+- **Expense**:	Any cost associated with a trip, such as transportation, accommodation, or activities.
+- **Accommodation**:	Lodging expenses during a trip, such as hotels or hostels.
 
 ### Domain Model Diagram
 ```mermaid
