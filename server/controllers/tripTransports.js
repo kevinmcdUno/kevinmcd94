@@ -1,12 +1,15 @@
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 
+
 const createTripTransport = async (req, res) => {
-  const { tripId, transportModeTypeId, cost } = req.body;
+  const { transportModeTypeId, cost } = req.body;
+  const { tripId } = req.params; 
+
   try {
     const createdTripTransport = await prisma.trip_transports.create({
       data: {
-        trip_id: tripId,
+        trip_id: parseInt(tripId), 
         transport_mode_type_id: transportModeTypeId,
         cost: cost,
       },
@@ -16,8 +19,9 @@ const createTripTransport = async (req, res) => {
       id: createdTripTransport.id,
       cost: createdTripTransport.cost,
       tripId: createdTripTransport.trip_id,
-      transportModeTypeId: createdTripTransport.transport_mode_type_id
-    }
+      transportModeTypeId: createdTripTransport.transport_mode_type_id,
+    };
+
     res.status(201).json(formattedTransport);
   } catch (error) {
     console.error("Error creating trip transport:", error);
@@ -26,65 +30,69 @@ const createTripTransport = async (req, res) => {
 };
 
 const getAllTripTransports = async (req, res) => {
-  try {
-    const tripTransports = await prisma.trip_transports.findMany();
+  const { tripId } = req.params;
 
-    const formattedTripTransport = tripTransports.map(transport => ({
-      id: transport.id,
-      cost: transport.cost,
-      tripId: transport.trip_id,
-      transportModeTypeId: transport.transport_mode_type_id
-    }))
-    if (formattedTripTransport && formattedTripTransport.length > 0) {
-      return res.status(200).json(formattedTripTransport);
-    }
-    res.sendStatus(204);
-  } catch (error) {
-    console.error("Error fetching trip transports:", error);
-    res.status(500).send("An error occurred while fetching trip transports.");
-  }
-};
-
-const getSingleTripTransport = async (req, res) => {
-  const { tripTransportId } = req.params;
   try {
-    const tripTransport = await prisma.trip_transports.findUnique({
+    const tripTransports = await prisma.trip_transports.findMany({
       where: {
-        id: parseInt(tripTransportId),
+        trip_id: parseInt(tripId),
+      },
+      include: {
+        transport_mode_types: true, 
       },
     });
 
-    const formattedTripTransport = {
-      id: tripTransport.id,
-      cost: tripTransport.cost,
-      tripId: tripTransport.trip_id,
-      transportModeTypeId: tripTransport.transport_mode_type_id
+    if (!tripTransports.length) {
+      return res.status(204).send(); 
     }
-    if (formattedTripTransport) {
-      return res.status(200).json(formattedTripTransport);
-    }
-    res.sendStatus(404);
+
+    const formatted = tripTransports.map(transport => ({
+      id: transport.id,
+      cost: transport.cost,
+      tripId: transport.trip_id,
+      transportModeTypeId: transport.transport_mode_type_id,
+      transportModeType: transport.transport_mode_types?.name, 
+    }));
+
+    res.status(200).json(formatted);
   } catch (error) {
-    console.error("Error fetching trip transport:", error);
-    res.status(500).send("An error occurred while fetching the trip transport.");
+    res.status(500).json({ error: error.message });
   }
 };
 
 const updateSingleTripTransport = async (req, res) => {
-  const { tripId, transportModeTypeId, cost } = req.body;
-  const { tripTransportId } = req.params;
+  const { tripId, tripTransportId } = req.params;
+  const { transportModeTypeId, cost } = req.body;
+
   try {
-    await prisma.trip_transports.update({
+    // Step 1: Ensure the transport exists and belongs to the correct trip
+    const existingTransport = await prisma.trip_transports.findUnique({
+      where: { id: parseInt(tripTransportId) },
+    });
+
+    if (!existingTransport || existingTransport.trip_id !== parseInt(tripId)) {
+      return res.status(404).send("Trip transport not found for the given trip.");
+    }
+
+    // Step 2: Update the transport
+   const updateTransport = await prisma.trip_transports.update({
       where: {
         id: parseInt(tripTransportId),
       },
       data: {
-        trip_id: tripId,
         transport_mode_type_id: transportModeTypeId,
         cost: cost,
       },
     });
-    res.sendStatus(204);
+
+    const formattedTransport = {
+      id: updateTransport.id,
+      tripId: updateTransport.trip_id,
+      transportModeType: updateTransport.transport_mode_type_id,
+      cost: updateTransport.cost
+    }
+
+   res.status(200).json(formattedTransport);
   } catch (error) {
     console.error("Error updating trip transport:", error);
     res.status(500).send("An error occurred while updating the trip transport.");
@@ -92,13 +100,23 @@ const updateSingleTripTransport = async (req, res) => {
 };
 
 const deleteTripTransport = async (req, res) => {
-  const { tripTransportId } = req.params;
+  const { tripId, tripTransportId } = req.params;
+
   try {
-    await prisma.trip_transports.delete({
-      where: {
-        id: parseInt(tripTransportId),
-      },
+    // Step 1: Check if the transport exists and belongs to the given trip
+    const tripTransport = await prisma.trip_transports.findUnique({
+      where: { id: parseInt(tripTransportId) },
     });
+
+    if (!tripTransport || tripTransport.trip_id !== parseInt(tripId)) {
+      return res.status(404).send("Trip transport not found for the given trip.");
+    }
+
+    // Step 2: Delete the transport
+    await prisma.trip_transports.delete({
+      where: { id: parseInt(tripTransportId) },
+    });
+
     res.sendStatus(204);
   } catch (error) {
     console.error("Error deleting trip transport:", error);
@@ -109,7 +127,6 @@ const deleteTripTransport = async (req, res) => {
 module.exports = {
   createTripTransport,
   getAllTripTransports,
-  getSingleTripTransport,
   updateSingleTripTransport,
   deleteTripTransport,
 };

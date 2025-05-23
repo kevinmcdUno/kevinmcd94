@@ -5,6 +5,10 @@ const { createTrip, getSingleTrip, updateTrip, getAllTrips, deleteTrip } = requi
 const router = Router();
 
 
+const tripCountriesRouter = require("./tripCountries");
+
+router.use("/:tripId/countries", tripCountriesRouter);
+
 /**
  * @swagger
  *   /trips:
@@ -56,6 +60,8 @@ const router = Router();
  *                     userId: 1
  *       400:
  *         description: Bad Request
+ *       500:
+ *         description: Internal Server Error
  */
 router.route("/").post(  
     [
@@ -143,6 +149,8 @@ router.route("/").post(
  *                    
  *       404:
  *         description: Not Found
+ *       500:
+ *         description: Internal Server Error
  */
 
 router.route("/").get(getAllTrips),
@@ -187,6 +195,8 @@ router.route("/").get(getAllTrips),
  *                       surname: string
  *       404:
  *         description: Not Found
+ *       500:
+ *         description: Internal Server Error
  */
 router.route("/:tripId(\\d+)").get(getSingleTrip)
 
@@ -247,10 +257,12 @@ router.route("/:tripId(\\d+)").get(getSingleTrip)
  *                         country: "Colombia"
  *                       - countryId: 28
  *                         country: "Brazil"
- *       204:
- *         description: No content
- *       400: 
- *          description: Bad Request
+ *       400:
+ *         description: Bad request, check request body
+ *       404:
+ *         description: Not found
+ *       500:
+ *         description: Internal server error
  */
 router.route("/:tripId(\\d+)").put(
   [
@@ -288,7 +300,11 @@ router.route("/:tripId(\\d+)").put(
  *        description: The ID of the requested trip
  *     responses:
  *       204:
- *         description: No content
+ *         description: Successfully deleted trip-country association
+ *       404:
+ *         description: Not found
+ *       500:
+ *         description: Internal server error
  */
 router.route("/:tripId(\\d+)").delete(
   deleteTrip);

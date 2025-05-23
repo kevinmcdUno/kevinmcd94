@@ -3,33 +3,41 @@ const { body } = require("express-validator");
 const {
   createTripTransport,
   getAllTripTransports,
-  getSingleTripTransport,
   updateSingleTripTransport,
   deleteTripTransport,
 } = require("../controllers/tripTransports");
 const validation = require("../utils/validation");
 
-const router = Router();
+const router = Router({ mergeParams: true });
 
 /**
  * @swagger
- * /tripTransports:
+ * /trips/{tripId}/transports:
  *   post:
  *     tags: ["Trip Transports"]
  *     summary: Create a new trip transport
+ *     parameters:
+ *       - in: path
+ *         name: tripId
+ *         required: true
+ *         schema:
+ *           type: integer
  *     requestBody:
  *       required: true
  *       content:
  *         application/json:
  *           schema:
  *             type: object
+ *             required:
+ *               - transportModeTypeId
+ *               - cost
  *             properties:
- *               tripId:
- *                 type: integer
  *               transportModeTypeId:
  *                 type: integer
+ *                 example: 1
  *               cost:
  *                 type: integer
+ *                 example: 100
  *     responses:
  *       201:
  *         description: Created
@@ -42,11 +50,12 @@ const router = Router();
  *               transportModeTypeId: 1
  *       400:
  *         description: Bad Request
+ *       500:
+ *         description: Server Error
  */
 router.post(
   "/",
   [
-    body("tripId").isInt(),
     body("transportModeTypeId").isInt(),
     body("cost").isInt(),
   ],
@@ -54,15 +63,22 @@ router.post(
   createTripTransport
 );
 
+
 /**
  * @swagger
- * /tripTransports:
+ * /trips/{tripId}/transports:
  *   get:
  *     tags: ["Trip Transports"]
- *     summary: Get all trip transports
+ *     summary: Get all transport modes for a trip
+ *     parameters:
+ *       - in: path
+ *         name: tripId
+ *         required: true
+ *         schema:
+ *           type: integer
  *     responses:
  *       200:
- *         description: OK
+ *         description: Successfully retrieved trip transports
  *         content:
  *           application/json:
  *             example:
@@ -70,48 +86,27 @@ router.post(
  *                 cost: 100
  *                 tripId: 1
  *                 transportModeTypeId: 1
- *               - id: 2
- *                 cost: 150
- *                 tripId: 1
- *                 transportModeTypeId: 2
- *       204:
- *         description: No content
+ *                 transportModeType: "Bus"
+ *       404:
+ *         description: Not Found
+ *       500:
+ *         description: Internal Server Error
  */
 router.get("/", getAllTripTransports);
 
-/**
- * @swagger
- * /tripTransports/{tripTransportId}:
- *   get:
- *     tags: ["Trip Transports"]
- *     summary: Get a single trip transport by ID
- *     parameters:
- *       - name: tripTransportId
- *         in: path
- *         type: integer
- *         description: The ID of the trip transport
- *     responses:
- *       200:
- *         description: OK
- *         content:
- *           application/json:
- *             example:
- *               id: 1
- *               cost: 100
- *               tripId: 1
- *               transportModeTypeId: 1
- *       404:
- *         description: Not Found
- */
-router.route("/:tripTransportId(\\d+)").get(getSingleTripTransport);
 
 /**
  * @swagger
- * /tripTransports/{tripTransportId}:
+ * /trips/{tripId}/transports/{tripTransportId}:
  *   put:
  *     tags: ["Trip Transports"]
  *     summary: Update a single trip transport
  *     parameters:
+ *       - in: path
+ *         name: tripId
+ *         required: true
+ *         schema:
+ *           type: integer
  *       - in: path
  *         name: tripTransportId
  *         required: true
@@ -125,8 +120,6 @@ router.route("/:tripTransportId(\\d+)").get(getSingleTripTransport);
  *           schema:
  *             type: object
  *             properties:
- *               tripId:
- *                 type: integer
  *               transportModeTypeId:
  *                 type: integer
  *               cost:
@@ -141,13 +134,16 @@ router.route("/:tripTransportId(\\d+)").get(getSingleTripTransport);
  *               cost: 150
  *               tripId: 2
  *               transportModeTypeId: 3
- *       204:
- *         description: No content
+ *       400:
+ *         description: Bad request, check request body
+ *       404:
+ *         description: Trip-transport association not found
+ *       500:
+ *         description: Internal server error
  */
 router.put(
   "/:tripTransportId(\\d+)",
   [
-    body("tripId").isInt(),
     body("transportModeTypeId").isInt(),
     body("cost").isInt(),
   ],
@@ -157,18 +153,27 @@ router.put(
 
 /**
  * @swagger
- * /tripTransports/{tripTransportId}:
+ * /trips/{tripId}/transports/{tripTransportId}:
  *   delete:
  *     tags: ["Trip Transports"]
  *     summary: Delete a trip transport by ID
  *     parameters:
- *       - name: id
+ *       - in: path
+ *         name: tripId
+ *         required: true
+ *         schema:
+ *           type: integer
+ *       - name: tripTransportId
  *         in: path
  *         type: integer
  *         description: The ID of the trip transport
  *     responses:
  *       204:
- *         description: No content
+ *         description: Successfully deleted trip-country association
+ *       404:
+ *         description: Trip-transport association not found
+ *       500:
+ *         description: Internal server error
  */
 router.route("/:tripTransportId(\\d+)").delete(deleteTripTransport);
 

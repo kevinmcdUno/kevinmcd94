@@ -28,6 +28,7 @@ const getEntryRequirements = async (req, res) => {
       cost: entry.cost,
       exceedsMaxDays: entry.exceeds_max_days,
       borderFeeId: entry.border_fee_id,
+      visaTypeId: entry.visa_type_id,
       country: entry.countries.name,
       borderFees: entry.border_fees.cost,
       visaType: entry.visa_types.name 
