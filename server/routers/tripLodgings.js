@@ -4,20 +4,25 @@ const { body } = require("express-validator");
 const {
   createTripLodging,
   getAllTripLodgings,
-  getSingleTripLodging,
   updateSingleTripLodging,
   deleteTripLodging,
 } = require("../controllers/tripLodgings");
-const router = Router();
+const router = Router({ mergeParams: true });
 
 /**
  * @swagger
- *   /tripLodgings:
+ *   /trips/{tripId}/lodgings:
  *   post:
  *     tags: [
  *         "Trip Lodgings"
  *      ]
  *     summary: Create a new trip lodging
+ *     parameters:
+ *       - in: path
+ *         name: tripId
+ *         required: true
+ *         schema:
+ *           type: integer
  *     requestBody:
  *       required: true
  *       content:
@@ -25,8 +30,6 @@ const router = Router();
  *           schema:
  *             type: object
  *             properties:
- *               tripId:
- *                 type: integer
  *               lodgingTypeId:
  *                 type: integer
  *               cost:
@@ -43,11 +46,12 @@ const router = Router();
  *               lodgingTypeId: 1
  *       400:
  *         description: Bad Request
+ *       500:
+ *         description: Internal Server Error
  */
 router.post(
   "/",
   [
-    body("tripId").isInt(),
     body("lodgingTypeId").isInt(),
     body("cost").isInt(),
   ],
@@ -57,12 +61,18 @@ router.post(
 
 /**
  * @swagger
- * /tripLodgings:
+ * /trips/{tripId}/lodgings:
  *   get:
  *     tags: [
  *        "Trip Lodgings" 
  *     ]
  *     summary: Get all trip lodgings
+ *     parameters:
+ *       - in: path
+ *         name: tripId
+ *         required: true
+ *         schema:
+ *           type: integer
  *     responses:
  *       200:
  *         description: OK
@@ -77,46 +87,26 @@ router.post(
  *                 cost: 150
  *                 tripId: 1
  *                 lodgingTypeId: 2
- *       204:
- *         description: No content
+ *       404:
+ *         description: Not Found
+ *       500:
+ *         description: Internal Server Error
+ * 
  */
 router.get("/", getAllTripLodgings);
 
-/**
- * @swagger
- * /tripLodgings/{tripLodgingId}:
- *   get:
- *     tags: [
- *        "Trip Lodgings" 
- *     ]
- *     summary: Get a single trip lodging by ID
- *     parameters:
- *       - name: tripLodgingId
- *         in: path
- *         type: integer
- *         description: The ID of the trip lodging
- *     responses:
- *       200:
- *         description: OK
- *         content:
- *           application/json:
- *             example:
- *               id: 1
- *               cost: 100
- *               tripId: 1
- *               lodgingTypeId: 1
- *       404:
- *         description: Not Found
- */
-router.route("/:tripLodgingId(\\d+)").get(getSingleTripLodging);
 
 /**
  * @swagger
- * /tripLodgings/{tripLodgingId}:
+ * /trips/{tripId}/lodgings/{tripLodgingId}:
  *   put:
  *     summary: Update a single trip lodging
  *     tags: [Trip Lodgings]
  *     parameters:
+ *       - in: path
+ *         name: tripId
+ *         required: true
+ *         description: The ID of the trip
  *       - in: path
  *         name: tripLodgingId
  *         required: true
@@ -130,8 +120,6 @@ router.route("/:tripLodgingId(\\d+)").get(getSingleTripLodging);
  *           schema:
  *             type: object
  *             properties:
- *               tripId:
- *                 type: integer
  *               lodgingTypeId:
  *                 type: integer
  *               cost:
@@ -146,13 +134,16 @@ router.route("/:tripLodgingId(\\d+)").get(getSingleTripLodging);
  *               cost: 150
  *               tripId: 2
  *               lodgingTypeId: 3
- *       204:
- *         description: No content
+ *       400:
+ *         description: Bad request, check request body
+ *       404:
+ *         description: Trip-lodging association not found
+ *       500:
+ *         description: Internal server error
  */
 router.put(
   "/:tripLodgingId(\\d+)",
   [
-    body("tripId").isInt(),
     body("lodgingTypeId").isInt(),
     body("cost").isInt(),
   ],
@@ -162,20 +153,28 @@ router.put(
 
 /**
  * @swagger
- * /tripLodgings/{tripLodgingId}:
+ * /trips/{tripId}/lodgings/{tripLodgingsId}:
  *   delete:
  *     tags: [
  *        "Trip Lodgings" 
  *     ]
  *     summary: Delete a trip lodging by ID
  *     parameters:
- *       - name: id
+ *       - name: tripId
+ *         in: path
+ *         type: integer
+ *         description: The ID of the trip
+ *       - name: tripLodgingsId
  *         in: path
  *         type: integer
  *         description: The ID of the trip lodging
  *     responses:
  *       204:
- *         description: No content
+ *         description: Successfully deleted trip-country association
+ *       404:
+ *         description: Trip-lodging association not found
+ *       500:
+ *         description: Internal server error 
  */
 router.route("/:tripLodgingId(\\d+)").delete(deleteTripLodging);
 

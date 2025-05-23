@@ -30,6 +30,8 @@ const {
  *                 description: "Airbnb" 
  *       404:
  *         description: Not Found
+ *       500:
+ *         description: Internal Server Error
  */
 router.get('/', getAllLodgingTypes);
 
@@ -56,6 +58,8 @@ router.get('/', getAllLodgingTypes);
  *                 description: "Hotel"
  *       404:
  *         description: Not Found
+ *       500:
+ *         description: Internal Server Error
  */
 router.route("/:lodgingTypeId(\\d+)").get(getSingleLodgingType); // Updated naming
 

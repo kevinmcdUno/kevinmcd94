@@ -24,7 +24,7 @@ const { getBorderFees, getSingleBorderFees } = require('../controllers/borderFee
  *       404:
  *         description: Not Found. No border fees found.
  *       500:
- *         description: Internal Server Error.
+ *         description: Internal Server Error
  */
 router.get('/', getBorderFees);
 
@@ -56,6 +56,8 @@ router.get('/', getBorderFees);
  *                     country: "Mexico" 
  *       404:
  *         description: Not Found
+ *       500:
+ *         description: Internal Server Error
  */
 router.route("/:borderFeesId(\\d+)").get(getSingleBorderFees)
 

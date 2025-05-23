@@ -174,7 +174,8 @@ const getSingleTrip = async (req, res) => {
 const updateTrip = async (req, res) => {
   const { name, startDate, endDate, userId } = req.body;
   const { tripId } = req.params;
-  await prisma.trips.update({
+  try {
+ const updateTrip = await prisma.trips.update({
     where: {
       id: parseInt(tripId),
     },
@@ -187,7 +188,19 @@ const updateTrip = async (req, res) => {
     },
   });
 
-  res.sendStatus(204);
+  const formatTrip = {
+    id: updateTrip.id,
+    name: updateTrip.name,
+    startDate: updateTrip.start_date,
+    endDate: updateTrip.end_date,
+    userId: updateTrip.users_id,
+  };
+
+  res.status(200).json(formatTrip);
+} catch (error) {
+  console.error("Error updating user:", error);
+  res.status(500).json({ error: "Internal server error" });
+}
 };
 
 const deleteTrip = async (req, res) => {

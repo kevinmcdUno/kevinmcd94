@@ -29,8 +29,11 @@ const getSingleTransportModeType = async (req, res) => {
     }
     return res.sendStatus(404); // Not Found
   } catch (error) {
-    console.error("Error fetching single transport mode type:", error);
-    return res.status(500).json({ message: "Internal Server Error" });
+    console.error("Detailed Error:", error); // Log detailed error
+    return res.status(500).json({
+      message: "Internal Server Error",
+      error: error.message || error,
+    });
   }
 }
 

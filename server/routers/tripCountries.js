@@ -4,19 +4,24 @@ const { body } = require("express-validator");
 const {
     createTripCountry,
     getAllTripCountries,
-    getTripCountryById,
     updateTripCountry,
     deleteTripCountry
 } = require("../controllers/tripCountries");
-const router = Router();
+
+const router = Router({ mergeParams: true });
+
 /**
  * @swagger
- * /tripCountries:
+ * /trips/{tripId}/countries:
  *   post:
- *     tags: [
- *         "Trip Countries"
- *      ]
+ *     tags: ["Trip Countries"]
  *     summary: Create a new trip-country association
+ *     parameters:
+ *       - in: path
+ *         name: tripId
+ *         required: true
+ *         schema:
+ *           type: integer
  *     requestBody:
  *       required: true
  *       content:
@@ -24,75 +29,58 @@ const router = Router();
  *           schema:
  *             type: object
  *             properties:
- *               tripId:
- *                 type: integer
  *               countryId:
  *                 type: integer
  *     responses:
  *       201:
  *         description: Successfully created trip-country association
  *       400:
- *         description: Bad request, check request body
+ *         description: Bad request
  */
 router.post(
   "/",
-  [
-      body('tripId').isInt(),
-      body('countryId').isInt(),
-  ],
+  [body("countryId").isInt()],
   validation.validate,
   createTripCountry
 );
 
 /**
-* @swagger
-* /tripCountries:
-*   get:
-*     tags: [
-*        "Trip Countries"
-*      ]
-*     summary: Retrieve all trip-country associations
-*     responses:
-*       200:
-*         description: Successfully retrieved trip-country associations
-*       500:
-*         description: Internal server error
-*/
+ * @swagger
+ * /trips/{tripId}/countries:
+ *   get:
+ *     tags: ["Trip Countries"]
+ *     summary: Get all countries for a trip
+ *     parameters:
+ *       - in: path
+ *         name: tripId
+ *         required: true
+ *         schema:
+ *           type: integer
+ *     responses:
+ *       200:
+ *         description: Successfully retrieved
+ *       404:
+ *         description: Not Found
+ *       500:
+ *         description: Internal Server Error.
+ */
 router.get("/", getAllTripCountries);
 
-/**
-* @swagger
-* /tripCountries/{tripCountryId}:
-*   get:
-*     tags: [
-*        "Trip Countries"
-*     ]
-*     summary: Retrieve a trip-country association by ID
-*     parameters:
-*       - in: path
-*         name: tripCountryId
-*         required: true
-*         schema:
-*           type: integer
-*     responses:
-*       200:
-*         description: Successfully retrieved trip-country association
-*       404:
-*         description: Trip-country association not found
-*       500:
-*         description: Internal server error
-*/
-router.get("/:tripCountryId(\\d+)", getTripCountryById);
 
 /**
 * @swagger
-* /tripCountries/{tripCountryId}:
+* /trips/{tripId}/countries/{tripCountryId}:
 *   put:
 *     tags: [
 *        "Trip Countries"
 *     ]
 *     summary: Update a trip-country association
 *     parameters:
+*       - in: path
+*         name: tripId
+*         required: true
+*         schema:
+*         type: integer
 *       - in: path
 *         name: tripCountryId
 *         required: true
@@ -105,8 +93,6 @@ router.get("/:tripCountryId(\\d+)", getTripCountryById);
 *           schema:
 *             type: object
 *             properties:
-*               tripId:
-*                 type: integer
 *               countryId:
 *                 type: integer
 *     responses:
@@ -122,7 +108,6 @@ router.get("/:tripCountryId(\\d+)", getTripCountryById);
 router.put(
   "/:tripCountryId(\\d+)",
   [
-      body('tripId').isInt(),
       body('countryId').isInt(),
   ],
   validation.validate,
@@ -131,18 +116,21 @@ router.put(
 
 /**
 * @swagger
-* /tripCountries/{tripCountryId}:
+* /trips/{tripId}/countries/{tripCountryId}:
 *   delete:
 *     tags: [
 *        "Trip Countries"
 *     ]
 *     summary: Delete a trip-country association by ID
 *     parameters:
-*       - in: path
-*         name: tripCountryId
-*         required: true
-*         schema:
-*           type: integer
+*       - name: tripId
+*         in: path        
+*         type: integer
+*         description: The ID of the trip
+*       - name: tripCountryId
+*         in: path
+*         type: integer
+*         description: The ID of the trip country 
 *     responses:
 *       204:
 *         description: Successfully deleted trip-country association
@@ -152,5 +140,6 @@ router.put(
 *         description: Internal server error
 */
 router.delete("/:tripCountryId(\\d+)", deleteTripCountry);
+
 
 module.exports = router;

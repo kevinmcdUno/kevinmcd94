@@ -42,6 +42,8 @@ const {
  *                 currency: "CR Colon"
  *       404:
  *         description: Not Found
+ *       500:
+ *         description: Internal Server Error
  */
 router.get('/', getAllCountries);
 
@@ -71,6 +73,8 @@ router.get('/', getAllCountries);
  *                   
  *       404:
  *         description: Not Found 
+ *       500:
+ *         description: Internal Server Error
  */
 
 router.route("/:countryId(\\d+)").get(getSingleCountry);

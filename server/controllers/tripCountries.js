@@ -3,12 +3,13 @@ const prisma = new PrismaClient();
 
 
 const createTripCountry = async (req, res) => {
-    const { tripId, countryId } = req.body;
+    const { tripId } = req.params;
+    const { countryId } = req.body;
 
     try {
         const createdTripCountry = await prisma.trip_countries.create({
             data: {
-                trip_id: tripId,
+                trip_id: parseInt(tripId),
                 country_id: countryId,
             },
         });
@@ -26,20 +27,30 @@ const createTripCountry = async (req, res) => {
 };
 
 const getAllTripCountries = async (req, res) => {
+    const { tripId } = req.params;
+  
     try {
-        const tripCountries = await prisma.trip_countries.findMany();
-
-        const formattedTripCountries = tripCountries.map(tripCountry => ({
-            id: tripCountry.id,
-            tripId: tripCountry.trip_id,
-            countryId: tripCountry.country_id
-        })
-    )
-        res.status(200).json(formattedTripCountries);
+      const tripCountries = await prisma.trip_countries.findMany({
+        where: { trip_id: parseInt(tripId) },
+        include: {
+          countries: true  
+        }
+      });
+  
+      const formatted = tripCountries.map((tc) => ({
+        id: tc.id,
+        tripId: tc.trip_id,
+        countryId: tc.country_id,
+        country: tc.countries?.name 
+      }));
+  
+      res.status(200).json(formatted);
     } catch (error) {
-        res.status(500).json({ error: error.message });
+      res.status(500).json({ error: error.message });
     }
-};
+  };
+  
+
 
 const getTripCountryById = async (req, res) => {
     const { tripCountryId } = req.params;
@@ -68,16 +79,26 @@ const getTripCountryById = async (req, res) => {
 };
 
 const updateTripCountry = async (req, res) => {
-    const { tripCountryId } = req.params;
-    const { tripId, countryId } = req.body;
+    const {  tripId, tripCountryId } = req.params;
+    const { countryId } = req.body;
 
     try {
-        const updatedTripCountry = await prisma.trip_countries.update({
+        const existingTripCountry = await prisma.trip_countries.findUnique({
+            where: {
+                id: parseInt(tripCountryId),
+            },
+        });
+
+           if ( !existingTripCountry || existingTripCountry.trip_id !== parseInt(tripId)) {
+        return res.status(404).send("Trip Country not found for the given trip.")
+      }
+
+      //Step 2 update the country
+       const updatedTripCountry = await prisma.trip_countries.update({
             where: {
                 id: parseInt(tripCountryId),
             },
             data: {
-                trip_id: tripId,
                 country_id: countryId,
             },
         });
@@ -95,9 +116,17 @@ const updateTripCountry = async (req, res) => {
 };
 
 const deleteTripCountry = async (req, res) => {
-    const { tripCountryId } = req.params;
+    const { tripId, tripCountryId } = req.params;
 
-    try {
+    try{
+        const existingTripCountry = await prisma.trip_countries.findUnique({
+                where: { id: parseInt(tripCountryId)},
+        });
+    if (!existingTripCountry || existingTripCountry.trip_id !== parseInt (tripId) )
+          {
+              return res.status(404).send("Trip Country not found for the given trip.")
+        }
+
         await prisma.trip_countries.delete({
             where: {
                 id: parseInt(tripCountryId),
@@ -106,6 +135,7 @@ const deleteTripCountry = async (req, res) => {
 
         res.status(204).end();
     } catch (error) {
+        console.error("Error deleting trip country: ", error);
         res.status(500).json({ error: error.message });
     }
 };

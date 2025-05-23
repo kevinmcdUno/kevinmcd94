@@ -8,13 +8,12 @@ const countriesRouter = require('./routers/countries');
 const borderFeesRouter = require('./routers/borderFees');
 const entryRequirementsRouter = require('./routers/entryRequirements');
 const tripsRouter = require('./routers/trips');
-const tripCountriesRouter = require('./routers/tripCountries');
-const tripTransportsRouter = require('./routers/tripTransports');
-const tripLodgingsRouter = require('./routers/tripLodgings'); 
 const transportModesRouter = require('./routers/transportModes');
 const transportModeTypesRouter = require('./routers/transportModeTypes');
 const lodgingTypesRouter = require('./routers/lodgingTypes');
 const authRouter = require("./routers/auth");
+const tripTransportsRouter = require('./routers/tripTransports');
+const tripLodgingsRouter = require('./routers/tripLodgings'); 
 
 
 
@@ -57,14 +56,12 @@ app.use("/countries", countriesRouter);
 app.use("/borderFees", borderFeesRouter);
 app.use("/entryRequirements", entryRequirementsRouter);
 app.use("/trips", tripsRouter);
-app.use("/tripCountries", tripCountriesRouter);
-app.use("/tripTransports", tripTransportsRouter);
-app.use("/tripLodgings", tripLodgingsRouter);
 app.use('/transportmodes', transportModesRouter);
 app.use('/transportModeTypes', transportModeTypesRouter);
 app.use('/lodgingTypes', lodgingTypesRouter);
 app.use("/auth", authRouter);
-
+app.use("/trips/:tripId/transports", tripTransportsRouter);
+app.use("/trips/:tripId/lodgings", tripLodgingsRouter);
 
 
 

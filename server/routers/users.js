@@ -54,10 +54,12 @@ const router = Router();
  *                 email: "testemail@test.com"
  *                 forename: "Testforename"
  *                 surname: "testsurname"
- *                 password: "pa$$word" 
- *                 nationality: "Irish" 
+ *                 password: "$2b$10$Hglgi1tY5QPdHijCfpmrxuqtl/Vfnt9AgQuLn8DCG3EOmp3E1Rj6S" 
+ *                 nationalityId: 2 
  *       400:
  *         description: Bad Request
+ *       500:
+ *         description: Internal Server Error
  */
 router.route("/").post(
   [
@@ -84,6 +86,9 @@ router.route("/").post(
       .withMessage("the password should have at least one number")
       .matches(/[!@#$%^&*(),.?":{}|<>]/)
       .withMessage("the password should have at least one special character"),
+    body("nationalityId")
+      .isInt({ min: 1 })
+      .withMessage("nationalityId must be a positive integer"),
   ],
   validation.validate,
   createUser
@@ -120,16 +125,16 @@ router.route("/").post(
  *                 email: "testemail@test.com"
  *                 forename: "Testforename"
  *                 surname: "testsurname"
- *                 password: "pa$$word" 
  *                 nationality: "Irish" 
  *               - id: 2, 
  *                 email: "test@test.com"  
  *                 forename: "test2fore" 
  *                 surname: "testSur" 
- *                 password: "passw0rd"
  *                 nationality: "Irish"
- *       204:
- *         description: No content
+ *       404:
+ *         description: Not Found
+ *       500:
+ *         description: Internal Server Error
  */
 router.route("/").get(getAll);
 
@@ -152,14 +157,15 @@ router.route("/").get(getAll);
  *         content:
  *           application/json:
  *             example:
- *               - id: 1 
+ *                 id: 1 
  *                 email: "testemail@test.com"
  *                 forename: "Testforename"
  *                 surname: "testsurname"
- *                 password: "pa$$word" 
  *                 nationality: "Irish" 
  *       404:
  *         description: Not Found
+ *       500:
+ *         description: Internal Server Error
  */
 router.route("/:userId(\\d+)").get(getSingle)
 
@@ -196,13 +202,6 @@ router.route("/:userId(\\d+)").get(getSingle)
  *                type: string
  *                required: true
  *                descriptions: The users surname
- *              password:
- *                type: string
- *                required: true
- *                minLength: 8
- *                maxLength: 15
- *                description: The users password
- *                pattern: "^(?=.*[a-zA-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]+$"
  *              nationalityId:
  *                type: integer
  *                required: true
@@ -217,10 +216,13 @@ router.route("/:userId(\\d+)").get(getSingle)
  *                 email: "testemail@test.com"
  *                 forename: "Testforename"
  *                 surname: "testsurname"
- *                 password: "pa$$word" 
  *                 nationality: "Irish" 
- *       204:
- *         description: No content
+ *       400:
+ *         description: Bad request, check request body
+ *       404:
+ *         description: Not found
+ *       500:
+ *         description: Internal server error
  */
 router.route("/:userId(\\d+)").put(
   [
@@ -240,13 +242,6 @@ router.route("/:userId(\\d+)").put(
       .isLength({ min: 3 })
       .withMessage("the second_name must have minimum length of 3")
       .trim(),
-    body("password")
-      .isLength({ min: 8, max: 15 })
-      .withMessage("the password should have min and max length between 8-15")
-      .matches(/\d/)
-      .withMessage("the password should have at least one number")
-      .matches(/[!@#$%^&*(),.?":{}|<>]/)
-      .withMessage("the password should have at least one special character"),
   ],
   validation.validate,
 updateUser);
@@ -265,8 +260,12 @@ updateUser);
  *        type: interger
  *        description: The ID of the requested user
  *     responses:
- *       204:
- *         description: No content
+*       204:
+ *         description: Successfully deleted trip-country association
+ *       404:
+ *         description: Not found
+ *       500:
+ *         description: Internal server error
  */
 router.route("/:userId(\\d+)").delete(
 deleteUser);

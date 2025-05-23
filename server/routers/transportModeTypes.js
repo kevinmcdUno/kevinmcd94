@@ -30,6 +30,8 @@ const {
  *                 description: "Train" 
  *       404:
  *         description: Not Found
+ *       500:
+ *         description: Internal Server Error
  */
 router.get('/', getAllTransportModeTypes);
 
@@ -55,8 +57,11 @@ router.get('/', getAllTransportModeTypes);
  *                 id: 1
  *                 description: "Bus"                   
  *       404:
- *         description: Not Found 
+ *         description: Not Found
+ *       500:
+ *         description: Internal Server Error
  */
-router.route("/:transportModeTypeId(\\d+)").get(getSingleTransportModeType); 
+router.route("/:transportModeTypesId(\\d+)").get(getSingleTransportModeType); 
+
 
 module.exports = router;
